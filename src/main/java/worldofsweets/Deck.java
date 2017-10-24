@@ -9,11 +9,6 @@ public class Deck
     size = 0;
     nextCard=0;
   }
-  public Deck(int s)
-  {
-    size = s;
-    deck = new Card[size];
-  }
   public Card drawCard()
   {
     if(isEmpty())
