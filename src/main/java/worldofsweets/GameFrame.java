@@ -5,26 +5,31 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame {
     private final int WIDTH = 600;
-    private final int HEIGHT = 800;
+    private final int HEIGHT = 750;
 
     private JFrame frame = new JFrame("World of Sweets");
 
     private BoardPanel boardPanel;
     private CardPanel cardPanel;
 
+    public static enum Card {
+        RED, YELLOW, BLUE, GREEN, ORANGE, DOUBLERED, DOUBLEYELLOW, DOUBLEBLUE,
+        DOUBLEGREEN, DOUBLEORANGE;
+    }
+
     public GameFrame() {
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(WIDTH, HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         int numPlr = promptPlrs();
 
         boardPanel = new BoardPanel(this, numPlr);
         cardPanel = new CardPanel(this, boardPanel);
 
-        frame.add(boardPanel, BorderLayout.NORTH);
-        frame.add(cardPanel, BorderLayout.SOUTH);
+        add(boardPanel, BorderLayout.PAGE_START);
+        add(cardPanel, BorderLayout.CENTER);
 
-        frame.setVisible(true);
+        setVisible(true);
     }
 
     private int promptPlrs() {
