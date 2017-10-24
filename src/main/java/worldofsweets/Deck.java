@@ -1,5 +1,4 @@
 package worldofsweets;
-
 public class Deck
 {
   private int size;
