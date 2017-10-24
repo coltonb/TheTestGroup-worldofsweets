@@ -21,11 +21,11 @@ public class BoardPanel extends JPanel {
         path = new BoardTile[WIDTH * HEIGHT];
 
         colors = new Color[] {
-            new Color(255, 0, 0),   // Red
-            new Color(255, 255, 0), // Yellow
-            new Color(0, 0, 255),   // Blue
-            new Color(0, 255, 0),   // Green
-            new Color(255, 165, 0)  // Orange
+            new Color(231, 76, 60),  // Red
+            new Color(241, 196, 15), // Yellow
+            new Color(52, 152, 219), // Blue
+            new Color(46, 204, 113), // Green
+            new Color(230, 126, 34)  // Orange
         };
         createBoard();
         drawBoard();
@@ -37,18 +37,32 @@ public class BoardPanel extends JPanel {
         for (int i = HEIGHT - 1; i >= 0; i--) {
             if (i % 2 == 0) {
                 for (int j = 0; j < WIDTH; j++) {
-                    boardTiles[i][j] = new BoardTile(colors[(j + 4) % 5]);
-                    path[pathIter++] = boardTiles[i][j];
+                    BoardTile newTile = new BoardTile(colors[(j + 4) % 5]);
+                    boardTiles[i][j] = newTile;
+                    path[pathIter++] = newTile;
+                    if (j == WIDTH - 1)
+                        newTile.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
+                            Color.WHITE));
+                    if (j == 0)
+                        newTile.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0,
+                            Color.WHITE));
                 }
             } else {
                 for (int j = 0; j < WIDTH; j++) {
-                    boardTiles[i][WIDTH - 1 - j] = new BoardTile(colors[(j + 4) % 5]);
-                    path[pathIter++] = boardTiles[i][j];
+                    BoardTile newTile = new BoardTile(colors[(j + 4) % 5]);
+                    boardTiles[i][WIDTH - 1 - j] = newTile;
+                    path[pathIter++] =  newTile;
+                    if (j == 0)
+                        newTile.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0,
+                            Color.WHITE));
+                    if (j == WIDTH - 1)
+                        newTile.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
+                            Color.WHITE));
                 }
             }
         }
-        boardTiles[HEIGHT - 1][0].setBackground(new Color(165, 165, 165));
-        boardTiles[0][WIDTH - 1].setBackground(new Color(165, 165, 165));
+        boardTiles[HEIGHT - 1][0].setBackground(new Color(255, 255, 255));
+        boardTiles[0][WIDTH - 1].setBackground(new Color(255, 255, 255));
     }
 
     // Adds the board to the grid.

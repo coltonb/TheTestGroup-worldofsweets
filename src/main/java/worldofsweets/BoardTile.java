@@ -13,7 +13,7 @@ public class BoardTile extends JPanel {
     public BoardTile(Color color) {
         setBackground(color);
         setLayout(new GridLayout(2, 2));
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setBorder(BorderFactory.createMatteBorder(3, 0, 3, 0, Color.WHITE));
         setPreferredSize(new Dimension(5, 50));
         playerTiles = new PlayerTile[4];
         for (int i = 0; i < 4; i++) {
