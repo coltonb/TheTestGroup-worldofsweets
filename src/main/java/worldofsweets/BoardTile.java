@@ -23,10 +23,10 @@ public class BoardTile extends JPanel {
         setVisible(true);
     }
 
-    public void addPlayer(String token) {
+    public void addPlayer(Player player) {
         for (int i = 0; i < playerTiles.length; i++) {
             if (playerTiles[i].isEmpty()) {
-                playerTiles[i].set(token);
+                playerTiles[i].set(player);
                 break;
             }
         }

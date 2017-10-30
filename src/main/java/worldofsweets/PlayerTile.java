@@ -5,6 +5,7 @@ import javax.swing.*;
 
 public class PlayerTile extends JLabel {
     private boolean empty;
+    private Player player;
 
     public PlayerTile() {
         empty = true;
@@ -16,9 +17,9 @@ public class PlayerTile extends JLabel {
         return empty;
     }
 
-    public boolean set(String token) {
+    public boolean set(Player player) {
         if (isEmpty()) {
-            setText(token.substring(0, 1));
+            setText(player.getName().substring(0, 1));
             empty = false;
             return true;
         } else {

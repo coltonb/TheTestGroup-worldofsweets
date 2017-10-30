@@ -7,16 +7,14 @@ public class BoardPanel extends JPanel {
     private final int WIDTH = 10;
     private final int HEIGHT = 7;
     private GameFrame game;
-    private int numPlr;
     private BoardTile[][] boardTiles;
     private BoardTile[] path;
     private Color[] colors;
-    private String[] names;
+    private Player[] players;
 
-    public BoardPanel(GameFrame gf, int numPlr, String[] names) {
+    public BoardPanel(GameFrame gf, int numPlr, Player[] plrs) {
         game = gf;
-        this.numPlr = numPlr;
-        this.names = names;
+        players = plrs;
         setLayout(new GridLayout(HEIGHT, WIDTH));
 
         boardTiles = new BoardTile[HEIGHT][WIDTH];
@@ -31,7 +29,7 @@ public class BoardPanel extends JPanel {
         };
         createBoard();
         drawBoard();
-        addPlayers(numPlr);
+        addPlayers();
     }
 
     private void createBoard() {
@@ -79,17 +77,17 @@ public class BoardPanel extends JPanel {
     /* Adds the players to the board
      * Additionally should add them to some kind of
      * internal array */
-    private void addPlayers(int num) {
-        for (int i = 1; i <= num; i++) {
-            boardTiles[HEIGHT - 1][0].addPlayer(names[i-1]);
+    private void addPlayers() {
+        for (Player player : players) {
+            boardTiles[HEIGHT - 1][0].addPlayer(player);
         }
     }
 
     public int getPlayerNum(){
-      return this.numPlr;
+      return players.length;
     }
 
     public BoardTile[][] getBoardTiles(){
-      return this.boardTiles;
+      return boardTiles;
     }
 }
