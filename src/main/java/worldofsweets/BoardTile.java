@@ -41,4 +41,7 @@ public class BoardTile extends JPanel {
             }
         }
     }
+    public PlayerTile[] getPlayerTiles(){
+      return this.playerTiles;
+    }
 }

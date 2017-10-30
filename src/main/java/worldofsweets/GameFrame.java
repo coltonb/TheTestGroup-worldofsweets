@@ -6,6 +6,7 @@ import javax.swing.*;
 public class GameFrame extends JFrame {
     private final int WIDTH = 600;
     private final int HEIGHT = 750;
+
 	Player[] players = new Player[4];	//0-3, holds the corresponding amount of Player Objects
 	private int numPlayers = 0;		//1-4, effectively size of players[]
 	private int currentPlayer = 0;	//0-3, which player's turn it is, corresponds with players[]
@@ -24,9 +25,11 @@ public class GameFrame extends JFrame {
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        int numPlr = promptPlrs();
+        numPlr = getNumPlayers();
+        getPlayerNames(numPlr);
+        printTitle();
 
-        boardPanel = new BoardPanel(this, numPlr);
+        boardPanel = new BoardPanel(this, numPlr, playerNames);
         cardPanel = new CardPanel(this, boardPanel);
 
         add(boardPanel, BorderLayout.PAGE_START);
@@ -35,10 +38,10 @@ public class GameFrame extends JFrame {
         setVisible(true);
     }
 
-    private int promptPlrs() {
+    private int getNumPlayers() {
+        int numPlr = 0;
         Object[] options = {1, 2, 3, 4};
-        String prompt = "How many people are playing?";
-        numPlayers = (int) JOptionPane.showInputDialog(
+        numPlr = (int) JOptionPane.showInputDialog(
             this,
             "How many people are playing?",
             "Welcome!",
@@ -67,26 +70,50 @@ public class GameFrame extends JFrame {
 	//and passed the last card drawn by a player,
 	//then update the current player to the next one
 	public void makeMove(Card cardDrawn){
-		//move player
-		//TODO
+      //move player
+      //TODO
+
+      //update current player
+      currentPlayer = currentPlayer + 1;
+      if(currentPlayer >= numPlayers){
+        currentPlayer = 0;
+      }
+
+      //prompt player
+      Object[] options = {true};
+      boolean result = (boolean) JOptionPane.showInputDialog(
+        this,
+        players[currentPlayer].getName() + " are you ready?",
+        "Player Confirmation",
+        JOptionPane.PLAIN_MESSAGE,
+        null,
+        options,
+        1
+      );
 		
-		//update current player
-		currentPlayer = currentPlayer + 1;
-		if(currentPlayer >= numPlayers){
-			currentPlayer = 0;
-		}
-		
-		//prompt player
-		Object[] options = {true};
-		boolean result = (boolean) JOptionPane.showInputDialog(
-			this,
-			players[currentPlayer].getName() + " are you ready?",
-			"Player Confirmation",
-			JOptionPane.PLAIN_MESSAGE,
-			null,
-			options,
-			1
-		);
-		
-	}
+	  }
+
+    private void getPlayerNames(int num) {
+        playerNames = new String[num];
+        for (int i = 0; i < num; i++) {
+            playerNames[i] = (String) JOptionPane.showInputDialog(
+                this,
+                "What is Player " + (i + 1) + "'s name?",
+                "Name Entry",
+                JOptionPane.PLAIN_MESSAGE);
+        }
+    }
+
+    private void printTitle() {
+        String title = "World of Sweets. Players: ";
+        for (String name : playerNames) {
+            title += name + ", ";
+        }
+        title = title.substring(0, title.length() - 2);
+        setTitle(title);
+    }
+
+    public BoardPanel getPanel(){
+      return this.boardPanel;
+    }
 }

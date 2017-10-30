@@ -8,8 +8,7 @@ public class PlayerTile extends JLabel {
 
     public PlayerTile() {
         empty = true;
-        // colton: we won't use comic sans :v
-        setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
+        setFont(new Font("Arial", Font.PLAIN, 15));
         setHorizontalAlignment(SwingConstants.CENTER);
     }
 
@@ -19,7 +18,7 @@ public class PlayerTile extends JLabel {
 
     public boolean set(String token) {
         if (isEmpty()) {
-            setText("Player " + token);
+            setText(token.substring(0, 1));
             empty = false;
             return true;
         } else {
