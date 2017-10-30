@@ -6,18 +6,7 @@ import worldofsweets.*;
 
 public class WorldOfSweetsTest {
 
-    public void testNumPlayersPrompt2() {
-      GameFrame testgf = new GameFrame();
-      BoardPanel testbp = testgf.getPanel();
-      assertEquals(testbp.getPlayerNum(), 2);
-    }
-
-    @Test
-    public void testDeck() {
-      Deck testdeck = new Deck();
-      assertNotNull(testdeck);
-    }
-
+    //Test 7a: tests if a Deck can be drawn from
     @Test
     public void testDrawCard() {
       Deck testdeck = new Deck();
@@ -30,22 +19,17 @@ public class WorldOfSweetsTest {
       assertEquals(c.toString(), test.toString());
     }
 
+    //Test 8a: tests if a Deck can be set up
     @Test
-    public void testPlayerTokens() {
-      GameFrame testgf = new GameFrame();
-      BoardPanel testbp = testgf.getPanel();
-      BoardTile[][] bt = testbp.getBoardTiles();
-      //number of players found on the board
-      int numPlayerTokens = 0;
-
-      for (int i = 0; i < bt.length; i++){
-        for (int j = 0;  j < bt[i][0].getPlayerTiles().length; j++){
-          if(!(bt[i][0].getPlayerTiles()[j].isEmpty())) {
-            numPlayerTokens++;
-          }
-        }
-      }
-      assertEquals(numPlayerTokens, testbp.getPlayerNum());
+    public void testDeck() {
+      Deck testdeck = new Deck();
+      assertNotNull(testdeck);
     }
-
+    //Test 8b: tests if the deck that is set up contains 60 cards
+    //At this time, this test will fail
+    @Test
+    public void testDeckNumCards() {
+      Deck testdeck = new Deck();
+      assertEquals(testdeck.getSize(), 60);
+    }
 }
