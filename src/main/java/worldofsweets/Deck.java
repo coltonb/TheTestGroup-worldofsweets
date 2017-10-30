@@ -7,10 +7,22 @@ public class Deck
 
     public Deck()
     {
+      basicDeck();
+    }
+    public void basicDeck()
+    {
         size = 0;
         nextCard=0;
+        for(int col = 0;col<5;col++)
+        {
+          for(int val=0;val<12;val++)
+          {
+            if(val<10)
+            addCard(col,1);
+            else addCard(col,2);
+          }
+        }
     }
-
     public Card drawCard()
     {
         if(isEmpty())
