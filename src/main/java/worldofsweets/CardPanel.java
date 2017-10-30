@@ -10,7 +10,7 @@ public class CardPanel extends JPanel {
 	int cardsRemaining = 60;
 	int cardsDiscarded = 0;
 	Card lastCard;
-	
+	Deck cardDeck = new Deck();
 	//
     public CardPanel(GameFrame gf, BoardPanel bp) {
         game = gf;
@@ -34,7 +34,7 @@ public class CardPanel extends JPanel {
 		deck.setPreferredSize(new Dimension(150,300));
 		
 		//build deck 10 reg, 2 double, 5 colors
-		Deck cardDeck = buildDeck();
+		cardDeck = buildDeck();
 		
 		//Buttons
 		JButton discardPile = new JButton("Cards Discarded: " + cardsDiscarded);
@@ -45,6 +45,12 @@ public class CardPanel extends JPanel {
 		JButton drawCard = new JButton("Draw Card: " + cardsRemaining);
 		drawCard.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				if(cardsRemaining == 0){
+					cardDeck = buildDeck();
+					cardsRemaining = 60;
+					cardsDiscarded = 0;
+				}
+
 				cardsRemaining = cardsRemaining - 1;
 				cardsDiscarded = cardsDiscarded + 1;
 				drawCard.setText("Draw Card: " + cardsRemaining);
@@ -52,6 +58,9 @@ public class CardPanel extends JPanel {
 				Card newCard = drawCard(cardDeck);
 				lastCard = newCard;
 				card.setText(newCard.getColor() + " " + newCard.getValue());
+				
+				//send update to gameFrame
+				gf.makeMove(drawCard());
 				
 			}
 			
