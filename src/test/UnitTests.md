@@ -2,29 +2,29 @@ Manual Unit Tests:
 
 Test 1a: Are players prompted on start up for number of player?
 
-  - Method:
-    - Step 1: Compile & run
-    - Step 2: Check to see if a JOptionPane prompting for the number of players appears.
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Check to see if a JOptionPane prompting for the number of players appears.
 
-  - PASS: If there is a prompt that asks how many players are playing the game., this test passes.
-  - FAIL: If there is no GUI prompt for the number of players, this test fails.
+    - PASS: If there is a prompt that asks how many players are playing the game, this test passes.
+    - FAIL: If there is no GUI prompt for the number of players, this test fails.
 
 Test 1b: Is there a correct number of options for the number of players?
-  - Method:
-    - Step 1: Compile & run
-    - Step 2: Check to see if the first JOptionPane that appears has four options for the number.
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Check to see if the first JOptionPane that appears has four options for the number.
 
-  - PASS: If the first prompt asks for between 1 and 4 players, this test passes.
-  - FAIL: If there is no GUI prompt for the number of players, this test fails.
+    - PASS: If the first prompt asks for between 1 and 4 players, this test passes.
+    - FAIL: If there is no GUI prompt for the number of players, this test fails.
 
 Test 2a: Is there a prompt to input the players' name?
-  - Method:
-    - Step 1: Compile & run
-    - Step 2: Enter the number of players.
-    - Step 3: After the player is prompted for the number of players, check to see if a new JOptionPane has opened prompting for a String input for the player's name.
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Enter the number of players.
+      - Step 3: After the player is prompted for the number of players, check to see if a new JOptionPane has opened prompting for a String input for the player's name.
 
-  - PASS: If there are prompts for the players' names, this test passes.
-  - FAIL: If there is no way for the players to enter their names in, this test fails.
+    - PASS: If there are prompts for the players' names, this test passes.
+    - FAIL: If there is no way for the players to enter their names in, this test fails.
 
 Test 2b: Do the players' names actually show up in the game?
     - Method:
