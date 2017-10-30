@@ -7,13 +7,16 @@ public class GameFrame extends JFrame {
     private final int WIDTH = 600;
     private final int HEIGHT = 750;
 
+	Player[] players = new Player[4];	//0-3, holds the corresponding amount of Player Objects
+	private int numPlayers = 0;		//1-4, effectively size of players[]
+	private int currentPlayer = 0;	//0-3, which player's turn it is, corresponds with players[]
+	
+    private JFrame frame = new JFrame("World of Sweets");
+
     private BoardPanel boardPanel;
     private CardPanel cardPanel;
 
-    private int numPlr;
-    private String[] playerNames;
-
-    public static enum CardType {
+    public static enum Cards {
         RED, YELLOW, BLUE, GREEN, ORANGE, DOUBLERED, DOUBLEYELLOW, DOUBLEBLUE,
         DOUBLEGREEN, DOUBLEORANGE;
     }
@@ -46,8 +49,49 @@ public class GameFrame extends JFrame {
             null,
             options,
             1);
-        return numPlr;
+		
+		//create the players
+		players[0] = new Player();
+		players[0].setName("Player 1");
+		
+		players[1] = new Player();
+		players[1].setName("Player 2");
+		
+		players[2] = new Player();
+		players[2].setName("Player 3");
+		
+		players[3] = new Player();
+		players[3].setName("Player 4");
+		
+        return numPlayers;
     }
+	
+	//This method will be called by CardPanel
+	//and passed the last card drawn by a player,
+	//then update the current player to the next one
+	public void makeMove(Card cardDrawn){
+      //move player
+      //TODO
+
+      //update current player
+      currentPlayer = currentPlayer + 1;
+      if(currentPlayer >= numPlayers){
+        currentPlayer = 0;
+      }
+
+      //prompt player
+      Object[] options = {true};
+      boolean result = (boolean) JOptionPane.showInputDialog(
+        this,
+        players[currentPlayer].getName() + " are you ready?",
+        "Player Confirmation",
+        JOptionPane.PLAIN_MESSAGE,
+        null,
+        options,
+        1
+      );
+		
+	  }
 
     private void getPlayerNames(int num) {
         playerNames = new String[num];
