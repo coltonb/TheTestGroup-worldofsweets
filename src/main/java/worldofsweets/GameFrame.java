@@ -26,7 +26,7 @@ public class GameFrame extends JFrame {
         getPlayerNames(numPlr);
         printTitle();
 
-        boardPanel = new BoardPanel(this, numPlr);
+        boardPanel = new BoardPanel(this, numPlr, playerNames);
         cardPanel = new CardPanel(this, boardPanel);
 
         add(boardPanel, BorderLayout.PAGE_START);
@@ -67,5 +67,9 @@ public class GameFrame extends JFrame {
         }
         title = title.substring(0, title.length() - 2);
         setTitle(title);
+    }
+
+    public BoardPanel getPanel(){
+      return this.boardPanel;
     }
 }
