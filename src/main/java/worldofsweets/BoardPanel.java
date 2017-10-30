@@ -11,10 +11,12 @@ public class BoardPanel extends JPanel {
     private BoardTile[][] boardTiles;
     private BoardTile[] path;
     private Color[] colors;
+    private String[] names;
 
-    public BoardPanel(GameFrame gf, int numPlr) {
+    public BoardPanel(GameFrame gf, int numPlr, String[] names) {
         game = gf;
         this.numPlr = numPlr;
+        this.names = names;
         setLayout(new GridLayout(HEIGHT, WIDTH));
 
         boardTiles = new BoardTile[HEIGHT][WIDTH];
@@ -74,12 +76,20 @@ public class BoardPanel extends JPanel {
         }
     }
 
-    /* Adds the players to the board 
+    /* Adds the players to the board
      * Additionally should add them to some kind of
      * internal array */
     private void addPlayers(int num) {
         for (int i = 1; i <= num; i++) {
-            boardTiles[HEIGHT - 1][0].addPlayer(Integer.toString(i));
+            boardTiles[HEIGHT - 1][0].addPlayer(names[i-1]);
         }
+    }
+
+    public int getPlayerNum(){
+      return this.numPlr;
+    }
+
+    public BoardTile[][] getBoardTiles(){
+      return this.boardTiles;
     }
 }

@@ -20,10 +20,16 @@ public class GameFrame extends JFrame {
     public GameFrame() {
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.setName("gameframe");
         int numPlr = promptPlrs();
+        String[] names = new String[numPlr];
+        for (int i = 0; i < numPlr; i++){
+          int j = i + 1;
+          String name = JOptionPane.showInputDialog(frame, "Enter Player "+ j +"'s name: ");
+          names[i] = name;
+        }
 
-        boardPanel = new BoardPanel(this, numPlr);
+        boardPanel = new BoardPanel(this, numPlr, names);
         cardPanel = new CardPanel(this, boardPanel);
 
         add(boardPanel, BorderLayout.PAGE_START);
@@ -45,5 +51,9 @@ public class GameFrame extends JFrame {
             options,
             1);
         return numPlr;
+    }
+
+    public BoardPanel getPanel(){
+      return this.boardPanel;
     }
 }

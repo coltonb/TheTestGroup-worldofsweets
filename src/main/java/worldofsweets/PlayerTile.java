@@ -19,7 +19,7 @@ public class PlayerTile extends JLabel {
 
     public boolean set(String token) {
         if (isEmpty()) {
-            setText("Player " + token);
+            setText(token);
             empty = false;
             return true;
         } else {
