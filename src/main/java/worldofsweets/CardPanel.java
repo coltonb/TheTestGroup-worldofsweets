@@ -5,16 +5,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class CardPanel extends JPanel {
-    private BoardPanel board;
-    private GameFrame game;
     int cardsRemaining = 60;
     int cardsDiscarded = 0;
     Card lastCard;
     Deck cardDeck = new Deck();
 
-    public CardPanel(GameFrame gf, BoardPanel bp) {
-        game = gf;
-        board = bp;
+    public CardPanel(WorldOfSweets game) {
         this.setLayout(new FlowLayout());
         
         
@@ -60,7 +56,7 @@ public class CardPanel extends JPanel {
                 card.setText(newCard.getColor() + " " + newCard.getValue());
                 
                 //send update to gameFrame
-                gf.makeMove(drawCard());
+                game.makeMove(drawCard());
                 
             }
             

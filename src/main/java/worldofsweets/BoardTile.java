@@ -4,8 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 public class BoardTile extends JPanel {
-    PlayerTile[] playerTiles;
-
     public BoardTile() {
         this(Color.WHITE);
     }
@@ -15,33 +13,6 @@ public class BoardTile extends JPanel {
         setLayout(new GridLayout(2, 2));
         setBorder(BorderFactory.createMatteBorder(3, 0, 3, 0, Color.WHITE));
         setPreferredSize(new Dimension(5, 50));
-        playerTiles = new PlayerTile[4];
-        for (int i = 0; i < 4; i++) {
-            playerTiles[i] = new PlayerTile();
-            add(playerTiles[i]);
-        }
         setVisible(true);
-    }
-
-    public void addPlayer(Player player) {
-        for (int i = 0; i < playerTiles.length; i++) {
-            if (playerTiles[i].isEmpty()) {
-                playerTiles[i].set(player);
-                break;
-            }
-        }
-    }
-
-    public void removePlayer(String token) {
-        for (int i = 0; i < playerTiles.length; i++) {
-            if (playerTiles[i].isEmpty()) continue;
-            if (playerTiles[i].getText().equals(token)) {
-                playerTiles[i].empty();
-                break;
-            }
-        }
-    }
-    public PlayerTile[] getPlayerTiles(){
-      return this.playerTiles;
     }
 }

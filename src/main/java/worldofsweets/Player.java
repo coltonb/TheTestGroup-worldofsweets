@@ -1,10 +1,24 @@
 package worldofsweets;
 
-public class Player{
-    String name = "";
+public class Player {
+    String name;
+    int index;
 
     public Player() {
-        
+        this("");
+    }
+
+    public Player(String newName) {
+        name = newName;
+        index = -1;
+    }
+
+    public void setIndex(int newIndex) {
+        index = newIndex;
+    }
+
+    public int getIndex() {
+        return index;
     }
     
     public void setName(String newName) {

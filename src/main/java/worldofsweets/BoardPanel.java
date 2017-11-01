@@ -6,32 +6,35 @@ import javax.swing.*;
 public class BoardPanel extends JPanel {
     private final int WIDTH = 10;
     private final int HEIGHT = 7;
-    private GameFrame game;
-    private BoardTile[][] boardTiles;
-    private BoardTile[] path;
-    private Color[] colors;
-    private Player[] players;
+    BoardTile[][] boardTiles;
 
-    public BoardPanel(GameFrame gf, int numPlr, Player[] plrs) {
-        game = gf;
-        players = plrs;
-        setLayout(new GridLayout(HEIGHT, WIDTH));
-
+    private final Color[] COLORS = {
+        new Color(231, 76, 60),  // Red
+        new Color(241, 196, 15), // Yellow
+        new Color(52, 152, 219), // Blue
+        new Color(46, 204, 113), // Green
+        new Color(230, 126, 34)  // Orange
+    };
+    
+    public BoardPanel(Board board) {
+        setLayout(new GridLayout(WorldOfSweets.TILE_HEIGHT,
+                                 WorldOfSweets.TILE_WIDTH));
+        
         boardTiles = new BoardTile[HEIGHT][WIDTH];
-        path = new BoardTile[WIDTH * HEIGHT];
-
-        colors = new Color[] {
-            new Color(231, 76, 60),  // Red
-            new Color(241, 196, 15), // Yellow
-            new Color(52, 152, 219), // Blue
-            new Color(46, 204, 113), // Green
-            new Color(230, 126, 34)  // Orange
-        };
-        createBoard();
-        drawBoard();
-        addPlayers();
+                                 
+        drawBoard(board);
     }
 
+    public void clearBoard() {
+        removeAll();
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                boardTiles[i][j] = null;
+            }
+        }
+    }
+
+    /* colton: kept here strictly for reference. will delete later
     private void createBoard() {
         int pathIter = 0;
         for (int i = HEIGHT - 1; i >= 0; i--) {
@@ -63,31 +66,49 @@ public class BoardPanel extends JPanel {
         }
         boardTiles[HEIGHT - 1][0].setBackground(new Color(255, 255, 255));
         boardTiles[0][WIDTH - 1].setBackground(new Color(255, 255, 255));
-    }
+    }*/
 
-    // Adds the board to the grid.
-    private void drawBoard() {
+    public void drawBoard(Board board) { 
+        clearBoard();    
+        Tile[][] tiles = board.getTiles();
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                add(boardTiles[i][j]);
+                Color tileColor = getRGBFromColor(tiles[i][j].getColor());
+                BoardTile boardTile = new BoardTile(tileColor);
+                
+                if (tiles[i][j].hasPlayers()) {
+                    for (Player player : tiles[i][j].getPlayers()) {
+                        if (player != null) {
+                            boardTile.add(new PlayerTile(player));
+                        } else {
+                            boardTile.add(new PlayerTile());
+                        }
+                    }
+                }
+
+                add(boardTile);
             }
         }
     }
 
-    /* Adds the players to the board
-     * Additionally should add them to some kind of
-     * internal array */
-    private void addPlayers() {
-        for (Player player : players) {
-            boardTiles[HEIGHT - 1][0].addPlayer(player);
+    // Determining which literal awt.Color value should correspond to the 
+    // world of sweets colors. We use white for any color we don't have mapped.
+    private Color getRGBFromColor(WorldOfSweets.Color c) {
+        if (c == WorldOfSweets.Color.RED) {
+            return COLORS[0];
         }
-    }
-
-    public int getPlayerNum(){
-      return players.length;
-    }
-
-    public BoardTile[][] getBoardTiles(){
-      return boardTiles;
+        if (c == WorldOfSweets.Color.YELLOW) {
+            return COLORS[1];
+        }
+        if (c == WorldOfSweets.Color.BLUE) {
+            return COLORS[2];
+        }
+        if (c == WorldOfSweets.Color.GREEN) {
+            return COLORS[3];
+        }
+        if (c == WorldOfSweets.Color.ORANGE) {
+            return COLORS[4];
+        }
+        return Color.WHITE;
     }
 }
