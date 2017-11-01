@@ -7,20 +7,27 @@ public class Deck
 
     public Deck()
     {
+      size = 0;
+      nextCard = 0;
       basicDeck();
     }
     public void basicDeck()
     {
-        size = 0;
-        nextCard=0;
-        for(int col = 0;col<5;col++)
+        for(int singles = 0;singles<10;singles++)
         {
-          for(int val=0;val<12;val++)
-          {
-            if(val<10)
-            addCard(col,1);
-            else addCard(col,2);
-          }
+          addCard(CardTypes.R);
+          addCard(CardTypes.Y);
+          addCard(CardTypes.B);
+          addCard(CardTypes.G);
+          addCard(CardTypes.O);
+        }
+        for(int doubles = 0;doubles<2;doubles++)
+        {
+          addCard(CardTypes.DR);
+          addCard(CardTypes.DY);
+          addCard(CardTypes.DB);
+          addCard(CardTypes.DG);
+          addCard(CardTypes.DO);
         }
     }
     public Card drawCard()
@@ -31,28 +38,17 @@ public class Deck
         return deck[nextCard-1];
     }
 
-    public void addCard(int color,int value)
+    public void addCard(CardTypes t)
     {
-        addCard(new Card(color,value));
+      Card[] d = new Card[size+1];
+      for(int x = 0;x<size;x++)
+      {
+        d[x]=deck[x];
+      }
+      d[size] = new Card(t);
+      size++;
+      deck = d;
     }
-
-    public void addCard(String color,int value)
-    {
-        addCard(new Card(color,value));
-    }
-
-    public void addCard(Card c)
-    {
-        Card[] d = new Card[size+1];
-        for(int x = 0;x<size;x++)
-        {
-            d[x]=deck[x];
-        }
-        d[size]=c;
-        size++;
-        deck = d;
-    }
-
     public void shuffle()
     {
         for(int x=size-1;x>0;x--)
