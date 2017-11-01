@@ -1,62 +1,53 @@
 package worldofsweets;
+enum CardTypes
+{
+  R(1,"red","red",false),
+  Y(1,"yellow","yellow",false),
+  B(1,"blue","blue",false),
+  G(1,"green","green",false),
+  O(1,"orange","orange",false),
+  DR(2,"red","double red",false),
+  DY(2,"yellow","double yellow",false),
+  DB(2,"blue","double blue",false),
+  DG(2,"green","double green",false),
+  DO(2,"orange","double orange",false),
+  SKIP(0,"none","skip",false),
+  MIDDLE(0,"none","middle",false);
+  public final int value;
+  public final String color;
+  public final String name;
+  public final boolean special;
+  CardTypes(int value,String color,String name,boolean special)
+  {
+    this.value = value;
+    this.color = color;
+    this.name = name;
+    this.special = special;
+  }
+}
 public class Card
 {
-    private String color;
-    private int value;
+    private CardTypes type;
 
-    public Card(String c,int v)
-    {
-        setColor(c);
-        setValue(v);
+    public Card(CardTypes t){
+        type = t;
     }
-
-    public Card(int c,int v)
-    {
-        setColor(c);
-        setValue(v);
+    public String getColor(){
+        return type.color;
     }
-
-    private void setColor(String c)
-    {
-        color = c;
+    public int getValue(){
+        return type.value;
     }
-
-    private void setColor(int c)
+    public String getName()
     {
-        String sc;
-        switch(c)
-        {
-            case 0: sc = "red"; break;
-            case 1: sc = "yellow"; break;
-            case 2: sc = "blue"; break;
-            case 3: sc = "green"; break;
-            case 4: sc = "orange"; break;
-            default: sc = "FAILURE"; break;
-        }
-        color = sc;
+      return type.name;
     }
-
-    private void setValue(int v)
+    public boolean isSpecial()
     {
-        value = v;
+      return type.special;
     }
-
-    public String getColor()
-    {
-        return color;
-    }
-
-    public int getValue()
-    {
-        return value;
-    }
-    
     public String toString()
     {
-        if(value==1)
-        return "Single "+color;
-        else if(value==2)
-        return "Double "+color;
-        else return "FAILURE";
+      return getName();
     }
 }
