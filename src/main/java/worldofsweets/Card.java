@@ -1,62 +1,53 @@
 package worldofsweets;
+enum CardTypes
+{
+  R(1, WorldOfSweets.Color.RED, "red",false),
+  Y(1, WorldOfSweets.Color.YELLOW, "yellow",false),
+  B(1, WorldOfSweets.Color.BLUE, "blue",false),
+  G(1, WorldOfSweets.Color.GREEN, "green",false),
+  O(1, WorldOfSweets.Color.ORANGE, "orange",false),
+  DR(2, WorldOfSweets.Color.RED,"double red",false),
+  DY(2, WorldOfSweets.Color.YELLOW,"double yellow",false),
+  DB(2, WorldOfSweets.Color.BLUE,"double blue",false),
+  DG(2, WorldOfSweets.Color.GREEN,"double green",false),
+  DO(2, WorldOfSweets.Color.ORANGE,"double orange",false),
+  SKIP(0,"none","skip",false),
+  MIDDLE(0,"none","middle",false);
+  public final int value;
+  public final String color;
+  public final String name;
+  public final boolean special;
+  CardTypes(int value,WorldOfSweets.Color color,String name,boolean special)
+  {
+    this.value = value;
+    this.color = color;
+    this.name = name;
+    this.special = special;
+  }
+}
 public class Card
 {
-    private String color;
-    private int value;
+    private CardTypes type;
 
-    public Card(String c,int v)
-    {
-        setColor(c);
-        setValue(v);
+    public Card(CardTypes t){
+        type = t;
     }
-
-    public Card(int c,int v)
-    {
-        setColor(c);
-        setValue(v);
+    public WorldOfSweets.Color getColor(){
+        return type.color;
     }
-
-    private void setColor(String c)
-    {
-        color = c;
+    public int getValue(){
+        return type.value;
     }
-
-    private void setColor(int c)
+    public String getName()
     {
-        String sc;
-        switch(c)
-        {
-            case 0: sc = "red"; break;
-            case 1: sc = "yellow"; break;
-            case 2: sc = "blue"; break;
-            case 3: sc = "green"; break;
-            case 4: sc = "orange"; break;
-            default: sc = "FAILURE"; break;
-        }
-        color = sc;
+      return type.name;
     }
-
-    private void setValue(int v)
+    public boolean isSpecial()
     {
-        value = v;
+      return type.special;
     }
-
-    public String getColor()
-    {
-        return color;
-    }
-
-    public int getValue()
-    {
-        return value;
-    }
-    
     public String toString()
     {
-        if(value==1)
-        return "Single "+color;
-        else if(value==2)
-        return "Double "+color;
-        else return "FAILURE";
+      return getName();
     }
 }
