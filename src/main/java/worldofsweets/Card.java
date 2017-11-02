@@ -1,5 +1,4 @@
 package worldofsweets;
-package worldofsweets;
 enum CardTypes
 {
   R(1,"red","red",false),
