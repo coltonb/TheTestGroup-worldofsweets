@@ -92,8 +92,13 @@ public class WorldOfSweets {
 
     public void makeMove(Card cardDrawn){
         //move player
-        //TODO
+        board.movePlayer(players[currentPlayer], cardDrawn);
+        boardPanel.drawBoard(board);
 
+        // Check for winners here, do something about it
+        if (board.checkWinner() != null)
+            System.out.println("There is a winner!");
+        
         //update current player
         currentPlayer = (currentPlayer + 1) % players.length;
 
@@ -104,7 +109,6 @@ public class WorldOfSweets {
             "Player Confirmation",
             JOptionPane.INFORMATION_MESSAGE);
         
-        boardPanel.drawBoard(board);
     }
 
     public static void main(String[] args) {

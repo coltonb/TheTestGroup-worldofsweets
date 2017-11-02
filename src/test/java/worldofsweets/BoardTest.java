@@ -1,3 +1,4 @@
+package worldofsweets;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -5,6 +6,7 @@ import worldofsweets.WorldOfSweets;
 import worldofsweets.Board;
 import worldofsweets.Tile;
 import worldofsweets.Player;
+import worldofsweets.Card;
 
 public class BoardTest {
     @Test
@@ -59,5 +61,42 @@ public class BoardTest {
         // checkWinner should return testPlr
         assertTrue(board.checkWinner() != null);
         assertEquals(board.checkWinner(), testPlr);
+    }
+
+
+    @Test
+    public void testMoveCard1() {
+        Card card = new Card(Card.Type.DB);
+
+        Player plr = new Player("Jake");
+
+        Board board = new Board();
+        
+        board.addPlayer(plr, 0);
+
+        board.movePlayer(plr, card);
+        assertEquals(plr.getIndex(), 8);
+    }
+
+    @Test
+    public void testMoveCard2() {
+        Card card = new Card(Card.Type.R);
+        Card card1 = new Card(Card.Type.O);
+        Card card2 = new Card(Card.Type.DR);
+
+        Player plr = new Player("Jake");
+
+        Board board = new Board();
+        
+        board.addPlayer(plr, 0);
+
+        board.movePlayer(plr, card);
+        assertEquals(plr.getIndex(), 1);
+
+        board.movePlayer(plr, card1);
+        assertEquals(plr.getIndex(), 5);
+
+        board.movePlayer(plr, card2);
+        assertEquals(plr.getIndex(), 11);
     }
 }

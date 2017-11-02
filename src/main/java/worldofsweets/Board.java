@@ -73,7 +73,7 @@ public class Board {
     // from that index. If it cannot find a tile, we default to grandma's
     // house
     public int getNextTileIndex(int startIndex, WorldOfSweets.Color c) {
-        for (int i = startIndex; i < path.length; i++) {
+        for (int i = startIndex + 1; (i + 1) < path.length; i++) {
             if (path[i].getColor() == c) {
                 return i;
             }
@@ -124,5 +124,31 @@ public class Board {
         removePlayer(player);
         boolean success = addPlayer(player, index);
         return success;
+    }
+
+    public boolean movePlayer(Player player, Card card) {
+        if (!card.isSpecial()) {
+            WorldOfSweets.Color color = card.getColor();
+
+            int numMoves = card.getValue();
+
+            for (; numMoves > 0; numMoves--) {
+                int playerIndex = player.getIndex();
+                int index = getNextTileIndex(playerIndex, color);
+                movePlayer(player, index);
+            }
+        } else {
+            // For each of these special cards, the player
+            // should be notified.
+            // Maybe have makeMove in WorldOfSweets check the card
+            // and determine if it has to alert 
+            if (card.getType() == Card.Type.MIDDLE) {
+                movePlayer(player, path.length / 2);
+            } else if (card.getType() == Card.Type.SKIP) {
+                // do nothing!
+            }
+        }
+
+        return true;
     }
 }

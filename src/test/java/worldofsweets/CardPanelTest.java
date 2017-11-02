@@ -1,4 +1,4 @@
-package WorldOfSweets;
+package worldofsweets;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import worldofsweets.*;
@@ -30,12 +30,12 @@ public class CardPanelTest{
 		CardPanel testCardPanel = new CardPanel();
 		testCardPanel.cardsPlayed = 3;
 		Card[] testCards = new Card[3];
-		testCards[0] = new Card("red", 1);
-		testCards[1] = new Card("yellow", 1);
-		testCards[2] = new Card("blue", 2);
+		testCards[0] = new Card(Card.Type.R);
+		testCards[1] = new Card(Card.Type.Y);
+		testCards[2] = new Card(Card.Type.DB);
 		testCardPanel.drawnCards = testCards;
 		
-		assertEquals("blue", testCardPanel.getLastDrawn().getColor());
+		assertEquals(WorldOfSweets.Color.BLUE, testCardPanel.getLastDrawn().getColor());
 		assertEquals(2, testCardPanel.getLastDrawn().getValue());
 	}
 	
@@ -49,9 +49,9 @@ public class CardPanelTest{
 		testCardPanel.cardsPlayed = 3;
 		
 		Card[] testCards = new Card[3];
-		Card testCard1 = new Card("red", 1);
-		Card testCard2 = new Card("yellow", 1);
-		Card testCard3 = new Card("blue", 2);
+		Card testCard1 = new Card(Card.Type.R);
+		Card testCard2 = new Card(Card.Type.Y);
+		Card testCard3 = new Card(Card.Type.DB);
 		testCards[0] = testCard1;
 		testCards[1] = testCard2;
 		testCards[2] = testCard3;
@@ -70,7 +70,7 @@ public class CardPanelTest{
 		Deck testDeck = new Deck();
 		try{
 			Card testCard = CardPanel.drawCard(testDeck);
-			String testString = testCard.getColor();
+			WorldOfSweets.Color testColor = testCard.getColor();
 			assertTrue(true);
 		}catch(NullPointerException npe){
 			fail();
@@ -88,8 +88,8 @@ public class CardPanelTest{
 		try{
 			assertTrue(true);
 			Card[] testDeck2 = CardPanel.drawCard(testDeck, 2);
-			String testString1 = testDeck2[0].getColor();
-			String testString2 = testDeck2[1].getColor();
+			WorldOfSweets.Color testColor1 = testDeck2[0].getColor();
+			WorldOfSweets.Color testColor2 = testDeck2[1].getColor();
 			assertTrue(true);
 		}catch(NullPointerException npe){
 			fail();

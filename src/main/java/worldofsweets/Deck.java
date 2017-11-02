@@ -15,19 +15,19 @@ public class Deck
     {
         for(int singles = 0;singles<10;singles++)
         {
-          addCard(CardTypes.R);
-          addCard(CardTypes.Y);
-          addCard(CardTypes.B);
-          addCard(CardTypes.G);
-          addCard(CardTypes.O);
+          addCard(Card.Type.R);
+          addCard(Card.Type.Y);
+          addCard(Card.Type.B);
+          addCard(Card.Type.G);
+          addCard(Card.Type.O);
         }
         for(int doubles = 0;doubles<2;doubles++)
         {
-          addCard(CardTypes.DR);
-          addCard(CardTypes.DY);
-          addCard(CardTypes.DB);
-          addCard(CardTypes.DG);
-          addCard(CardTypes.DO);
+          addCard(Card.Type.DR);
+          addCard(Card.Type.DY);
+          addCard(Card.Type.DB);
+          addCard(Card.Type.DG);
+          addCard(Card.Type.DO);
         }
     }
     public Card drawCard()
@@ -38,7 +38,7 @@ public class Deck
         return deck[nextCard-1];
     }
 
-    public void addCard(CardTypes t)
+    public void addCard(Card.Type t)
     {
       Card[] d = new Card[size+1];
       for(int x = 0;x<size;x++)
