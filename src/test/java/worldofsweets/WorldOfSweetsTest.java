@@ -9,6 +9,7 @@ public class WorldOfSweetsTest {
 	/* THIS TEST WAS FAILING, COMMENTED OUT SO WE COULD BUILD
     //Test 7a: tests if a Deck can be drawn from
     @Test
+
     public void testDrawCard() {
       Deck testdeck = new Deck();
       testdeck.addCard(0, 2); //RED DOUBLE
