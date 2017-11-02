@@ -1,23 +1,23 @@
 package worldofsweets;
 enum CardTypes
 {
-  R(1,"red","red",false),
-  Y(1,"yellow","yellow",false),
-  B(1,"blue","blue",false),
-  G(1,"green","green",false),
-  O(1,"orange","orange",false),
-  DR(2,"red","double red",false),
-  DY(2,"yellow","double yellow",false),
-  DB(2,"blue","double blue",false),
-  DG(2,"green","double green",false),
-  DO(2,"orange","double orange",false),
+  R(1, WorldOfSweets.Color.RED, "red",false),
+  Y(1, WorldOfSweets.Color.YELLOW, "yellow",false),
+  B(1, WorldOfSweets.Color.BLUE, "blue",false),
+  G(1, WorldOfSweets.Color.GREEN, "green",false),
+  O(1, WorldOfSweets.Color.ORANGE, "orange",false),
+  DR(2, WorldOfSweets.Color.RED,"double red",false),
+  DY(2, WorldOfSweets.Color.YELLOW,"double yellow",false),
+  DB(2, WorldOfSweets.Color.BLUE,"double blue",false),
+  DG(2, WorldOfSweets.Color.GREEN,"double green",false),
+  DO(2, WorldOfSweets.Color.ORANGE,"double orange",false),
   SKIP(0,"none","skip",false),
   MIDDLE(0,"none","middle",false);
   public final int value;
   public final String color;
   public final String name;
   public final boolean special;
-  CardTypes(int value,String color,String name,boolean special)
+  CardTypes(int value,WorldOfSweets.Color color,String name,boolean special)
   {
     this.value = value;
     this.color = color;
@@ -32,7 +32,7 @@ public class Card
     public Card(CardTypes t){
         type = t;
     }
-    public String getColor(){
+    public WorldOfSweets.Color getColor(){
         return type.color;
     }
     public int getValue(){
