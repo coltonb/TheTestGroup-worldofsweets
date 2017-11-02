@@ -11,10 +11,10 @@ enum CardTypes
   DB(2, WorldOfSweets.Color.BLUE,"double blue",false),
   DG(2, WorldOfSweets.Color.GREEN,"double green",false),
   DO(2, WorldOfSweets.Color.ORANGE,"double orange",false),
-  SKIP(0,"none","skip",false),
-  MIDDLE(0,"none","middle",false);
+  SKIP(0,null,"skip",false),
+  MIDDLE(0,null,"middle",false);
   public final int value;
-  public final String color;
+  public final WorldOfSweets.Color color;
   public final String name;
   public final boolean special;
   CardTypes(int value,WorldOfSweets.Color color,String name,boolean special)
