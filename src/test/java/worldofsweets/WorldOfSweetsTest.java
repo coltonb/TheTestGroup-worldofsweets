@@ -8,12 +8,15 @@ public class WorldOfSweetsTest {
 
     //Test 7a: tests if a Deck can be drawn from
     @Test
-    public void testDrawCard() {
-      Deck testdeck = new Deck();
-      Card c = testdeck.drawCard(); //Draw the red double
+     public void testDrawCard() {
+       Deck testdeck = new Deck();
+       testdeck.addCard(0, 2); //RED DOUBLE
+       testdeck.addCard(1, 1); //YELLOW SINGLE
 
-      assertNotNull(c);
-    }
+       Card c = testdeck.drawCard(); //Draw the red double
+       Card test = new Card(0, 2);
+       assertEquals(c.toString(), test.toString());
+     }
 
     //Test 8a: tests if a Deck can be set up
     @Test
