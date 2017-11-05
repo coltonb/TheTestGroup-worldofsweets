@@ -4,8 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 public class BoardPanel extends JPanel {
-    private final int WIDTH = 10;
-    private final int HEIGHT = 7;
     BoardTile[][] boardTiles;
 
     private final Color[] COLORS = {
@@ -20,15 +18,15 @@ public class BoardPanel extends JPanel {
         setLayout(new GridLayout(WorldOfSweets.TILE_HEIGHT,
                                  WorldOfSweets.TILE_WIDTH));
         
-        boardTiles = new BoardTile[HEIGHT][WIDTH];
+        boardTiles = new BoardTile[WorldOfSweets.TILE_HEIGHT][WorldOfSweets.TILE_WIDTH];
                                  
         drawBoard(board);
     }
 
     public void clearBoard() {
         removeAll();
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
+        for (int i = 0; i < WorldOfSweets.TILE_HEIGHT; i++) {
+            for (int j = 0; j < WorldOfSweets.TILE_WIDTH; j++) {
                 boardTiles[i][j] = null;
             }
         }
@@ -37,13 +35,13 @@ public class BoardPanel extends JPanel {
     /* colton: kept here strictly for reference. will delete later
     private void createBoard() {
         int pathIter = 0;
-        for (int i = HEIGHT - 1; i >= 0; i--) {
+        for (int i = TILE_HEIGHT - 1; i >= 0; i--) {
             if (i % 2 == 0) {
-                for (int j = 0; j < WIDTH; j++) {
+                for (int j = 0; j < TILE_WIDTH; j++) {
                     BoardTile newTile = new BoardTile(colors[(j + 4) % 5]);
                     boardTiles[i][j] = newTile;
                     path[pathIter++] = newTile;
-                    if (j == WIDTH - 1)
+                    if (j == TILE_WIDTH - 1)
                         newTile.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
                             Color.WHITE));
                     if (j == 0)
@@ -51,31 +49,46 @@ public class BoardPanel extends JPanel {
                             Color.WHITE));
                 }
             } else {
-                for (int j = 0; j < WIDTH; j++) {
+                for (int j = 0; j < TILE_WIDTH; j++) {
                     BoardTile newTile = new BoardTile(colors[(j + 4) % 5]);
-                    boardTiles[i][WIDTH - 1 - j] = newTile;
+                    boardTiles[i][TILE_WIDTH - 1 - j] = newTile;
                     path[pathIter++] =  newTile;
                     if (j == 0)
                         newTile.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0,
                             Color.WHITE));
-                    if (j == WIDTH - 1)
+                    if (j == TILE_WIDTH - 1)
                         newTile.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
                             Color.WHITE));
                 }
             }
         }
-        boardTiles[HEIGHT - 1][0].setBackground(new Color(255, 255, 255));
-        boardTiles[0][WIDTH - 1].setBackground(new Color(255, 255, 255));
+        boardTiles[TILE_HEIGHT - 1][0].setBackground(new Color(255, 255, 255));
+        boardTiles[0][TILE_WIDTH - 1].setBackground(new Color(255, 255, 255));
     }*/
 
     public void drawBoard(Board board) { 
         clearBoard();    
         Tile[][] tiles = board.getTiles();
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
+        for (int i = 0; i < WorldOfSweets.TILE_HEIGHT; i++) {
+            for (int j = 0; j < WorldOfSweets.TILE_WIDTH; j++) {
                 Color tileColor = getRGBFromColor(tiles[i][j].getColor());
                 BoardTile boardTile = new BoardTile(tileColor);
-                
+                if (j == WorldOfSweets.TILE_WIDTH - 1) {
+                    boardTile.setBorder(BorderFactory.createMatteBorder(
+                        3 * (i & 1),
+                        0,
+                        3 * ((i + 1) & 1),
+                        0,
+                        Color.WHITE));
+                }
+                if (j == 0) {
+                    boardTile.setBorder(BorderFactory.createMatteBorder(
+                        3 * ((i + 1) & 1),
+                        0,
+                        3 * (i & 1),
+                        0,
+                        Color.WHITE));
+                }
                 if (tiles[i][j].hasPlayers()) {
                     for (Player player : tiles[i][j].getPlayers()) {
                         if (player != null) {
