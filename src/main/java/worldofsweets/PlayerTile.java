@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class PlayerTile extends JLabel {
     public PlayerTile() {
-        setFont(new Font("Arial", Font.PLAIN, 15));
+        setFont(new Font("Arial", Font.BOLD, 15));
         setHorizontalAlignment(SwingConstants.CENTER);
     }
 
