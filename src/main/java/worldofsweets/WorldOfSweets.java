@@ -12,7 +12,7 @@ public class WorldOfSweets {
     public static final int TILE_HEIGHT = 7;
 
     private int numPlayers;
-    private int currentPlayer = 0;    
+    private int currentPlayer = 0;
     Player[] players;
 
     private GameFrame frame;
@@ -74,7 +74,7 @@ public class WorldOfSweets {
         for (int i = 0; i < numPlr; i++) {
             players[i] = new Player();
         }
-        
+
         return numPlr;
     }
 
@@ -96,9 +96,25 @@ public class WorldOfSweets {
         boardPanel.drawBoard(board);
 
         // Check for winners here, do something about it
-        if (board.checkWinner() != null)
-            System.out.println("There is a winner!");
-        
+        if (players[currentPlayer] == board.checkWinner()){
+          System.out.println("There is a winner!");
+          JOptionPane.showMessageDialog(
+              null,
+              players[currentPlayer].getName() + " wins!",
+              "Winner!",
+              JOptionPane.INFORMATION_MESSAGE);
+
+              if (JOptionPane.showConfirmDialog(null, "Play Again?", "",
+                  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                  frame.setVisible(false); //you can't see me!
+                  frame.dispose();
+                  new WorldOfSweets();
+              }else {
+                  System.exit(0);
+              }
+        }
+
+
         //update current player
         currentPlayer = (currentPlayer + 1) % players.length;
 
@@ -108,7 +124,7 @@ public class WorldOfSweets {
             players[currentPlayer].getName() + ", it's your turn!",
             "Player Confirmation",
             JOptionPane.INFORMATION_MESSAGE);
-        
+
     }
 
     public static void main(String[] args) {
