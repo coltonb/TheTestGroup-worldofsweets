@@ -18,9 +18,6 @@ public class Board {
         createBoard();
     }
 
-    // colton: the hacky border fix (so that edge tiles were flush with each
-    // other) had to be commented out here. I'll reimplement it back in
-    // BoardPanel later
     private void createBoard() {
         int pathIter = 0;
         for (int i = WorldOfSweets.TILE_HEIGHT - 1; i >= 0; i--) {
@@ -29,24 +26,12 @@ public class Board {
                     Tile newTile = new Tile(C_LOOP[(j + 4) % C_LOOP.length]);
                     board[i][j] = newTile;
                     path[pathIter++] = newTile;
-                    /* if (j == WIDTH - 1)
-                        newTile.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
-                            Color.WHITE));
-                    if (j == 0)
-                        newTile.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0,
-                            Color.WHITE)); */
                 }
             } else {
                 for (int j = 0; j < WorldOfSweets.TILE_WIDTH; j++) {
                     Tile newTile = new Tile(C_LOOP[(j + 4) % C_LOOP.length]);
                     board[i][WorldOfSweets.TILE_WIDTH - 1 - j] = newTile;
                     path[pathIter++] =  newTile;
-                    /* if (j == 0)
-                        newTile.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0,
-                            Color.WHITE));
-                    if (j == WIDTH - 1)
-                        newTile.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
-                            Color.WHITE)); */
                 }
             }
         }
