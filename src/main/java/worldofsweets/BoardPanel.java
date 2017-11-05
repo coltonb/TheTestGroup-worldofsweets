@@ -71,7 +71,7 @@ public class BoardPanel extends JPanel {
         Tile[][] tiles = board.getTiles();
         for (int i = 0; i < WorldOfSweets.TILE_HEIGHT; i++) {
             for (int j = 0; j < WorldOfSweets.TILE_WIDTH; j++) {
-                Color tileColor = getRGBFromColor(tiles[i][j].getColor());
+                Color tileColor = tiles[i][j].getColor().getAwt();
                 BoardTile boardTile = new BoardTile(tileColor);
                 if (j == WorldOfSweets.TILE_WIDTH - 1) {
                     boardTile.setBorder(BorderFactory.createMatteBorder(
@@ -102,26 +102,5 @@ public class BoardPanel extends JPanel {
                 add(boardTile);
             }
         }
-    }
-
-    // Determining which literal awt.Color value should correspond to the 
-    // world of sweets colors. We use white for any color we don't have mapped.
-    private Color getRGBFromColor(WorldOfSweets.Color c) {
-        if (c == WorldOfSweets.Color.RED) {
-            return COLORS[0];
-        }
-        if (c == WorldOfSweets.Color.YELLOW) {
-            return COLORS[1];
-        }
-        if (c == WorldOfSweets.Color.BLUE) {
-            return COLORS[2];
-        }
-        if (c == WorldOfSweets.Color.GREEN) {
-            return COLORS[3];
-        }
-        if (c == WorldOfSweets.Color.ORANGE) {
-            return COLORS[4];
-        }
-        return Color.WHITE;
     }
 }

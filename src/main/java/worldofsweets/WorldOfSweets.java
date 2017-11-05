@@ -21,14 +21,35 @@ public class WorldOfSweets {
 
     private Board board;
 
+    private static final java.awt.Color REDAWT    =
+        new java.awt.Color(231, 76, 60);
+    private static final java.awt.Color YELLOWAWT =
+        new java.awt.Color(241, 196, 15);
+    private static final java.awt.Color BLUEAWT   =
+        new java.awt.Color(52, 152, 219);
+    private static final java.awt.Color GREENAWT  =
+        new java.awt.Color(46, 204, 113);
+    private static final java.awt.Color ORANGEAWT =
+        new java.awt.Color(230, 126, 34);
+
     public static enum Color {
-        RED,
-        YELLOW,
-        BLUE,
-        GREEN,
-        ORANGE,
-        START,
-        FINISH
+        RED(REDAWT),
+        YELLOW(YELLOWAWT),
+        BLUE(BLUEAWT),
+        GREEN(GREENAWT),
+        ORANGE(ORANGEAWT),
+        START(java.awt.Color.WHITE),
+        FINISH(java.awt.Color.WHITE);
+
+        private final java.awt.Color AWTCOLOR;
+
+        Color(java.awt.Color c) {
+            this.AWTCOLOR = c;
+        }
+
+        public java.awt.Color getAwt() {
+            return AWTCOLOR;
+        }
     }
 
     public WorldOfSweets() {
@@ -55,6 +76,13 @@ public class WorldOfSweets {
         frame.add(cardPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
+
+        //prompt player
+        JOptionPane.showMessageDialog(
+            null,
+            players[currentPlayer].getName() + ", it's your turn!",
+            "Player Confirmation",
+            JOptionPane.INFORMATION_MESSAGE);
 
     }
 
