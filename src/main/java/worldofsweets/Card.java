@@ -4,16 +4,16 @@ public class Card
 {
     public static enum Type
     {
-        R(1, WorldOfSweets.Color.RED, "red",false),
-        Y(1, WorldOfSweets.Color.YELLOW, "yellow",false),
-        B(1, WorldOfSweets.Color.BLUE, "blue",false),
-        G(1, WorldOfSweets.Color.GREEN, "green",false),
-        O(1, WorldOfSweets.Color.ORANGE, "orange",false),
-        DR(2, WorldOfSweets.Color.RED,"double red",false),
-        DY(2, WorldOfSweets.Color.YELLOW,"double yellow",false),
-        DB(2, WorldOfSweets.Color.BLUE,"double blue",false),
-        DG(2, WorldOfSweets.Color.GREEN,"double green",false),
-        DO(2, WorldOfSweets.Color.ORANGE,"double orange",false),
+        RED(1, WorldOfSweets.Color.RED, "red",false),
+        YELLOW(1, WorldOfSweets.Color.YELLOW, "yellow",false),
+        BLUE(1, WorldOfSweets.Color.BLUE, "blue",false),
+        GREEN(1, WorldOfSweets.Color.GREEN, "green",false),
+        ORANGE(1, WorldOfSweets.Color.ORANGE, "orange",false),
+        DOUBLERED(2, WorldOfSweets.Color.RED,"double red",false),
+        DOUBLEYELLOW(2, WorldOfSweets.Color.YELLOW,"double yellow",false),
+        DOUBLEBLUE(2, WorldOfSweets.Color.BLUE,"double blue",false),
+        DOUBLEGREEN(2, WorldOfSweets.Color.GREEN,"double green",false),
+        DOUBLEORANGE(2, WorldOfSweets.Color.ORANGE,"double orange",false),
         SKIP(0, null,"skip",false),
         MIDDLE(0, null,"middle",false);
         public final int value;

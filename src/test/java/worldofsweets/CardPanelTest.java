@@ -4,15 +4,15 @@ import static org.junit.Assert.*;
 import worldofsweets.*;
 
 public class CardPanelTest{
-	
+
 	//Placeholder test
 	@Test
 	public void testTest(){
 		assertTrue(true);
 	}
-	
+
 	//------------------buildDeck()----------------
-	
+
 	//Assert that buildDeck() creates a properly sized
 	//deck of 60 cards. 10 single + 2 double per color
 	@Test
@@ -20,9 +20,9 @@ public class CardPanelTest{
 		Deck testDeck = new Deck();
 		assertEquals(60, testDeck.getSize());
 	}
-	
+
 	//------------------getLastDrawn()--------------
-	
+
 	//Assert that getLastDrawn() returns the last
 	//card played.
 	@Test
@@ -30,39 +30,39 @@ public class CardPanelTest{
 		CardPanel testCardPanel = new CardPanel();
 		testCardPanel.cardsPlayed = 3;
 		Card[] testCards = new Card[3];
-		testCards[0] = new Card(Card.Type.R);
-		testCards[1] = new Card(Card.Type.Y);
-		testCards[2] = new Card(Card.Type.DB);
+		testCards[0] = new Card(Card.Type.RED);
+		testCards[1] = new Card(Card.Type.YELLOW);
+		testCards[2] = new Card(Card.Type.DOUBLEBLUE);
 		testCardPanel.drawnCards = testCards;
-		
+
 		assertEquals(WorldOfSweets.Color.BLUE, testCardPanel.getLastDrawn().getColor());
 		assertEquals(2, testCardPanel.getLastDrawn().getValue());
 	}
-	
+
 	//------------------getLastDrawn(int x)----------
-	
+
 	//Assert that getLastDrawn(int x) returns the
 	//last "x" cards played in correct order.
 	@Test
 	public void testGetLastDrawnMultipleAccurate(){
 		CardPanel testCardPanel = new CardPanel();
 		testCardPanel.cardsPlayed = 3;
-		
+
 		Card[] testCards = new Card[3];
-		Card testCard1 = new Card(Card.Type.R);
-		Card testCard2 = new Card(Card.Type.Y);
-		Card testCard3 = new Card(Card.Type.DB);
+		Card testCard1 = new Card(Card.Type.RED);
+		Card testCard2 = new Card(Card.Type.YELLOW);
+		Card testCard3 = new Card(Card.Type.DOUBLEBLUE);
 		testCards[0] = testCard1;
 		testCards[1] = testCard2;
 		testCards[2] = testCard3;
 		testCardPanel.drawnCards = testCards;
-		
+
 		Card[] resultCards = testCardPanel.getLastDrawn(3);
 		assertArrayEquals(testCards, resultCards);
 	}
-	
+
 	//-------------------drawCard(Deck)--------------
-	
+
 	//Assert that drawCard(Deck) properly returns a
 	//single non-null card
 	@Test
@@ -76,10 +76,10 @@ public class CardPanelTest{
 			fail();
 		}
 	}
-	
+
 	//--------------------drawCard(Deck, int)-----------
-	
-	
+
+
 	//Assert that drawCard(deck, int) properly returns
 	//multiple non-null cards.
 	@Test
@@ -95,9 +95,9 @@ public class CardPanelTest{
 			fail();
 		}
 	}
-	
+
 	//---------------------resizeDrawnCards()------------
-	
+
 	//Assert that resizeDrawnCards properly doubles
 	//the size of the previous array.
 	@Test
@@ -105,8 +105,30 @@ public class CardPanelTest{
 		CardPanel testCardPanel = new CardPanel();
 		Card[] resultCards = testCardPanel.resizeDrawnCards();
 		assertEquals(120, resultCards.length);
-		
+
 	}
-	
-	
+	//Assert that a special deck only contains Skip cards
+	@Test
+	public void testSkipOnly(){
+		Deck d = new Deck("skip");
+		Card skip = new Card(Card.Type.SKIP);
+		while(!d.isEmpty())
+		{
+		Card dc = d.drawCard();
+		assertEquals(skip.getName(),dc.getName());
+		}
+	}
+	//Assert that a special deck only contains Middle cards
+	@Test
+	public void testMiddleOnly(){
+		Deck d = new Deck("middle");
+		Card middle = new Card(Card.Type.MIDDLE);
+		while(!d.isEmpty())
+		{
+		Card dc = d.drawCard();
+		assertEquals(middle.getName(),dc.getName());
+		}
+	}
+
+
 }

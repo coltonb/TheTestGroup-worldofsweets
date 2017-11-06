@@ -13,7 +13,7 @@ public class BoardTest {
     public void testAddPlayer() {
         Board board = new Board();
         Player[] players = new Player[4];
-        
+
         for (int i = 0; i < 4; i++) {
             Player player = new Player();
             player.setName(Integer.toString(i));
@@ -36,7 +36,7 @@ public class BoardTest {
     public void testMovePlayer() {
         Board board = new Board();
         Player testPlr = new Player("John");
-        
+
         board.addPlayer(testPlr, 1);
         board.movePlayer(testPlr, 3);
 
@@ -66,12 +66,12 @@ public class BoardTest {
 
     @Test
     public void testMoveCard1() {
-        Card card = new Card(Card.Type.DB);
+        Card card = new Card(Card.Type.DOUBLEBLUE);
 
         Player plr = new Player("Jake");
 
         Board board = new Board();
-        
+
         board.addPlayer(plr, 0);
 
         board.movePlayer(plr, card);
@@ -80,14 +80,14 @@ public class BoardTest {
 
     @Test
     public void testMoveCard2() {
-        Card card = new Card(Card.Type.R);
-        Card card1 = new Card(Card.Type.O);
-        Card card2 = new Card(Card.Type.DR);
+        Card card = new Card(Card.Type.RED);
+        Card card1 = new Card(Card.Type.ORANGE);
+        Card card2 = new Card(Card.Type.DOUBLERED);
 
         Player plr = new Player("Jake");
 
         Board board = new Board();
-        
+
         board.addPlayer(plr, 0);
 
         board.movePlayer(plr, card);
