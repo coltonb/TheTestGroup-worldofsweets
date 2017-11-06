@@ -11,24 +11,54 @@ public class Deck
       nextCard = 0;
       basicDeck();
     }
+    public Deck(String form)
+    {
+      size = 0;
+      nextCard = 0;
+      if(form.equalsIgnoreCase("skip"))
+      addSkips();
+      else if(form.equalsIgnoreCase("middle"))
+      addMiddle();
+      else if(form.equalsIgnoreCase("full"))
+      {
+        basicDeck();
+        addSkips();
+        addMiddle();
+      }
+      else basicDeck();
+    }
     public void basicDeck()
     {
         for(int singles = 0;singles<10;singles++)
         {
-          addCard(Card.Type.R);
-          addCard(Card.Type.Y);
-          addCard(Card.Type.B);
-          addCard(Card.Type.G);
-          addCard(Card.Type.O);
+          addCard(Card.Type.RED);
+          addCard(Card.Type.YELLOW);
+          addCard(Card.Type.BLUE);
+          addCard(Card.Type.GREEN);
+          addCard(Card.Type.ORANGE);
         }
         for(int doubles = 0;doubles<2;doubles++)
         {
-          addCard(Card.Type.DR);
-          addCard(Card.Type.DY);
-          addCard(Card.Type.DB);
-          addCard(Card.Type.DG);
-          addCard(Card.Type.DO);
+          addCard(Card.Type.DOUBLERED);
+          addCard(Card.Type.DOUBLEYELLOW);
+          addCard(Card.Type.DOUBLEBLUE);
+          addCard(Card.Type.DOUBLEGREEN);
+          addCard(Card.Type.DOUBLEORANGE);
         }
+    }
+    public void addSkips()
+    {
+      for(int skips = 0;skips<5;skips++)
+      {
+        addCard(Card.Type.SKIP);
+      }
+    }
+    public void addMiddle()
+    {
+      for(int mids = 0;mids<3;mids++)
+      {
+        addCard(Card.Type.MIDDLE);
+      }
     }
     public Card drawCard()
     {
