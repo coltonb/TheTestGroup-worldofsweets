@@ -5,17 +5,23 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class CardPanel extends JPanel {
-    public int cardsRemaining = 60;	//how many cards are left in the deck, once this hits 0 need to shuffle
-    public int cardsDiscarded = 0;		//how many cards have been drawn/played, once this hits 60 needs to reset to 0
-    public int cardsPlayed = 0;		//how many cards have been played ALL GAME
-    public Card[] drawnCards = new Card[60];	//All the cards played in the game so far. Need to resize if we go over 60
-    public Deck cardDeck = new Deck();			//Deck of all the cards
+    public int cardsRemaining = -1;	//how many cards are left in the deck, once this hits 0 need to shuffle
+    public int cardsDiscarded = -1;		//how many cards have been drawn/played, once this hits 60 needs to reset to 0
+    public int cardsPlayed = -1;		//how many cards have been played ALL GAME
+    public Card[] drawnCards = null;	//All the cards played in the game so far. Need to resize if we go over 60
+    public Deck cardDeck = null;			//Deck of all the cards
 
     public CardPanel(){
         //do nothing
     }
     
     public CardPanel(WorldOfSweets game) {
+        cardsRemaining = 60;
+        cardsDiscarded = 0;
+        cardsPlayed = 0;
+        drawnCards = new Card[60];
+        cardDeck = new Deck();
+
         //Create Panel
         this.setLayout(new FlowLayout());
         

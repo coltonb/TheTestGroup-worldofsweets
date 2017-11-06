@@ -11,15 +11,15 @@ public class WorldOfSweets {
     public static final int TILE_WIDTH = 10;
     public static final int TILE_HEIGHT = 7;
 
-    private int numPlayers;
-    private int currentPlayer;
-    Player[] players;
+    private int numPlayers = -1;
+    private int currentPlayer = -1;
+    Player[] players = null;
 
-    private GameFrame frame;
-    private BoardPanel boardPanel;
-    private CardPanel cardPanel;
+    private GameFrame frame = null;
+    private BoardPanel boardPanel = null;
+    private CardPanel cardPanel = null;
 
-    private Board board;
+    private Board board = null;
 
     private static final java.awt.Color REDAWT    =
         new java.awt.Color(231, 76, 60);

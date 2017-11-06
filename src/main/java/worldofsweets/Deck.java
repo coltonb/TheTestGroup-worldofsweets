@@ -1,9 +1,9 @@
 package worldofsweets;
 public class Deck
 {
-    private int size;
-    private Card[] deck;
-    private int nextCard;
+    private int size = -1;
+    private Card[] deck = null;
+    private int nextCard = -1;
 
     public Deck()
     {
