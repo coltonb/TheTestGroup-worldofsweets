@@ -86,6 +86,9 @@ public class WorldOfSweets {
 
     }
 
+    /*
+     * Displays a dialog with a dropdown menu to ask for the number of players.
+     */
     private int promptNumPlayers() {
         Object[] options = {1, 2, 3, 4};
         int numPlr = (int) JOptionPane.showInputDialog(
@@ -106,6 +109,10 @@ public class WorldOfSweets {
         return numPlr;
     }
 
+    /*
+     * Prompts numPlr players for their names
+     * Returns an array of names given a number of players.
+     */
     private String[] promptPlayerNames(int numPlr) {
         String[] names = new String[numPlr];
         for (int i = 0; i < numPlr; i++) {
@@ -114,13 +121,16 @@ public class WorldOfSweets {
                 "What is Player " + (i + 1) + "'s name?",
                 "Name Entry",
                 JOptionPane.PLAIN_MESSAGE);
+            // Default name to Player i+1 should they not provide one
+            if (names[i].length() == 0) names[i] = "Player " + (i + 1);
         }
         return names;
     }
 
     public void makeMove(Card cardDrawn){
-        //move player
+        // move player
         board.movePlayer(players[currentPlayer], cardDrawn);
+        // update board
         boardPanel.drawBoard(board);
 
         // Check for winners here, do something about it
