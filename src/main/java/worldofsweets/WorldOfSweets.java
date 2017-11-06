@@ -12,7 +12,7 @@ public class WorldOfSweets {
     public static final int TILE_HEIGHT = 7;
 
     private int numPlayers;
-    private int currentPlayer = 0;
+    private int currentPlayer;
     Player[] players;
 
     private GameFrame frame;
@@ -57,6 +57,7 @@ public class WorldOfSweets {
         numPlayers = promptNumPlayers();
 
         players = new Player[numPlayers];
+        currentPlayer = 0;
 
         String[] names = promptPlayerNames(numPlayers);
 
@@ -64,6 +65,7 @@ public class WorldOfSweets {
             players[i] = new Player();
             players[i].setName(names[i]);
         }
+
 
         board = new Board();
         board.addPlayers(players);
@@ -78,12 +80,15 @@ public class WorldOfSweets {
         frame.setVisible(true);
 
         //prompt player
+        promptPlayerTurn(players[currentPlayer]);
+    }
+
+    private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(
             null,
-            players[currentPlayer].getName() + ", it's your turn!",
+            player.getName() + ", it's your turn!",
             "Player Confirmation",
             JOptionPane.INFORMATION_MESSAGE);
-
     }
 
     private int promptNumPlayers() {
@@ -147,12 +152,7 @@ public class WorldOfSweets {
         currentPlayer = (currentPlayer + 1) % players.length;
 
         //prompt player
-        JOptionPane.showMessageDialog(
-            null,
-            players[currentPlayer].getName() + ", it's your turn!",
-            "Player Confirmation",
-            JOptionPane.INFORMATION_MESSAGE);
-
+        promptPlayerTurn(players[currentPlayer]);
     }
 
     public static void main(String[] args) {
