@@ -131,4 +131,38 @@ public class CardPanelTest{
 	}
 
 
+		//------------------checkAmountMiddle()---------
+
+		//Assert that a full deck contains 3 Middle cards
+		@Test
+		public void testCheckAmountMiddle(){
+			Deck test = new Deck("full");
+			test.shuffle();
+			int mids = 0;
+			while(!test.isEmpty())
+			{
+				Card c = test.drawCard();
+				if(c.getType()==Card.Type.MIDDLE)
+				mids++;
+			}
+			assertEquals(mids,3);
+		}
+
+		//------------------checkAmountSkip()---------
+
+		//Assert that a full deck contains 5 Skip cards
+		@Test
+		public void testCheckAmountSkip(){
+			Deck test = new Deck("full");
+			test.shuffle();
+			int skips = 0;
+			while(!test.isEmpty())
+			{
+				Card c = test.drawCard();
+				if(c.getType()==Card.Type.SKIP)
+				skips++;
+			}
+			assertEquals(skips,5);
+		}
+
 }

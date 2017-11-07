@@ -37,7 +37,7 @@ public class Board {
         }
         path[0].setColor(WorldOfSweets.Color.START);
         path[path.length - 1].setColor(WorldOfSweets.Color.FINISH);
-        
+
         // Set middle tile to middle color
         path[path.length / 2].setColor(WorldOfSweets.Color.MIDDLE);
     }
@@ -107,7 +107,7 @@ public class Board {
     public boolean movePlayer(Player player, int index) {
         // move the player to the appropriate index
         // index to be determined based on card drawn
-        
+
         // success of removing the player doesn't matter
         removePlayer(player);
         boolean success = addPlayer(player, index);
@@ -129,10 +129,12 @@ public class Board {
             // For each of these special cards, the player
             // should be notified.
             // Maybe have makeMove in WorldOfSweets check the card
-            // and determine if it has to alert 
-            if (card.getType() == Card.Type.MIDDLE) {
+            // and determine if it has to alert
+            if (card.getType()==Card.Type.MIDDLE)
+            {
                 movePlayer(player, path.length / 2);
-            } else if (card.getType() == Card.Type.SKIP) {
+            }
+            else if (card.getType() == Card.Type.SKIP) {
                 // do nothing!
             }
         }
