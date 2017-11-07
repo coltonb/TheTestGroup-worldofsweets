@@ -12,7 +12,7 @@ public class CardPanel extends JPanel {
     public Deck cardDeck = null;			//Deck of all the cards
 
     public CardPanel(){
-        //do nothing
+        this(null);
     }
     
     public CardPanel(WorldOfSweets game) {
@@ -102,7 +102,8 @@ public class CardPanel extends JPanel {
                 card.setText("x" + newCard.getValue());
                 
                 //Send update to WorldOfSweets
-                game.makeMove(newCard);
+                if (game != null)
+                    game.makeMove(newCard);
             }
             
         });	
