@@ -99,4 +99,38 @@ public class BoardTest {
         board.movePlayer(plr, card2);
         assertEquals(plr.getIndex(), 11);
     }
+    //------------------checkArriveMiddle()---------
+
+		//Assert that upon drawing a Middle card a player will be located
+    //at the Middle space.
+		@Test
+		public void testCheckArriveMiddle(){
+			Card mid = new Card(Card.Type.MIDDLE);
+      Player plr = new Player("James");
+      Board board = new Board();
+      board.addPlayer(plr,0);
+      board.movePlayer(plr,mid);
+			assertEquals(plr.getIndex(),board.getLength()/2);
+		}
+
+    //------------------checkSkipMove()---------
+
+		//Assert that upon drawing a Skip card a player will be located
+    //at same space without moving.
+		@Test
+		public void testCheckSkipMove(){
+			Card skip = new Card(Card.Type.SKIP);
+      Card red = new Card(Card.Type.RED);
+      Player plr = new Player("James");
+      Board board = new Board();
+      board.addPlayer(plr,0);
+      int pos = plr.getIndex();
+      for(int checks = 0;checks<3;checks++)
+      {
+      board.movePlayer(plr,skip);
+			assertEquals(plr.getIndex(),pos);
+      board.movePlayer(plr,red);
+      pos = plr.getIndex();
+      }
+		}
 }
