@@ -37,6 +37,9 @@ public class Board {
         }
         path[0].setColor(WorldOfSweets.Color.START);
         path[path.length - 1].setColor(WorldOfSweets.Color.FINISH);
+        
+        // Set middle tile to middle color
+        path[path.length / 2].setColor(WorldOfSweets.Color.MIDDLE);
     }
 
     public Tile[][] getTiles() {

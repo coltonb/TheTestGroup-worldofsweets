@@ -14,8 +14,8 @@ public class Card
         DOUBLEBLUE(2, WorldOfSweets.Color.BLUE,"double blue",false),
         DOUBLEGREEN(2, WorldOfSweets.Color.GREEN,"double green",false),
         DOUBLEORANGE(2, WorldOfSweets.Color.ORANGE,"double orange",false),
-        SKIP(0, null,"skip",false),
-        MIDDLE(0, null,"middle",false);
+        SKIP(0, WorldOfSweets.Color.SKIP, "skip",false),
+        MIDDLE(0, WorldOfSweets.Color.MIDDLE, "middle",false);
         public final int value;
         public final WorldOfSweets.Color color;
         public final String name;
