@@ -31,13 +31,17 @@ public class WorldOfSweets {
         new java.awt.Color(46, 204, 113);
     private static final java.awt.Color ORANGEAWT =
         new java.awt.Color(230, 126, 34);
-
+    private static final java.awt.Color PURPLEAWT =
+        new java.awt.Color(156, 39, 176);
+        
     public static enum Color {
         RED(REDAWT),
         YELLOW(YELLOWAWT),
         BLUE(BLUEAWT),
         GREEN(GREENAWT),
         ORANGE(ORANGEAWT),
+        MIDDLE(PURPLEAWT),
+        SKIP(java.awt.Color.WHITE),
         START(java.awt.Color.WHITE),
         FINISH(java.awt.Color.WHITE);
 
