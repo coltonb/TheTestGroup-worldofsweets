@@ -17,13 +17,13 @@ public class Deck
       nextCard = 0;
       if(form.equalsIgnoreCase("skip"))
       addSkips();
-      else if(form.equalsIgnoreCase("middle"))
-      addMiddle();
+      else if(form.equalsIgnoreCase("location"))
+      addLocation();
       else if(form.equalsIgnoreCase("full"))
       {
         basicDeck();
         addSkips();
-        addMiddle();
+        addLocation();
       }
       else basicDeck();
     }
@@ -53,12 +53,13 @@ public class Deck
         addCard(Card.Type.SKIP);
       }
     }
-    public void addMiddle()
+    public void addLocation()
     {
-      for(int mids = 0;mids<3;mids++)
-      {
-        addCard(Card.Type.MIDDLE);
-      }
+      addCard(Card.Type.GOTOBUBBLEGUM);
+      addCard(Card.Type.GOTOCHOCOLATE);
+      addCard(Card.Type.GOTOICECREAM);
+      addCard(Card.Type.GOTOCANDYCORN);
+      addCard(Card.Type.GOTOLABOONROOM);
     }
     public Card drawCard()
     {
