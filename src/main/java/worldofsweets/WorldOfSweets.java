@@ -82,12 +82,19 @@ public class WorldOfSweets {
         frame.setVisible(true);
 
         //prompt player
+        promptPlayerTurn(players[currentPlayer]);
+
+    }
+
+    /*
+     * Alerts the player it's their turn
+     */
+    private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(
             null,
-            players[currentPlayer].getName() + ", it's your turn!",
+            player.getName() + ", it's your turn!",
             "Player Confirmation",
             JOptionPane.INFORMATION_MESSAGE);
-
     }
 
     /*
@@ -161,12 +168,7 @@ public class WorldOfSweets {
         currentPlayer = (currentPlayer + 1) % players.length;
 
         //prompt player
-        JOptionPane.showMessageDialog(
-            null,
-            players[currentPlayer].getName() + ", it's your turn!",
-            "Player Confirmation",
-            JOptionPane.INFORMATION_MESSAGE);
-
+        promptPlayerTurn(players[currentPlayer]);
     }
 
     public static void main(String[] args) {
