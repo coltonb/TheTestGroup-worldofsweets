@@ -1,9 +1,9 @@
 package worldofsweets;
 
 public class Tile {
-    private WorldOfSweets.Color color;
-    private Player[] players;
-    private int numPlayers;
+    private WorldOfSweets.Color color = null;
+    private Player[] players = null;
+    private int numPlayers = -1;
 
     public Tile() {
         this(WorldOfSweets.Color.RED);

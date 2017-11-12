@@ -1,5 +1,6 @@
 Manual Unit Tests:
 
+SPRINT 1:
 Test 1a: Are players prompted on start up for number of player?
 
     - Method:
@@ -121,3 +122,52 @@ Test 7b: Is there a button that draws from the deck?
 Test 8a: (See WorldOfSweetsTest.java)
 
 Test 8b: (See WorldOfSweetsTest.java)
+
+
+SPRINT 2:
+
+As a Player,
+I want to be alerted when a player enters the Grandma's House tile,
+So that I know when I have won (or lost) the game and it is over.
+
+Test 2a: When a player enters a win condition, is the player alerted?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player information prompts.
+      - Step 3: When the game board is displayed and the game is setup, play through the game.
+      - Step 4: When any player's enters the "Grandma's House" tile, check to see if a JOptionPane displaying that the player has won.
+
+    - PASS: If a player enters the "Grandma's House" tile and the player is alerted that the player was won, this test passes.
+    - FAIL: If a player enters the "Grandma's House" tile, and the player is not alerted that they have won, this test fails.
+    
+Test 2b: When a player enters a win condition, does the game end?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player information prompts.
+      - Step 3: When the game board is displayed and the game is setup, play through the game.
+      - Step 4: When any player's enters the "Grandma's House" tile, and after the player is alerted the have won, check to see if a           JOptionPane, asking the player if they want to play again or end the game, pops up.
+
+    - PASS: If a player wins the game, and an option to play again or exit, this test passes.
+    - FAIL: If a player wins and they are not alerted the game does not end with a "play again" option, this test fails.
+  
+As a user, I want to be able to see the picture of the card I drew, so that I don't have to read and it's nicer to look at
+
+Test 3a: Do the basic cards display appropriately?
+
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player info prompts.
+      - Step 3: Verify the cards for each color display as their appropriate color as well as with a "x#" label indicating the number of spaces.
+
+    - PASS: The cards all reflect the color the player moves to and number of spaces the player moves.
+    - FAIL: A card does not reflect the player's movement.
+
+Test 3b: Do the special cards display appropriately? (Middle, Skip)
+
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player info prompts.
+      - Step 3: Verify the middle card appears as a purple card with 'MIDDLE' written in its center, and skip appears as a white card with 'SKIP' written in the center
+
+    - PASS: The cards display as described above and the players action reflects the intended card behavior
+    - FAIL: The card display is incorrectly formatted or doesn't reflect where the player moves

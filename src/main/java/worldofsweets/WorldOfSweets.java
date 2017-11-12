@@ -11,15 +11,15 @@ public class WorldOfSweets {
     public static final int TILE_WIDTH = 10;
     public static final int TILE_HEIGHT = 7;
 
-    private int numPlayers;
-    private int currentPlayer = 0;
-    Player[] players;
+    private int numPlayers = -1;
+    private int currentPlayer = -1;
+    Player[] players = null;
 
-    private GameFrame frame;
-    private BoardPanel boardPanel;
-    private CardPanel cardPanel;
+    private GameFrame frame = null;
+    private BoardPanel boardPanel = null;
+    private CardPanel cardPanel = null;
 
-    private Board board;
+    private Board board = null;
 
     private static final java.awt.Color REDAWT    =
         new java.awt.Color(231, 76, 60);
@@ -31,19 +31,38 @@ public class WorldOfSweets {
         new java.awt.Color(46, 204, 113);
     private static final java.awt.Color ORANGEAWT =
         new java.awt.Color(230, 126, 34);
-    private static final java.awt.Color PURPLEAWT =
-        new java.awt.Color(156, 39, 176);
-        
+    private static final java.awt.Color WHITEAWT =
+        new java.awt.Color(255,255,255);
+
+
+    private static final java.awt.Color FINISHAWT =
+        new java.awt.Color(255,213,79);
+
+
+    private static final java.awt.Color BUBBLEGUMAWT =
+        new java.awt.Color(244,143,177);
+    private static final java.awt.Color CHOCOLATEAWT =
+        new java.awt.Color(62,39,35);
+    private static final java.awt.Color LABOONROOMAWT =
+        new java.awt.Color(0,0,0);
+    private static final java.awt.Color CANDYCORNAWT =
+        new java.awt.Color(255,167,38);
+
+
     public static enum Color {
         RED(REDAWT),
         YELLOW(YELLOWAWT),
         BLUE(BLUEAWT),
         GREEN(GREENAWT),
         ORANGE(ORANGEAWT),
-        MIDDLE(PURPLEAWT),
-        SKIP(java.awt.Color.WHITE),
-        START(java.awt.Color.WHITE),
-        FINISH(java.awt.Color.WHITE);
+        GOTOBUBBLEGUM(BUBBLEGUMAWT),
+        GOTOCANDYCORN(CANDYCORNAWT),
+        GOTOICECREAM(WHITEAWT),
+        GOTOLABOONROOM(LABOONROOMAWT),
+        GOTOCHOCOLATE(CHOCOLATEAWT),
+        SKIP(WHITEAWT),
+      //  START(WHITEAWT),
+        FINISH(FINISHAWT);
 
         private final java.awt.Color AWTCOLOR;
 
@@ -61,6 +80,7 @@ public class WorldOfSweets {
         numPlayers = promptNumPlayers();
 
         players = new Player[numPlayers];
+        currentPlayer = 0;
 
         String[] names = promptPlayerNames(numPlayers);
 
@@ -69,7 +89,9 @@ public class WorldOfSweets {
             players[i].setName(names[i]);
         }
 
+
         board = new Board();
+        System.out.println(board.getLength());
         board.addPlayers(players);
 
         frame = new GameFrame(players);
@@ -80,15 +102,11 @@ public class WorldOfSweets {
         frame.add(cardPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
-
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
-
     }
-
-    /*
-     * Alerts the player it's their turn
-     */
+  
+    //Alerts player that it is their turn
     private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(
             null,

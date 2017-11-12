@@ -14,8 +14,12 @@ public class Card
         DOUBLEBLUE(2, WorldOfSweets.Color.BLUE,"double blue",false),
         DOUBLEGREEN(2, WorldOfSweets.Color.GREEN,"double green",false),
         DOUBLEORANGE(2, WorldOfSweets.Color.ORANGE,"double orange",false),
-        SKIP(0, WorldOfSweets.Color.SKIP, "skip",true),
-        MIDDLE(0, WorldOfSweets.Color.MIDDLE, "middle",true);
+        SKIP(-1, WorldOfSweets.Color.SKIP, "skip",true),
+        GOTOCHOCOLATE(0,WorldOfSweets.Color.GOTOCHOCOLATE,"chocolate",true),
+        GOTOBUBBLEGUM(35, WorldOfSweets.Color.GOTOBUBBLEGUM, "bubble gum",true),
+        GOTOCANDYCORN(60, WorldOfSweets.Color.GOTOCANDYCORN,"candy corn",true),
+        GOTOICECREAM(27, WorldOfSweets.Color.GOTOICECREAM,"ice cream",true),
+        GOTOLABOONROOM(7, WorldOfSweets.Color.GOTOLABOONROOM,"laboon room",true);
         public final int value;
         public final WorldOfSweets.Color color;
         public final String name;
@@ -29,7 +33,7 @@ public class Card
         }
     }
 
-    private Type type;
+    private Type type = null;
 
     public Card(Type t){
         type = t;

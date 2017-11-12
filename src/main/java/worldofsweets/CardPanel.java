@@ -5,17 +5,23 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class CardPanel extends JPanel {
-    public int cardsRemaining = 60;	//how many cards are left in the deck, once this hits 0 need to shuffle
-    public int cardsDiscarded = 0;		//how many cards have been drawn/played, once this hits 60 needs to reset to 0
-    public int cardsPlayed = 0;		//how many cards have been played ALL GAME
-    public Card[] drawnCards = new Card[60];	//All the cards played in the game so far. Need to resize if we go over 60
-    public Deck cardDeck = new Deck();			//Deck of all the cards
+    public int cardsRemaining = -1;	//how many cards are left in the deck, once this hits 0 need to shuffle
+    public int cardsDiscarded = -1;		//how many cards have been drawn/played, once this hits 60 needs to reset to 0
+    public int cardsPlayed = -1;		//how many cards have been played ALL GAME
+    public Card[] drawnCards = null;	//All the cards played in the game so far. Need to resize if we go over 60
+    public Deck cardDeck = null;			//Deck of all the cards
 
     public CardPanel(){
-        //do nothing
+        this(null);
     }
 
     public CardPanel(WorldOfSweets game) {
+        cardsRemaining = 60;
+        cardsDiscarded = 0;
+        cardsPlayed = 0;
+        drawnCards = new Card[60];
+        cardDeck = new Deck();
+
         //Create Panel
         this.setLayout(new FlowLayout());
 
@@ -72,9 +78,8 @@ public class CardPanel extends JPanel {
         drawCard.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
                 if(cardsRemaining == 0){
-                    cardDeck = new Deck();				//reshuffle the deck
                     cardDeck.shuffle();
-                    cardsRemaining = 60;
+                    cardsRemaining = cardDeck.getSize();
                     cardsDiscarded = 0;
                     drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
                 }
@@ -96,10 +101,14 @@ public class CardPanel extends JPanel {
                 drew.setBackground(newCard.getColor().getAwt());
                 if(!newCard.isSpecial())
                 card.setText("x" + newCard.getValue());
-                else card.setText(newCard.getName().toUpperCase());
+                else
+                {
+                  card.setText(newCard.getName().toUpperCase());
+                }
 
                 //Send update to WorldOfSweets
-                game.makeMove(newCard);
+                if (game != null)
+                    game.makeMove(newCard);
             }
 
         });

@@ -35,11 +35,14 @@ public class Board {
                 }
             }
         }
-        path[0].setColor(WorldOfSweets.Color.START);
+  //      path[0].setColor(WorldOfSweets.Color.START);
         path[path.length - 1].setColor(WorldOfSweets.Color.FINISH);
 
-        // Set middle tile to middle color
-        path[path.length / 2].setColor(WorldOfSweets.Color.MIDDLE);
+        path[0].setColor(WorldOfSweets.Color.GOTOCHOCOLATE);
+        path[35].setColor(WorldOfSweets.Color.GOTOBUBBLEGUM);
+        path[7].setColor(WorldOfSweets.Color.GOTOLABOONROOM);
+        path[27].setColor(WorldOfSweets.Color.GOTOICECREAM);
+        path[60].setColor(WorldOfSweets.Color.GOTOCANDYCORN);
     }
 
     public Tile[][] getTiles() {
@@ -130,12 +133,10 @@ public class Board {
             // should be notified.
             // Maybe have makeMove in WorldOfSweets check the card
             // and determine if it has to alert
-            if (card.getType()==Card.Type.MIDDLE)
+            if(card.getType()==Card.Type.SKIP);
+            else if(card.getValue()!=-1)
             {
-                movePlayer(player, path.length / 2);
-            }
-            else if (card.getType() == Card.Type.SKIP) {
-                // do nothing!
+              movePlayer(player,card.getValue());
             }
         }
 
