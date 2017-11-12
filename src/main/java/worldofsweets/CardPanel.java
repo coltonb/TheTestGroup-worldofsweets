@@ -72,9 +72,8 @@ public class CardPanel extends JPanel {
         drawCard.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
                 if(cardsRemaining == 0){
-                    cardDeck = new Deck();				//reshuffle the deck
                     cardDeck.shuffle();
-                    cardsRemaining = 60;
+                    cardsRemaining = cardDeck.getSize();
                     cardsDiscarded = 0;
                     drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
                 }
@@ -96,7 +95,10 @@ public class CardPanel extends JPanel {
                 drew.setBackground(newCard.getColor().getAwt());
                 if(!newCard.isSpecial())
                 card.setText("x" + newCard.getValue());
-                else card.setText(newCard.getName().toUpperCase());
+                else
+                {
+                  card.setText(newCard.getName().toUpperCase());
+                }
 
                 //Send update to WorldOfSweets
                 game.makeMove(newCard);

@@ -31,19 +31,38 @@ public class WorldOfSweets {
         new java.awt.Color(46, 204, 113);
     private static final java.awt.Color ORANGEAWT =
         new java.awt.Color(230, 126, 34);
-    private static final java.awt.Color PURPLEAWT =
-        new java.awt.Color(156, 39, 176);
-        
+    private static final java.awt.Color WHITEAWT =
+        new java.awt.Color(255,255,255);
+
+
+    private static final java.awt.Color FINISHAWT =
+        new java.awt.Color(255,213,79);
+
+
+    private static final java.awt.Color BUBBLEGUMAWT =
+        new java.awt.Color(244,143,177);
+    private static final java.awt.Color CHOCOLATEAWT =
+        new java.awt.Color(62,39,35);
+    private static final java.awt.Color LABOONROOMAWT =
+        new java.awt.Color(0,0,0);
+    private static final java.awt.Color CANDYCORNAWT =
+        new java.awt.Color(255,167,38);
+
+
     public static enum Color {
         RED(REDAWT),
         YELLOW(YELLOWAWT),
         BLUE(BLUEAWT),
         GREEN(GREENAWT),
         ORANGE(ORANGEAWT),
-        MIDDLE(PURPLEAWT),
-        SKIP(java.awt.Color.WHITE),
-        START(java.awt.Color.WHITE),
-        FINISH(java.awt.Color.WHITE);
+        GOTOBUBBLEGUM(BUBBLEGUMAWT),
+        GOTOCANDYCORN(CANDYCORNAWT),
+        GOTOICECREAM(WHITEAWT),
+        GOTOLABOONROOM(LABOONROOMAWT),
+        GOTOCHOCOLATE(CHOCOLATEAWT),
+        SKIP(WHITEAWT),
+      //  START(WHITEAWT),
+        FINISH(FINISHAWT);
 
         private final java.awt.Color AWTCOLOR;
 
@@ -70,6 +89,7 @@ public class WorldOfSweets {
         }
 
         board = new Board();
+        System.out.println(board.getLength());
         board.addPlayers(players);
 
         frame = new GameFrame(players);
@@ -80,7 +100,6 @@ public class WorldOfSweets {
         frame.add(cardPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
-
         //prompt player
         JOptionPane.showMessageDialog(
             null,
