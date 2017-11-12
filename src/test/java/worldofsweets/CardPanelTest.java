@@ -104,7 +104,7 @@ public class CardPanelTest{
 	public void testResizeDrawnCardsDoubles(){
 		CardPanel testCardPanel = new CardPanel();
 		Card[] resultCards = testCardPanel.resizeDrawnCards();
-		assertEquals(120, resultCards.length);
+		assertEquals(140, resultCards.length);
 
 	}
 	//Assert that a special deck only contains Skip cards
@@ -118,6 +118,8 @@ public class CardPanelTest{
 		assertEquals(skip.getName(),dc.getName());
 		}
 	}
+	
+	/*MIDDLE NO LONGER EXISTS
 	//Assert that a special deck only contains Middle cards
 	@Test
 	public void testMiddleOnly(){
@@ -129,40 +131,43 @@ public class CardPanelTest{
 		assertEquals(middle.getName(),dc.getName());
 		}
 	}
+	*/
 
 
-		//------------------checkAmountMiddle()---------
+	/*MIDDLE NO LONGER EXISTS
+	//------------------checkAmountMiddle()---------
 
-		//Assert that a full deck contains 3 Middle cards
-		@Test
-		public void testCheckAmountMiddle(){
-			Deck test = new Deck("full");
-			test.shuffle();
-			int mids = 0;
-			while(!test.isEmpty())
-			{
-				Card c = test.drawCard();
-				if(c.getType()==Card.Type.MIDDLE)
-				mids++;
-			}
-			assertEquals(mids,3);
+	//Assert that a full deck contains 3 Middle cards
+	@Test
+	public void testCheckAmountMiddle(){
+		Deck test = new Deck("full");
+		test.shuffle();
+		int mids = 0;
+		while(!test.isEmpty())
+		{
+			Card c = test.drawCard();
+			if(c.getType()==Card.Type.MIDDLE)
+			mids++;
 		}
+		assertEquals(mids,3);
+	}
+	*/
 
-		//------------------checkAmountSkip()---------
+	//------------------checkAmountSkip()---------
 
-		//Assert that a full deck contains 5 Skip cards
-		@Test
-		public void testCheckAmountSkip(){
-			Deck test = new Deck("full");
-			test.shuffle();
-			int skips = 0;
-			while(!test.isEmpty())
-			{
-				Card c = test.drawCard();
-				if(c.getType()==Card.Type.SKIP)
-				skips++;
-			}
-			assertEquals(skips,5);
+	//Assert that a full deck contains 5 Skip cards
+	@Test
+	public void testCheckAmountSkip(){
+		Deck test = new Deck("full");
+		test.shuffle();
+		int skips = 0;
+		while(!test.isEmpty())
+		{
+			Card c = test.drawCard();
+			if(c.getType()==Card.Type.SKIP)
+			skips++;
 		}
+		assertEquals(skips,5);
+	}
 
 }
