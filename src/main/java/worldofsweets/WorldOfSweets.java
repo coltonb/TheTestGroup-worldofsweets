@@ -96,7 +96,7 @@ public class WorldOfSweets {
 
         frame = new GameFrame(players);
         boardPanel = new BoardPanel(board);
-        cardPanel = new CardPanel(this);
+        cardPanel = new CardPanel(this, "");
 
         frame.add(boardPanel, BorderLayout.PAGE_START);
         frame.add(cardPanel, BorderLayout.CENTER);
