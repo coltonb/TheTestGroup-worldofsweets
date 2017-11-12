@@ -105,7 +105,8 @@ public class WorldOfSweets {
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
     }
-
+  
+    //Alerts player that it is their turn
     private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(
             null,
