@@ -11,15 +11,15 @@ public class WorldOfSweets {
     public static final int TILE_WIDTH = 10;
     public static final int TILE_HEIGHT = 7;
 
-    private int numPlayers;
-    private int currentPlayer = 0;
-    Player[] players;
+    private int numPlayers = -1;
+    private int currentPlayer = -1;
+    Player[] players = null;
 
-    private GameFrame frame;
-    private BoardPanel boardPanel;
-    private CardPanel cardPanel;
+    private GameFrame frame = null;
+    private BoardPanel boardPanel = null;
+    private CardPanel cardPanel = null;
 
-    private Board board;
+    private Board board = null;
 
     private static final java.awt.Color REDAWT    =
         new java.awt.Color(231, 76, 60);
@@ -80,6 +80,7 @@ public class WorldOfSweets {
         numPlayers = promptNumPlayers();
 
         players = new Player[numPlayers];
+        currentPlayer = 0;
 
         String[] names = promptPlayerNames(numPlayers);
 
@@ -87,6 +88,7 @@ public class WorldOfSweets {
             players[i] = new Player();
             players[i].setName(names[i]);
         }
+
 
         board = new Board();
         System.out.println(board.getLength());
@@ -101,12 +103,15 @@ public class WorldOfSweets {
 
         frame.setVisible(true);
         //prompt player
+        promptPlayerTurn(players[currentPlayer]);
+    }
+
+    private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(
             null,
-            players[currentPlayer].getName() + ", it's your turn!",
+            player.getName() + ", it's your turn!",
             "Player Confirmation",
             JOptionPane.INFORMATION_MESSAGE);
-
     }
 
     /*
@@ -180,12 +185,7 @@ public class WorldOfSweets {
         currentPlayer = (currentPlayer + 1) % players.length;
 
         //prompt player
-        JOptionPane.showMessageDialog(
-            null,
-            players[currentPlayer].getName() + ", it's your turn!",
-            "Player Confirmation",
-            JOptionPane.INFORMATION_MESSAGE);
-
+        promptPlayerTurn(players[currentPlayer]);
     }
 
     public static void main(String[] args) {

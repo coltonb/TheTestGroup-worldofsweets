@@ -33,7 +33,7 @@ public class Card
         }
     }
 
-    private Type type;
+    private Type type = null;
 
     public Card(Type t){
         type = t;

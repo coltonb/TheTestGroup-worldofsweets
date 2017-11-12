@@ -1,11 +1,11 @@
 package worldofsweets;
 
 public class Player {
-    String name;
-    int index;
+    String name = null;
+    int index = -1;
 
     public Player() {
-        this("");
+        this("Player");
     }
 
     public Player(String newName) {
