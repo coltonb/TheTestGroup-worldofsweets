@@ -107,6 +107,7 @@ public class CardPanelTest{
 		assertEquals(140, resultCards.length);
 
 	}
+	
 	//Assert that a special deck only contains Skip cards
 	@Test
 	public void testSkipOnly(){
@@ -118,40 +119,6 @@ public class CardPanelTest{
 		assertEquals(skip.getName(),dc.getName());
 		}
 	}
-	
-	/*MIDDLE NO LONGER EXISTS
-	//Assert that a special deck only contains Middle cards
-	@Test
-	public void testMiddleOnly(){
-		Deck d = new Deck("middle");
-		Card middle = new Card(Card.Type.MIDDLE);
-		while(!d.isEmpty())
-		{
-		Card dc = d.drawCard();
-		assertEquals(middle.getName(),dc.getName());
-		}
-	}
-	*/
-
-
-	/*MIDDLE NO LONGER EXISTS
-	//------------------checkAmountMiddle()---------
-
-	//Assert that a full deck contains 3 Middle cards
-	@Test
-	public void testCheckAmountMiddle(){
-		Deck test = new Deck("full");
-		test.shuffle();
-		int mids = 0;
-		while(!test.isEmpty())
-		{
-			Card c = test.drawCard();
-			if(c.getType()==Card.Type.MIDDLE)
-			mids++;
-		}
-		assertEquals(mids,3);
-	}
-	*/
 
 	//------------------checkAmountSkip()---------
 
@@ -169,5 +136,52 @@ public class CardPanelTest{
 		}
 		assertEquals(skips,5);
 	}
-
+	
+	//-----------------stringToCard()------------
+	//Assert that cardToString(), when passed the String "laboon_room"
+	//creates a Card object with the Type GOTOLABOONROOM
+	@Test
+	public void testStringToCardCorrectType(){
+		String test = "laboon_room";
+		Card result = CardPanel.stringToCard(test);
+		Card baseline = new Card(Card.Type.GOTOLABOONROOM);
+		assertEquals(result.getType(), baseline.getType());
+	}
+	
+	//------------------cardToString()-----------
+	//Assert that stringToCard(), when passed a Card object of
+	//Type DOUBLEYELLOW, properly returns the String "double_yellow".
+	@Test
+	public void testCardToStringCorrectType(){
+		Card test = new Card(Card.Type.DOUBLEYELLOW);
+		String result = CardPanel.cardToString(test);
+		String baseline = "double_yellow";
+		assertEquals(result, baseline);
+	}
+	
+	//-----------------save()--------------------
+	//Assert that save() returns the properly formatted string
+	@Test
+	public void testSaveCorrect(){
+		CardPanel testPanel = new CardPanel("test");
+		String result = testPanel.save();
+		String baseline = "0 1 red 0 ";
+		
+		assertEquals(result, baseline);
+		
+	}
+	
+	//-----------------load()--------------------
+	//Assert that load() properly sets the fields of CardPanel
+	//from a properly formatted string.
+	@Test
+	public void testLoadCorrect(){
+		WorldOfSweets game = null;
+		String testSave = "0 1 red 0 ";
+		CardPanel testPanel = new CardPanel(game, testSave);
+		
+		assertEquals(testPanel.cardsRemaining, 1);
+	}
+	
+	
 }

@@ -16,6 +16,22 @@ public class CardPanel extends JPanel {
     }
 	
 	/*
+	*For use in testing non-static methods
+	*/
+	public CardPanel(String test){
+		this(null,"");
+		if(test.equalsIgnoreCase("test")){
+			cardsRemaining = 1;
+			cardsDiscarded = 0;
+			cardsPlayed = 0;
+			drawnCards = new Card[70];
+			cardDeck = new Deck("empty");
+			cardDeck.addCard(Card.Type.RED);
+		}
+		
+	}
+	
+	/*
 	*New Game With Save File if Specified
     */
 	public CardPanel(WorldOfSweets game, String save) {
@@ -254,7 +270,7 @@ public class CardPanel extends JPanel {
 	* _ characters with white spaces so that it can be
 	* matched with its approriate enum type.
 	*/
-	public Card stringToCard(String toConvert){
+	public static Card stringToCard(String toConvert){
 		Card toReturn = null;
 		toConvert = toConvert.replace('_', ' ');
 		if(toConvert.equalsIgnoreCase("red")){
@@ -314,7 +330,7 @@ public class CardPanel extends JPanel {
 	* Accepts a Card argument and returns its enum Type with
 	* all white spaces replaced with _ for easier save/load parsing
 	*/
-	public String cardToString(Card toConvert){
+	public static String cardToString(Card toConvert){
 		String toReturn = toConvert.getName();
 		toReturn = toReturn.replace(' ', '_');
 		return toReturn;
