@@ -2,6 +2,7 @@ package worldofsweets;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 
 public class CardPanel extends JPanel {
@@ -84,8 +85,6 @@ public class CardPanel extends JPanel {
         this.add(drewContainer);
         this.add(discard);
         this.add(deckContainer);
-
-        //Customize sub-panels.
 		
         //Create Buttons
         JLabel discardPile = new JLabel("Cards Discarded: " + cardsDiscarded);
@@ -93,11 +92,44 @@ public class CardPanel extends JPanel {
         JLabel card = new JLabel("");
         card.setFont(new Font("Arial", Font.BOLD, 25));
 		
+		//Save Button
+		JButton saveButton = new JButton("Save Game");
+		saveButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				//Get Save File Location
+				JFileChooser jfc = new JFileChooser(".\\");
+				int returnValue = jfc.showSaveDialog(null);
+				String selectedFilePath = "";
+				if(returnValue == JFileChooser.APPROVE_OPTION){
+					File selectedFile = jfc.getSelectedFile();
+					selectedFilePath = selectedFile.getAbsolutePath();
+				}
+				try{
+					FileWriter fileWriter = new FileWriter(selectedFilePath);
+					BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+					//Write to Save File
+					String saveWorldOfSweets = game.save();
+					String saveCardPanel = save();
+					bufferedWriter.write(saveWorldOfSweets);
+					bufferedWriter.newLine();
+					bufferedWriter.write(saveCardPanel);
+					bufferedWriter.newLine();
+					bufferedWriter.close();
+					
+				}catch(IOException ioe){
+					System.out.println("ERROR: Sorry, could not write to designated save file");
+				}
+			
+			}
+		});
+		
+		//Draw Card Button
         JButton drawCard = new JButton("Draw Card: " + cardsRemaining);
         drawCard.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
                 if(cardsRemaining == 0){
-                    cardDeck.shuffle();
+                    cardDeck = new Deck("full");
+					cardDeck.shuffle();
                     cardsRemaining = cardDeck.getSize();
                     cardsDiscarded = 0;
                     drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
@@ -136,6 +168,7 @@ public class CardPanel extends JPanel {
         //add buttons to panel + draw
         deck.add(drawCard);
         discard.add(discardPile);
+		discard.add(saveButton);
         drew.add(cardDrawn);
         drew.add(card);
         this.setVisible(true);
@@ -232,35 +265,40 @@ public class CardPanel extends JPanel {
 	* game parsed from an existing save file.
 	*/
 	public void load(String loadString){
-		String[] split = loadString.split("\\ ");
-		cardsDiscarded = Integer.parseInt(split[0]);
-		cardsRemaining = Integer.parseInt(split[1]);
-		cardDeck = new Deck("empty");
-		
-		//Fill up cardDeck
-		int j = 2;	//index in split
-		int i = 0;
-		while(i < cardsRemaining){
-			String typeName = split[j];
-			Card newCard = stringToCard(typeName);
-			cardDeck.addCard(newCard.getType());
+		try{
+			String[] split = loadString.split("\\ ");
+			cardsDiscarded = Integer.parseInt(split[0]);
+			cardsRemaining = Integer.parseInt(split[1]);
+			cardDeck = new Deck("empty");
 			
+			//Fill up cardDeck
+			int j = 2;	//index in split
+			int i = 0;
+			while(i < cardsRemaining){
+				String typeName = split[j];
+				Card newCard = stringToCard(typeName);
+				cardDeck.addCard(newCard.getType());
+				
+				j = j + 1;
+				i = i + 1;
+			}
+			
+			cardsPlayed = Integer.parseInt(split[j]);
+			drawnCards = new Card[70];
+			
+			//Fill up drawnCards
 			j = j + 1;
-			i = i + 1;
-		}
-		
-		cardsPlayed = Integer.parseInt(split[j]);
-		drawnCards = new Card[cardsPlayed];
-		
-		//Fill up drawnCards
-		j = j + 1;
-		i = 0;
-		while(i < cardsPlayed){
-			String typeName = split[j];
-			Card newCard = stringToCard(typeName);
-			drawnCards[i] = newCard;
-			j = j + 1;
-			i = i + 1;
+			i = 0;
+			while(i < cardsPlayed){
+				String typeName = split[j];
+				Card newCard = stringToCard(typeName);
+				drawnCards[i] = newCard;
+				j = j + 1;
+				i = i + 1;
+			}
+		}catch(Exception e){
+			System.out.println("ERROR: Sorry, but could not load a game from that file");
+			System.exit(0);
 		}
 		
 	}
