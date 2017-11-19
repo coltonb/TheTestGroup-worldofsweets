@@ -20,7 +20,6 @@ public class WorldOfSweets {
     private CardPanel cardPanel = null;
 
     private Board board = null;
-
     private static final java.awt.Color REDAWT    =
         new java.awt.Color(231, 76, 60);
     private static final java.awt.Color YELLOWAWT =
@@ -87,6 +86,7 @@ public class WorldOfSweets {
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player();
             players[i].setName(names[i]);
+
         }
 
 
@@ -105,7 +105,7 @@ public class WorldOfSweets {
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
     }
-  
+
     //Alerts player that it is their turn
     private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(

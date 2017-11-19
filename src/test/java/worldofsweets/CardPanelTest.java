@@ -108,45 +108,16 @@ public class CardPanelTest{
 
 	}
 	//Assert that a special deck only contains Skip cards
-	@Test
-	public void testSkipOnly(){
-		Deck d = new Deck("skip");
-		Card skip = new Card(Card.Type.SKIP);
-		while(!d.isEmpty())
-		{
-		Card dc = d.drawCard();
-		assertEquals(skip.getName(),dc.getName());
-		}
-	}
-	//Assert that a special deck only contains Middle cards
-	@Test
-	public void testMiddleOnly(){
-		Deck d = new Deck("middle");
-		Card middle = new Card(Card.Type.MIDDLE);
-		while(!d.isEmpty())
-		{
-		Card dc = d.drawCard();
-		assertEquals(middle.getName(),dc.getName());
-		}
-	}
-
-
-		//------------------checkAmountMiddle()---------
-
-		//Assert that a full deck contains 3 Middle cards
 		@Test
-		public void testCheckAmountMiddle(){
-			Deck test = new Deck("full");
-			test.shuffle();
-			int mids = 0;
-			while(!test.isEmpty())
-			{
-				Card c = test.drawCard();
-				if(c.getType()==Card.Type.MIDDLE)
-				mids++;
+		public void testSkipOnly(){
+			Deck d = new Deck("skip");
+			Card skip = new Card(Card.Type.SKIP);
+			while(!d.isEmpty()){
+				Card dc = d.drawCard();
+				assertEquals(skip.getName(),dc.getName());
 			}
-			assertEquals(mids,3);
 		}
+
 
 		//------------------checkAmountSkip()---------
 

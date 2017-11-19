@@ -139,7 +139,7 @@ Test 2a: When a player enters a win condition, is the player alerted?
 
     - PASS: If a player enters the "Grandma's House" tile and the player is alerted that the player was won, this test passes.
     - FAIL: If a player enters the "Grandma's House" tile, and the player is not alerted that they have won, this test fails.
-    
+
 Test 2b: When a player enters a win condition, does the game end?
     - Method:
       - Step 1: Compile & run
@@ -149,7 +149,7 @@ Test 2b: When a player enters a win condition, does the game end?
 
     - PASS: If a player wins the game, and an option to play again or exit, this test passes.
     - FAIL: If a player wins and they are not alerted the game does not end with a "play again" option, this test fails.
-  
+
 As a user, I want to be able to see the picture of the card I drew, so that I don't have to read and it's nicer to look at
 
 Test 3a: Do the basic cards display appropriately?
@@ -171,3 +171,24 @@ Test 3b: Do the special cards display appropriately? (Middle, Skip)
 
     - PASS: The cards display as described above and the players action reflects the intended card behavior
     - FAIL: The card display is incorrectly formatted or doesn't reflect where the player moves
+
+SPRINT 3:
+
+Test 14a: Do all the tiles on the board have appropriate images?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player information prompts.
+      - Step 3: When the game board is displayed, check if every tile on the board is displayed using an image that corresponds with the color/location it should be.
+
+    - PASS: If all tokens on the board are displayed with images of different colored tiles or locations, this test passes.
+    - FAIL: If the tokens are not all displayed by images, this test fails.
+
+Test 14b: Does the card drawn display an image that corresponds with the tile the player must move to?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player information prompts.
+      - Step 3: When the game board is displayed, draw a card.
+      - Step 4: When the player moves, check to see if the card panel displays an image that is identical to the image displayed on the tile the player moved to.
+
+    - PASS: If the card drawn has the same image as the tile a player moves to when the card is drawn, this test passes.
+    - FAIL: If the card drawn does not have the same image as the tile a player moves to when the card is drawn, this test fails.
