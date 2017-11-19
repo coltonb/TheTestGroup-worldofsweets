@@ -182,6 +182,22 @@ public class CardPanelTest{
 		
 		assertEquals(testPanel.cardsRemaining, 1);
 	}
+
+	//Assert that the timer loads and saves properly
+	@Test
+	public void testTimerLoadSave() {
+		GameTimer gt = new GameTimer();
+		gt.load("500");
+		String time = gt.save();
+		assertEquals("500", time);
+	}
+
+	@Test
+	public void testTimerStringGeneration() {
+		long seconds = 500;
+		String timeString = GameTimer.getTimeString(seconds);
+		assertEquals("00:08:20", timeString);
+	}
 	
 	
 }

@@ -15,7 +15,7 @@ public class GameTimer extends JLabel {
             @Override
             public void run() {
                 time++;
-                GameTimer.this.setText(GameTimer.generateTimeString(time));
+                GameTimer.this.setText(GameTimer.getTimeString(time));
             }
         }, 0, 1000);
     }
@@ -24,7 +24,7 @@ public class GameTimer extends JLabel {
         this.time = time;
     }
 
-    private static String generateTimeString(long time) {
+    public static String getTimeString(long time) {
         long seconds = -1;
         long minutes = -1;
         long hours = -1;
