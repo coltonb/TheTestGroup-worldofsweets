@@ -11,13 +11,45 @@ public class GameTimer extends JLabel {
     long time = -1;
     public GameTimer() {
         timer = new Timer();
-        time = 0;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 time++;
-                GameTimer.this.setText(Long.toString(time));
+                GameTimer.this.setText(GameTimer.generateTimeString(time));
             }
-        }, 1000, 1000);
+        }, 0, 1000);
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    private static String generateTimeString(long time) {
+        long seconds = -1;
+        long minutes = -1;
+        long hours = -1;
+
+        hours = time / (60 * 60);
+        time -= hours * (60 * 60);
+        minutes = time / 60;
+        time -= minutes * 60;
+        seconds = time;
+
+        String timeStr = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return timeStr;
+    }
+
+    public String save() {
+        return Long.toString(time);
+    }
+
+    public boolean load(String loadString) {
+        try {
+            time = Long.parseLong(loadString);
+            return true;
+        } catch (Exception e) {
+            // Invalid time loaded
+            return false;
+        }
     }
 }

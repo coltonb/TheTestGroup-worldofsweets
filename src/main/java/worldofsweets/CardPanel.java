@@ -11,6 +11,7 @@ public class CardPanel extends JPanel {
     public int cardsPlayed = -1;		//how many cards have been played ALL GAME
     public Card[] drawnCards = null;	//All the cards played in the game so far. Need to resize if we go over 70
     public Deck cardDeck = null;		//Deck of all the cards
+    public GameTimer gameTimer = null;  //A timer for how long the game has been played
 
     public CardPanel(){
         this(null,"");
@@ -42,6 +43,7 @@ public class CardPanel extends JPanel {
             drawnCards = new Card[70];
             cardDeck = new Deck("full");
             cardsRemaining = cardDeck.getSize();
+            gameTimer = new GameTimer();
             cardDeck.shuffle();
         }else{
             load(save);
@@ -52,9 +54,11 @@ public class CardPanel extends JPanel {
 
         //Create sub-panels
         JPanel drewContainer = new JPanel();
+        JPanel discardContainer = new JPanel();
         JPanel deckContainer = new JPanel();
 
         drewContainer.setLayout(new BorderLayout());
+        discardContainer.setLayout(new BorderLayout());
         deckContainer.setLayout(new BorderLayout());
 
         JLabel drewLabel = new JLabel("Last Draw:");
@@ -80,10 +84,11 @@ public class CardPanel extends JPanel {
         deck.setPreferredSize(new Dimension(150,300));
 
         drewContainer.add(drew, BorderLayout.CENTER);
+        discardContainer.add(discard, BorderLayout.CENTER);
         deckContainer.add(deck, BorderLayout.CENTER);
 
         this.add(drewContainer);
-        this.add(discard);
+        this.add(discardContainer);
         this.add(deckContainer);
 
         //Create Buttons
@@ -166,14 +171,17 @@ public class CardPanel extends JPanel {
 
         });
 
-        GameTimer gameTimer = new GameTimer();
-
         //add buttons to panel + draw
         deck.add(drawCard);
-        discard.add(discardPile, BorderLayout.PAGE_START);
-        discard.add(saveButton, BorderLayout.CENTER);
+
+        discardPile.setHorizontalAlignment(JLabel.CENTER);
+        saveButton.setHorizontalAlignment(JButton.CENTER);
+        gameTimer.setHorizontalAlignment(JLabel.CENTER);
+        
+        discardContainer.add(discardPile, BorderLayout.PAGE_START);
+        discardContainer.add(saveButton, BorderLayout.CENTER);
         //discard.add(loadButton, BorderLayout.CENTER);
-        discard.add(gameTimer, BorderLayout.PAGE_END);
+        discardContainer.add(gameTimer, BorderLayout.PAGE_END);
         drew.add(cardDrawn);
         drew.add(card);
         this.setVisible(true);
@@ -242,6 +250,9 @@ public class CardPanel extends JPanel {
     public String save(){
         //create string with all cards remaining in deck
         StringBuilder remainingInDeck = new StringBuilder("");
+
+        String timeString = gameTimer.save();
+
         int i = 0;
         while(i < cardsRemaining){
             Card current = cardDeck.drawCard();
@@ -261,7 +272,7 @@ public class CardPanel extends JPanel {
         }
 
         //return final string
-        String saveString = cardsDiscarded + " " + cardsRemaining + " " + remainingInDeck.toString() + cardsPlayed + " " + allPlayed.toString();
+        String saveString = timeString + " " + cardsDiscarded + " " + cardsRemaining + " " + remainingInDeck.toString() + cardsPlayed + " " + allPlayed.toString();
         return saveString;
     }
 
@@ -272,12 +283,14 @@ public class CardPanel extends JPanel {
     public void load(String loadString){
         try{
             String[] split = loadString.split("\\ ");
-            cardsDiscarded = Integer.parseInt(split[0]);
-            cardsRemaining = Integer.parseInt(split[1]);
+            gameTimer = new GameTimer();
+            gameTimer.load(split[0]);
+            cardsDiscarded = Integer.parseInt(split[1]);
+            cardsRemaining = Integer.parseInt(split[2]);
             cardDeck = new Deck("empty");
 
             //Fill up cardDeck
-            int j = 2;	//index in split
+            int j = 3;	//index in split
             int i = 0;
             while(i < cardsRemaining){
                 String typeName = split[j];
@@ -302,7 +315,7 @@ public class CardPanel extends JPanel {
                 i = i + 1;
             }
         }catch(Exception e){
-            System.out.println("ERROR: Sorry, but could not load a game from that file");
+            System.out.println("ERROR: Sorry, we could not load a game from that file");
             System.exit(0);
         }
 
