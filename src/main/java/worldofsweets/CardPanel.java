@@ -174,22 +174,22 @@ public class CardPanel extends JPanel {
                 String fname = "";
                 Color color = newCard.getColor().getAwt();
                 if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
-                    fname = "src/main/resources/images/bubblegum.jpg";
+                    fname = "src/main/resources/images/snowcone.png";
                 }
                 else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
-                    fname = "src/main/resources/images/candycorn.jpg";
+                    fname = "src/main/resources/images/lolipop.png";
                 }
                 else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
-                    fname = "src/main/resources/images/icecream.jpg";
+                    fname = "src/main/resources/images/icecream.png";
                 }
                 else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
-                    fname = "src/main/resources/images/laboon.jpg";
+                    fname = "src/main/resources/images/cookie.png";
                 }
                 else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
-                    fname = "src/main/resources/images/chocolate.jpg";
+                    fname = "src/main/resources/images/chocolate.png";
                 }
                 else if (color == WorldOfSweets.Color.FINISH.getAwt()){
-                    fname = "src/main/resources/images/grandma.jpg";
+                    fname = "src/main/resources/images/grandma.png";
                 }
                 else if (color == WorldOfSweets.Color.RED.getAwt()){
                     fname = "src/main/resources/images/redtile.jpg";
@@ -387,6 +387,7 @@ public class CardPanel extends JPanel {
             }
         }catch(Exception e){
             System.out.println("ERROR: Sorry, we could not load a game from that file");
+            e.printStackTrace();
             System.exit(0);
         }
 
@@ -436,16 +437,16 @@ public class CardPanel extends JPanel {
         }else if(toConvert.equalsIgnoreCase("chocolate")){
             toReturn = new Card(Card.Type.GOTOCHOCOLATE);
 
-        }else if(toConvert.equalsIgnoreCase("bubble gum")){
+        }else if(toConvert.equalsIgnoreCase("snowcone")){
             toReturn = new Card(Card.Type.GOTOBUBBLEGUM);
 
-        }else if(toConvert.equalsIgnoreCase("candy corn")){
+        }else if(toConvert.equalsIgnoreCase("lolipop")){
             toReturn = new Card(Card.Type.GOTOCANDYCORN);
 
         }else if(toConvert.equalsIgnoreCase("ice cream")){
             toReturn = new Card(Card.Type.GOTOICECREAM);
 
-        }else if(toConvert.equalsIgnoreCase("laboon room")){
+        }else if(toConvert.equalsIgnoreCase("cookie")){
             toReturn = new Card(Card.Type.GOTOLABOONROOM);
 
         }

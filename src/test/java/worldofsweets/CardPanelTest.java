@@ -142,7 +142,7 @@ public class CardPanelTest{
 	//creates a Card object with the Type GOTOLABOONROOM
 	@Test
 	public void testStringToCardCorrectType(){
-		String test = "laboon_room";
+		String test = "cookie";
 		Card result = CardPanel.stringToCard(test);
 		Card baseline = new Card(Card.Type.GOTOLABOONROOM);
 		assertEquals(result.getType(), baseline.getType());
@@ -186,7 +186,7 @@ public class CardPanelTest{
 	//Assert that the timer loads and saves properly
 	@Test
 	public void testTimerLoadSave() {
-		GameTimer gt = new GameTimer();
+		GameTimer gt = new GameTimer(null);
 		gt.load("500");
 		String time = gt.save();
 		assertEquals("500", time);

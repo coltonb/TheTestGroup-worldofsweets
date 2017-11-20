@@ -17,7 +17,7 @@ public class GameTimer extends JLabel {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!game.isPaused()) {
+                if (game != null && !game.isPaused()) {
                     time++;
                     GameTimer.this.setText(GameTimer.getTimeString(time));
                 }

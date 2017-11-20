@@ -23,37 +23,37 @@ public class BoardTile extends JPanel {
 
         try {
             if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
-                fname = "../resources/images/snowcone.png";
+                fname = "src/main/resources/images/snowcone.png";
             }
             else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
-                fname = "../resources/images/lolipop.png";
+                fname = "src/main/resources/images/lolipop.png";
             }
             else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
-                fname = "../resources/images/icecream.png";
+                fname = "src/main/resources/images/icecream.png";
             }
             else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
-                fname = "../resources/images/cookie.png";
+                fname = "src/main/resources/images/cookie.png";
             }
             else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
-                fname = "../resources/images/chocolate.png";
+                fname = "src/main/resources/images/chocolate.png";
             }
             else if (color == WorldOfSweets.Color.FINISH.getAwt()){
-                fname = "../resources/images/grandma.png";
+                fname = "src/main/resources/images/grandma.png";
             }
             else if (color == WorldOfSweets.Color.RED.getAwt()){
-                fname = "../resources/images/redtile.jpg";
+                fname = "src/main/resources/images/redtile.jpg";
             }
             else if (color == WorldOfSweets.Color.BLUE.getAwt()){
-                fname = "../resources/images/bluetile.jpg";
+                fname = "src/main/resources/images/bluetile.jpg";
             }
             else if (color == WorldOfSweets.Color.GREEN.getAwt()){
-                fname = "../resources/images/greentile.jpg";
+                fname = "src/main/resources/images/greentile.jpg";
             }
             else if (color == WorldOfSweets.Color.YELLOW.getAwt()){
-                fname = "../resources/images/yellowtile.jpg";
+                fname = "src/main/resources/images/yellowtile.jpg";
             }
             else if (color == WorldOfSweets.Color.ORANGE.getAwt()){
-                fname = "../resources/images/orangetile.jpg";
+                fname = "src/main/resources/images/orangetile.jpg";
             }
             image = ImageIO.read(new File(fname));
         } catch (IOException ex) {
