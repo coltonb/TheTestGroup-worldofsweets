@@ -101,7 +101,7 @@ public class BoardTest {
         assertEquals(plr.getIndex(), 11);
     }
     //------------------checkArriveMiddle()---------
-
+	/*MIDDLE NO LONGER EXISTS
 		//Assert that upon drawing a Middle card a player will be located
     //at the Middle space.
 		@Test
@@ -113,6 +113,7 @@ public class BoardTest {
       board.movePlayer(plr,mid);
 			assertEquals(plr.getIndex(),board.getLength()/2);
 		}
+	*/
 
     //------------------checkSkipMove()---------
 

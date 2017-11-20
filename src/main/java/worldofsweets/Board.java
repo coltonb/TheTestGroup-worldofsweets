@@ -79,6 +79,19 @@ public class Board {
     public Tile getTileAt(int index) {
         return path[index];
     }
+	
+	/*
+	* Strictly for use in WorldOfSweets load-in
+	*/
+	public void initializePlayers(Player[] players){
+		int i = 0;
+		while(i < players.length ){
+			int j = players[i].getIndex();
+			path[j].addPlayer(players[i]);
+			i = i + 1;
+		}
+		
+	}
 
     public boolean addPlayers(Player[] players) {
         for (Player player : players) {

@@ -104,36 +104,98 @@ public class CardPanelTest{
 	public void testResizeDrawnCardsDoubles(){
 		CardPanel testCardPanel = new CardPanel();
 		Card[] resultCards = testCardPanel.resizeDrawnCards();
-		assertEquals(120, resultCards.length);
+		assertEquals(140, resultCards.length);
 
 	}
+	
 	//Assert that a special deck only contains Skip cards
-		@Test
-		public void testSkipOnly(){
-			Deck d = new Deck("skip");
-			Card skip = new Card(Card.Type.SKIP);
-			while(!d.isEmpty()){
-				Card dc = d.drawCard();
-				assertEquals(skip.getName(),dc.getName());
-			}
+	@Test
+	public void testSkipOnly(){
+		Deck d = new Deck("skip");
+		Card skip = new Card(Card.Type.SKIP);
+		while(!d.isEmpty())
+		{
+		Card dc = d.drawCard();
+		assertEquals(skip.getName(),dc.getName());
 		}
+	}
 
+	//------------------checkAmountSkip()---------
 
-		//------------------checkAmountSkip()---------
-
-		//Assert that a full deck contains 5 Skip cards
-		@Test
-		public void testCheckAmountSkip(){
-			Deck test = new Deck("full");
-			test.shuffle();
-			int skips = 0;
-			while(!test.isEmpty())
-			{
-				Card c = test.drawCard();
-				if(c.getType()==Card.Type.SKIP)
-				skips++;
-			}
-			assertEquals(skips,5);
+	//Assert that a full deck contains 5 Skip cards
+	@Test
+	public void testCheckAmountSkip(){
+		Deck test = new Deck("full");
+		test.shuffle();
+		int skips = 0;
+		while(!test.isEmpty())
+		{
+			Card c = test.drawCard();
+			if(c.getType()==Card.Type.SKIP)
+			skips++;
 		}
+		assertEquals(skips,5);
+	}
+	
+	//-----------------stringToCard()------------
+	//Assert that cardToString(), when passed the String "laboon_room"
+	//creates a Card object with the Type GOTOLABOONROOM
+	@Test
+	public void testStringToCardCorrectType(){
+		String test = "laboon_room";
+		Card result = CardPanel.stringToCard(test);
+		Card baseline = new Card(Card.Type.GOTOLABOONROOM);
+		assertEquals(result.getType(), baseline.getType());
+	}
+	
+	//------------------cardToString()-----------
+	//Assert that stringToCard(), when passed a Card object of
+	//Type DOUBLEYELLOW, properly returns the String "double_yellow".
+	@Test
+	public void testCardToStringCorrectType(){
+		Card test = new Card(Card.Type.DOUBLEYELLOW);
+		String result = CardPanel.cardToString(test);
+		String baseline = "double_yellow";
+		assertEquals(result, baseline);
+	}
+	
+	//-----------------save()--------------------
+	//Assert that save() returns the properly formatted string
+	@Test
+	public void testSaveCorrect(){
+		CardPanel testPanel = new CardPanel("test");
+		String result = testPanel.save();
+		String baseline = "0 1 red 0 ";
+		
+		assertEquals(result, baseline);
+		
+	}
+	
+	//-----------------load()--------------------
+	//Assert that load() properly sets the fields of CardPanel
+	//from a properly formatted string.
+	@Test
+	public void testLoadCorrect(){
+		WorldOfSweets game = null;
+		String testSave = "0 1 red 0 ";
+		CardPanel testPanel = new CardPanel(game, testSave);
+		
+		assertEquals(testPanel.cardsRemaining, 1);
+	}
 
+	//Assert that the timer loads and saves properly
+	@Test
+	public void testTimerLoadSave() {
+		GameTimer gt = new GameTimer();
+		gt.load("500");
+		String time = gt.save();
+		assertEquals("500", time);
+	}
+
+	@Test
+	public void testTimerStringGeneration() {
+		long seconds = 500;
+		String timeString = GameTimer.getTimeString(seconds);
+		assertEquals("00:08:20", timeString);
+	}
 }
