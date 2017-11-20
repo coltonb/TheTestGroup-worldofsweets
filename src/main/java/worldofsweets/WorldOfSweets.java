@@ -41,11 +41,11 @@ public class WorldOfSweets {
     private static final java.awt.Color BUBBLEGUMAWT =
         new java.awt.Color(244,143,177);
     private static final java.awt.Color CHOCOLATEAWT =
-        new java.awt.Color(62,39,35);
+        new java.awt.Color(141, 110, 99);
     private static final java.awt.Color LABOONROOMAWT =
-        new java.awt.Color(0,0,0);
+        new java.awt.Color(255, 209, 128);
     private static final java.awt.Color CANDYCORNAWT =
-        new java.awt.Color(255,167,38);
+        new java.awt.Color(206, 147, 216);
 
 
     public static enum Color {

@@ -16,10 +16,10 @@ public class Card
         DOUBLEORANGE(2, WorldOfSweets.Color.ORANGE,"double orange",false),
         SKIP(-1, WorldOfSweets.Color.SKIP, "skip",true),
         GOTOCHOCOLATE(0,WorldOfSweets.Color.GOTOCHOCOLATE,"chocolate",true),
-        GOTOBUBBLEGUM(35, WorldOfSweets.Color.GOTOBUBBLEGUM, "bubble gum",true),
-        GOTOCANDYCORN(60, WorldOfSweets.Color.GOTOCANDYCORN,"candy corn",true),
+        GOTOBUBBLEGUM(35, WorldOfSweets.Color.GOTOBUBBLEGUM, "snowcone",true),
+        GOTOCANDYCORN(60, WorldOfSweets.Color.GOTOCANDYCORN,"lolipop",true),
         GOTOICECREAM(27, WorldOfSweets.Color.GOTOICECREAM,"ice cream",true),
-        GOTOLABOONROOM(7, WorldOfSweets.Color.GOTOLABOONROOM,"laboon room",true);
+        GOTOLABOONROOM(7, WorldOfSweets.Color.GOTOLABOONROOM,"cookie",true);
         public final int value;
         public final WorldOfSweets.Color color;
         public final String name;
