@@ -9,13 +9,18 @@ import javax.swing.*;
 public class GameTimer extends JLabel {
     Timer timer = null;
     long time = -1;
-    public GameTimer() {
+    WorldOfSweets game = null;
+
+    public GameTimer(WorldOfSweets game) {
         timer = new Timer();
+        this.game = game;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                time++;
-                GameTimer.this.setText(GameTimer.getTimeString(time));
+                if (!game.isPaused()) {
+                    time++;
+                    GameTimer.this.setText(GameTimer.getTimeString(time));
+                }
             }
         }, 0, 1000);
     }

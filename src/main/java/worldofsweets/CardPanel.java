@@ -21,6 +21,7 @@ public class CardPanel extends JPanel {
     private BufferedImage image;
     private JPanel drew = null;
     public GameTimer gameTimer = null;  //A timer for how long the game has been played
+    private WorldOfSweets game = null;
 
     public CardPanel(){
         this(null,"");
@@ -46,13 +47,14 @@ public class CardPanel extends JPanel {
     *New Game With Save File if Specified
     */
     public CardPanel(WorldOfSweets game, String save) {
+        this.game = game;
         if(save.equals("")){
             cardsDiscarded = 0;
             cardsPlayed = 0;
             drawnCards = new Card[70];
             cardDeck = new Deck("full");
             cardsRemaining = cardDeck.getSize();
-            gameTimer = new GameTimer();
+            gameTimer = new GameTimer(game);
             cardDeck.shuffle();
         }else{
             load(save);
@@ -117,6 +119,7 @@ public class CardPanel extends JPanel {
         saveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 //Get Save File Location
+                game.pause();
                 JFileChooser jfc = new JFileChooser(".\\");
                 int returnValue = jfc.showSaveDialog(null);
                 String selectedFilePath = "";
@@ -135,9 +138,10 @@ public class CardPanel extends JPanel {
                     bufferedWriter.write(saveCardPanel);
                     bufferedWriter.newLine();
                     bufferedWriter.close();
-
+                    game.unpause();
                 }catch(IOException ioe){
                     System.out.println("ERROR: Sorry, could not write to designated save file");
+                    game.unpause();
                 }
 
             }
@@ -350,7 +354,7 @@ public class CardPanel extends JPanel {
     public void load(String loadString){
         try{
             String[] split = loadString.split("\\ ");
-            gameTimer = new GameTimer();
+            gameTimer = new GameTimer(game);
             gameTimer.load(split[0]);
             cardsDiscarded = Integer.parseInt(split[1]);
             cardsRemaining = Integer.parseInt(split[2]);

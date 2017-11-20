@@ -21,6 +21,8 @@ public class WorldOfSweets {
     private BoardPanel boardPanel = null;
     private CardPanel cardPanel = null;
 
+    private boolean paused = false;
+
     private Board board = null;
     private static final java.awt.Color REDAWT    =
         new java.awt.Color(231, 76, 60);
@@ -77,97 +79,97 @@ public class WorldOfSweets {
     }
 
     public WorldOfSweets() {		
-		//On Startup, ask if new or load
-		String desiredChoice = promptLoadOrNew();
-		
-		if(desiredChoice.equalsIgnoreCase("load a previous game.") ){
-			//if Player Selected Load Game
-			//Get the save file they want to load from
-			boolean resultWorldOfSweets = false;
-			boolean resultCardPanel = false;
-			JFileChooser jfc = new JFileChooser(".\\");
-			int returnValue = jfc.showOpenDialog(null);
-			String selectedFilePath = "";
-			if(returnValue == JFileChooser.APPROVE_OPTION){
-				File selectedFile = jfc.getSelectedFile();
-				selectedFilePath = selectedFile.getAbsolutePath();
-			}
-			
-			//read in contents of save file
-			String toWorldOfSweets = "";
-			String toCardPanel = "";
-			try{
-				FileReader fileReader = new FileReader(selectedFilePath);
-				BufferedReader bufferedReader = new BufferedReader(fileReader);
-				
-				toWorldOfSweets = bufferedReader.readLine();
-				toCardPanel = bufferedReader.readLine();
-				
-				bufferedReader.close();
-			}catch(IOException ioe){
-				System.out.println("ERROR: IOException");
-				System.exit(0);
-			}
-			
-			//Load
-			load(toWorldOfSweets);
-			
-			//establish frames
-			board = new Board();
-			board.initializePlayers(players);
-			
-			frame = new GameFrame(players);
-			boardPanel = new BoardPanel(board);
-			cardPanel = new CardPanel(this, toCardPanel);
+        //On Startup, ask if new or load
+        String desiredChoice = promptLoadOrNew();
+        
+        if(desiredChoice.equalsIgnoreCase("load a previous game.") ){
+            //if Player Selected Load Game
+            //Get the save file they want to load from
+            boolean resultWorldOfSweets = false;
+            boolean resultCardPanel = false;
+            JFileChooser jfc = new JFileChooser(".\\");
+            int returnValue = jfc.showOpenDialog(null);
+            String selectedFilePath = "";
+            if(returnValue == JFileChooser.APPROVE_OPTION){
+                File selectedFile = jfc.getSelectedFile();
+                selectedFilePath = selectedFile.getAbsolutePath();
+            }
+            
+            //read in contents of save file
+            String toWorldOfSweets = "";
+            String toCardPanel = "";
+            try{
+                FileReader fileReader = new FileReader(selectedFilePath);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                
+                toWorldOfSweets = bufferedReader.readLine();
+                toCardPanel = bufferedReader.readLine();
+                
+                bufferedReader.close();
+            }catch(IOException ioe){
+                System.out.println("ERROR: IOException");
+                System.exit(0);
+            }
+            
+            //Load
+            load(toWorldOfSweets);
+            
+            //establish frames
+            board = new Board();
+            board.initializePlayers(players);
+            
+            frame = new GameFrame(players);
+            boardPanel = new BoardPanel(board);
+            cardPanel = new CardPanel(this, toCardPanel);
 
-			frame.add(boardPanel, BorderLayout.PAGE_START);
-			frame.add(cardPanel, BorderLayout.CENTER);
-			
-			//movePlayers to their correct positions on the board.
-			int i = 0;
-			while(i < numPlayers ){
-				board.movePlayer(players[i], players[i].getIndex() );
-				i = i + 1;
-			}
+            frame.add(boardPanel, BorderLayout.PAGE_START);
+            frame.add(cardPanel, BorderLayout.CENTER);
+            
+            //movePlayers to their correct positions on the board.
+            int i = 0;
+            while(i < numPlayers ){
+                board.movePlayer(players[i], players[i].getIndex() );
+                i = i + 1;
+            }
 
-			frame.setVisible(true);
-			
-			//Prompt player
-			promptPlayerTurn(players[currentPlayer]);
-		
-		}else if(desiredChoice.equalsIgnoreCase("start a new game!") ){
-			//If Player Selected New Game
-			numPlayers = promptNumPlayers();
+            frame.setVisible(true);
+            
+            //Prompt player
+            promptPlayerTurn(players[currentPlayer]);
+        
+        }else if(desiredChoice.equalsIgnoreCase("start a new game!") ){
+            //If Player Selected New Game
+            numPlayers = promptNumPlayers();
 
-			players = new Player[numPlayers];
-			currentPlayer = 0;
+            players = new Player[numPlayers];
+            currentPlayer = 0;
 
-			String[] names = promptPlayerNames(numPlayers);
+            String[] names = promptPlayerNames(numPlayers);
 
-			for (int i = 0; i < players.length; i++) {
-				players[i] = new Player();
-				players[i].setName(names[i]);
-			}
+            for (int i = 0; i < players.length; i++) {
+                players[i] = new Player();
+                players[i].setName(names[i]);
+            }
 
-			board = new Board();
-			board.addPlayers(players);
+            board = new Board();
+            board.addPlayers(players);
 
-			frame = new GameFrame(players);
-			boardPanel = new BoardPanel(board);
-			cardPanel = new CardPanel(this, "");
+            frame = new GameFrame(players);
+            boardPanel = new BoardPanel(board);
+            cardPanel = new CardPanel(this, "");
 
-			frame.add(boardPanel, BorderLayout.PAGE_START);
-			frame.add(cardPanel, BorderLayout.CENTER);
+            frame.add(boardPanel, BorderLayout.PAGE_START);
+            frame.add(cardPanel, BorderLayout.CENTER);
 
-			frame.setVisible(true);
-			//prompt player
-			promptPlayerTurn(players[currentPlayer]);
-			
-		}else{
-			System.out.println("ERROR: CHOICE SHOULDN'T BE POSSIBLE");
-			System.exit(0);
-		}
-		
+            frame.setVisible(true);
+            //prompt player
+            promptPlayerTurn(players[currentPlayer]);
+            
+        }else{
+            System.out.println("ERROR: CHOICE SHOULDN'T BE POSSIBLE");
+            System.exit(0);
+        }
+        
     }
 
     //Alerts player that it is their turn
@@ -220,24 +222,24 @@ public class WorldOfSweets {
         return names;
     }
 
-	/*
-	* At the startup of the game, ask the player whether they would like
-	* to load a previous save or start a new game.
-	*/
-	private String promptLoadOrNew(){
-		Object[] options = {"Start A New Game!", "Load A Previous Game."};
-		String result = (String) JOptionPane.showInputDialog(
-			null,
-			"What would you like to do?",
-			"Welcome!",
-			JOptionPane.PLAIN_MESSAGE,
-			null,
-			options,
-			1);
-		return result;
-		
-	}
-	
+    /*
+    * At the startup of the game, ask the player whether they would like
+    * to load a previous save or start a new game.
+    */
+    private String promptLoadOrNew(){
+        Object[] options = {"Start A New Game!", "Load A Previous Game."};
+        String result = (String) JOptionPane.showInputDialog(
+            null,
+            "What would you like to do?",
+            "Welcome!",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            options,
+            1);
+        return result;
+        
+    }
+    
     public void makeMove(Card cardDrawn){
         // move player
         board.movePlayer(players[currentPlayer], cardDrawn);
@@ -270,78 +272,90 @@ public class WorldOfSweets {
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
     }
-	
-	/*
-	* Converts all volatile data in WorldOfSweets to a single String to be
-	* printed to a file. Adheres to the following format:
-	* currentPlayer " " numPlayers " " players[]
-	*/
-	public String save(){
-		StringBuilder saveString = new StringBuilder("");
-		//currentPlayer, numPlayer, players[], 
-		saveString.append(currentPlayer + " ");
-		saveString.append(numPlayers + " ");
-		
-		int i = 0;
-		while(i < numPlayers){
-			saveString.append(playerToString(players[i]) + " ");
-			i = i + 1;
-		}
-		
-		return saveString.toString();
-	}
-	
-	/*
-	* Initializes this class using the String recieved from a save file.
-	*/
-	public void load(String loadString){
-		try{
-			String[] split = loadString.split("\\ ");
-			currentPlayer = Integer.parseInt(split[0]);
-			numPlayers = Integer.parseInt(split[1]);
-			players = new Player[numPlayers];
-			
-			int i = 0;
-			int j = 2;	//index to start reading in player information
-			while(i < numPlayers){
-				players[i] = stringToPlayer(split[j], split[j+1] );	
-				j = j + 2;
-				i = i + 1;
-			}
-		}catch(Exception e){
-			System.out.println("ERROR: Sorry, but could not load a game from that file");
-			System.exit(0);
-		}
-		
-		
-	}
-	
-	/*
-	* Converts a Player object into a String object for use in
-	* saving volatile data to a file.
-	* "playername index".
-	*/
-	public String playerToString(Player player){
-		StringBuilder toReturn = new StringBuilder("");
-		String playerName = player.getName();
-		playerName = playerName.replace(" ", "_");
-		toReturn.append(playerName + " " + player.getIndex());
-		
-		return toReturn.toString();
-	}
-	
-	/*
-	* Converts a String object into a Player object. For use in reading in
-	* previously saved volatile data from a save file.
-	*/
-	public Player stringToPlayer(String playerName, String playerIndex){
-		playerName = playerName.replace("_", " ");
-		Player toReturn = new Player(playerName);
-		toReturn.setIndex(Integer.parseInt(playerIndex));
-		
-		return toReturn;
-	}
-	
+    
+    /*
+    * Converts all volatile data in WorldOfSweets to a single String to be
+    * printed to a file. Adheres to the following format:
+    * currentPlayer " " numPlayers " " players[]
+    */
+    public String save(){
+        StringBuilder saveString = new StringBuilder("");
+        //currentPlayer, numPlayer, players[], 
+        saveString.append(currentPlayer + " ");
+        saveString.append(numPlayers + " ");
+        
+        int i = 0;
+        while(i < numPlayers){
+            saveString.append(playerToString(players[i]) + " ");
+            i = i + 1;
+        }
+        
+        return saveString.toString();
+    }
+    
+    /*
+    * Initializes this class using the String recieved from a save file.
+    */
+    public void load(String loadString){
+        try{
+            String[] split = loadString.split("\\ ");
+            currentPlayer = Integer.parseInt(split[0]);
+            numPlayers = Integer.parseInt(split[1]);
+            players = new Player[numPlayers];
+            
+            int i = 0;
+            int j = 2;	//index to start reading in player information
+            while(i < numPlayers){
+                players[i] = stringToPlayer(split[j], split[j+1] );	
+                j = j + 2;
+                i = i + 1;
+            }
+        }catch(Exception e){
+            System.out.println("ERROR: Sorry, but could not load a game from that file");
+            System.exit(0);
+        }
+        
+        
+    }
+    
+    /*
+    * Converts a Player object into a String object for use in
+    * saving volatile data to a file.
+    * "playername index".
+    */
+    public String playerToString(Player player){
+        StringBuilder toReturn = new StringBuilder("");
+        String playerName = player.getName();
+        playerName = playerName.replace(" ", "_");
+        toReturn.append(playerName + " " + player.getIndex());
+        
+        return toReturn.toString();
+    }
+    
+    /*
+    * Converts a String object into a Player object. For use in reading in
+    * previously saved volatile data from a save file.
+    */
+    public Player stringToPlayer(String playerName, String playerIndex){
+        playerName = playerName.replace("_", " ");
+        Player toReturn = new Player(playerName);
+        toReturn.setIndex(Integer.parseInt(playerIndex));
+        
+        return toReturn;
+    }
+
+    public void pause() {
+        paused = true;
+    }
+
+    public void unpause() {
+        paused = false;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+    
     public static void main(String[] args) {
         new WorldOfSweets();
     }
