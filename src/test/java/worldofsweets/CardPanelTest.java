@@ -198,6 +198,4 @@ public class CardPanelTest{
 		String timeString = GameTimer.getTimeString(seconds);
 		assertEquals("00:08:20", timeString);
 	}
-	
-	
 }

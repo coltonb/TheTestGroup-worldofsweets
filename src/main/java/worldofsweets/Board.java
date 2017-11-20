@@ -96,6 +96,7 @@ public class Board {
     public boolean addPlayers(Player[] players) {
         for (Player player : players) {
             boolean playerAdded = path[0].addPlayer(player);
+
             if (!playerAdded) return false;
             player.setIndex(0);
         }

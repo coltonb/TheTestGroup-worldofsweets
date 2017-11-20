@@ -7,6 +7,7 @@ import worldofsweets.Board;
 import worldofsweets.Tile;
 import worldofsweets.Player;
 import worldofsweets.Card;
+import worldofsweets.Card.Type;
 
 public class BoardTest {
     @Test
@@ -105,7 +106,7 @@ public class BoardTest {
     //at the Middle space.
 		@Test
 		public void testCheckArriveMiddle(){
-			Card mid = new Card(Card.Type.MIDDLE);
+			Card mid = new Card(Card.Type.GOTOBUBBLEGUM);
       Player plr = new Player("James");
       Board board = new Board();
       board.addPlayer(plr,0);

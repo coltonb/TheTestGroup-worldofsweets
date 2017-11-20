@@ -2,15 +2,24 @@ package worldofsweets;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import java.io.*;
 import javax.swing.*;
+
 
 public class CardPanel extends JPanel {
     public int cardsRemaining = -1;		//how many cards are left in the deck, once this hits 0 need to shuffle
     public int cardsDiscarded = -1;		//how many cards have been drawn/played, once this hits 70 needs to reset to 0
     public int cardsPlayed = -1;		//how many cards have been played ALL GAME
-    public Card[] drawnCards = null;	//All the cards played in the game so far. Need to resize if we go over 70
-    public Deck cardDeck = null;		//Deck of all the cards
+    public Card[] drawnCards = null;	//All the cards played in the game so far. Need to resize if we go over 60
+    public Deck cardDeck = null;			//Deck of all the cards
+    private BufferedImage image;
+    private JPanel drew = null;
     public GameTimer gameTimer = null;  //A timer for how long the game has been played
 
     public CardPanel(){
@@ -67,7 +76,13 @@ public class CardPanel extends JPanel {
         drewContainer.add(drewLabel, BorderLayout.NORTH);
         deckContainer.add(deckLabel, BorderLayout.NORTH);
 
-        JPanel drew = new JPanel();			//holds last card drawn
+        drew = new JPanel(){		//holds last card drawn
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+            }
+        };
         drew.setBackground(Color.WHITE);
         drew.setLayout(new GridBagLayout());
         drew.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -132,6 +147,7 @@ public class CardPanel extends JPanel {
         JButton drawCard = new JButton("Draw Card: " + cardsRemaining);
         drawCard.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
+                // drew.removeAll();
                 if(cardsRemaining == 0){
                     cardDeck = new Deck("full");
                     cardDeck.shuffle();
@@ -151,10 +167,61 @@ public class CardPanel extends JPanel {
                 cardsRemaining = cardsRemaining - 1;
                 cardsDiscarded = cardsDiscarded + 1;
 
+                String fname = "";
+                Color color = newCard.getColor().getAwt();
+                if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
+                    fname = "src/main/resources/images/bubblegum.jpg";
+                }
+                else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
+                    fname = "src/main/resources/images/candycorn.jpg";
+                }
+                else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
+                    fname = "src/main/resources/images/icecream.jpg";
+                }
+                else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
+                    fname = "src/main/resources/images/laboon.jpg";
+                }
+                else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
+                    fname = "src/main/resources/images/chocolate.jpg";
+                }
+                else if (color == WorldOfSweets.Color.FINISH.getAwt()){
+                    fname = "src/main/resources/images/grandma.jpg";
+                }
+                else if (color == WorldOfSweets.Color.RED.getAwt()){
+                    fname = "src/main/resources/images/redtile.jpg";
+                }
+                else if (color == WorldOfSweets.Color.BLUE.getAwt()){
+                    fname = "src/main/resources/images/bluetile.jpg";
+                }
+                else if (color == WorldOfSweets.Color.GREEN.getAwt()){
+                    fname = "src/main/resources/images/greentile.jpg";
+                }
+                else if (color == WorldOfSweets.Color.YELLOW.getAwt()){
+                    fname = "src/main/resources/images/yellowtile.jpg";
+                }
+                else if (color == WorldOfSweets.Color.ORANGE.getAwt()){
+                    fname = "src/main/resources/images/orangetile.jpg";
+                }
+                if(newCard.getType() == Card.Type.SKIP){
+                    fname = "src/main/resources/images/skiptile.jpg";
+                }
+
+                try {
+                    image = ImageIO.read(new File(fname));
+                    drew.repaint();
+                    drew.revalidate();
+                } catch (IOException ex) {
+                    // drew.repaint();
+                    drew.revalidate();
+
+                    drew.setBackground(newCard.getColor().getAwt());
+
+
+                }
                 //Update sub-panels
                 drawCard.setText("Draw Card: " + cardsRemaining);
                 discardPile.setText("Cards Discarded: " + cardsDiscarded);
-                drew.setBackground(newCard.getColor().getAwt());
+                // drew.setBackground(newCard.getColor().getAwt());
                 if(!newCard.isSpecial())
                 card.setText("x" + newCard.getValue());
                 else

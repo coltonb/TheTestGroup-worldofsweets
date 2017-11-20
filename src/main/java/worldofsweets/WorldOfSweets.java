@@ -22,7 +22,6 @@ public class WorldOfSweets {
     private CardPanel cardPanel = null;
 
     private Board board = null;
-
     private static final java.awt.Color REDAWT    =
         new java.awt.Color(231, 76, 60);
     private static final java.awt.Color YELLOWAWT =
@@ -44,11 +43,11 @@ public class WorldOfSweets {
     private static final java.awt.Color BUBBLEGUMAWT =
         new java.awt.Color(244,143,177);
     private static final java.awt.Color CHOCOLATEAWT =
-        new java.awt.Color(62,39,35);
+        new java.awt.Color(141, 110, 99);
     private static final java.awt.Color LABOONROOMAWT =
-        new java.awt.Color(0,0,0);
+        new java.awt.Color(255, 209, 128);
     private static final java.awt.Color CANDYCORNAWT =
-        new java.awt.Color(255,167,38);
+        new java.awt.Color(206, 147, 216);
 
 
     public static enum Color {
@@ -77,8 +76,7 @@ public class WorldOfSweets {
         }
     }
 
-    public WorldOfSweets() {
-		
+    public WorldOfSweets() {		
 		//On Startup, ask if new or load
 		String desiredChoice = promptLoadOrNew();
 		
@@ -171,7 +169,7 @@ public class WorldOfSweets {
 		}
 		
     }
-  
+
     //Alerts player that it is their turn
     private void promptPlayerTurn(Player player) {
         JOptionPane.showMessageDialog(
