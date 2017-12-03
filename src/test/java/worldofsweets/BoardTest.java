@@ -65,6 +65,7 @@ public class BoardTest {
     }
 
 
+
     @Test
     public void testMoveCard1() {
         Card card = new Card(Card.Type.DOUBLEBLUE);

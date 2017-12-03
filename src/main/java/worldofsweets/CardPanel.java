@@ -24,14 +24,14 @@ public class CardPanel extends JPanel {
     private WorldOfSweets game = null;
 
     public CardPanel(){
-        this(null,"");
+        this(null,"",null);
     }
 
     /*
     *For use in testing non-static methods
     */
     public CardPanel(String test){
-        this(null,"");
+        this(null,"",null);
         if(test.equalsIgnoreCase("test")){
             cardsRemaining = 1;
             cardsDiscarded = 0;
@@ -46,7 +46,7 @@ public class CardPanel extends JPanel {
     /*
     *New Game With Save File if Specified
     */
-    public CardPanel(WorldOfSweets game, String save) {
+    public CardPanel(WorldOfSweets game, String save, Board board) {
         this.game = game;
         if(save.equals("")){
             cardsDiscarded = 0;
@@ -163,6 +163,43 @@ public class CardPanel extends JPanel {
                 //Draw Card
                 Card newCard = drawCard(cardDeck);
 
+                if(game.getCurrentPlayer().dad){
+                  // System.out.println(game.getCurrentPlayer().getIndex());
+                  int worst = game.getCurrentPlayer().getIndex() + 1;
+                  System.out.print(board.getTileAt(worst).getColor());
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                    newCard = new Card(Card.Type.RED);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                    newCard = new Card(Card.Type.BLUE);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                    newCard = new Card(Card.Type.GREEN);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                    newCard = new Card(Card.Type.ORANGE);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                    newCard = new Card(Card.Type.YELLOW);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCHOCOLATE){
+                    newCard = new Card(Card.Type.GOTOCHOCOLATE);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                    newCard = new Card(Card.Type.YELLOW);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                    newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                    newCard = new Card(Card.Type.GOTOCANDYCORN);
+                  }
+                  if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                    newCard = new Card(Card.Type.GOTOLABOONROOM);
+                  }
+
+                  // newCard = Card(board.getTileAt(worst).getColor())
+                }
                 //update drawnCards[]
                 drawnCards[cardsPlayed] = newCard;
 
@@ -248,7 +285,7 @@ public class CardPanel extends JPanel {
         discardPile.setHorizontalAlignment(JLabel.CENTER);
         saveButton.setHorizontalAlignment(JButton.CENTER);
         gameTimer.setHorizontalAlignment(JLabel.CENTER);
-        
+
         discardContainer.add(discardPile, BorderLayout.PAGE_START);
         discardContainer.add(saveButton, BorderLayout.CENTER);
         //discard.add(loadButton, BorderLayout.CENTER);

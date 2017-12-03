@@ -31,6 +31,7 @@ public class Card
             this.name = name;
             this.special = special;
         }
+
     }
 
     private Type type = null;

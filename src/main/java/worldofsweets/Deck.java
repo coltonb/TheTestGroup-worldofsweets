@@ -11,30 +11,29 @@ public class Deck
       nextCard = 0;
       basicDeck();
     }
-	
-    public Deck(String form)
-    {
-		if(form.equalsIgnoreCase("empty")){
-			size = 0;
-			nextCard = 0;
-			deck = new Card[0];
-		}else{
-			size = 0;
-			nextCard = 0;
-			if(form.equalsIgnoreCase("skip"))
-			addSkips();
-			else if(form.equalsIgnoreCase("location"))
-			addLocation();
-			else if(form.equalsIgnoreCase("full"))
-			{
-				basicDeck();
-				addSkips();
-				addLocation();
-			}
-			else basicDeck();
-		}
+
+    public Deck(String form){
+  		if(form.equalsIgnoreCase("empty")){
+  			size = 0;
+  			nextCard = 0;
+  			deck = new Card[0];
+  		}else{
+  			size = 0;
+  			nextCard = 0;
+  			if(form.equalsIgnoreCase("skip"))
+  			addSkips();
+  			else if(form.equalsIgnoreCase("location"))
+  			addLocation();
+  			else if(form.equalsIgnoreCase("full"))
+  			{
+  				basicDeck();
+  				addSkips();
+  				addLocation();
+  			}
+  			else basicDeck();
+  		}
     }
-	
+
     public void basicDeck()
     {
         for(int singles = 0;singles<10;singles++)
@@ -54,7 +53,7 @@ public class Deck
           addCard(Card.Type.DOUBLEORANGE);
         }
     }
-	
+
     public void addSkips()
     {
       for(int skips = 0;skips<5;skips++)
@@ -62,7 +61,7 @@ public class Deck
         addCard(Card.Type.SKIP);
       }
     }
-	
+
     public void addLocation()
     {
       addCard(Card.Type.GOTOBUBBLEGUM);
@@ -71,12 +70,32 @@ public class Deck
       addCard(Card.Type.GOTOCANDYCORN);
       addCard(Card.Type.GOTOLABOONROOM);
     }
-	
+
     public Card drawCard()
     {
         if(isEmpty()){
 			shuffle();
 		}
+        nextCard++;
+        return deck[nextCard-1];
+    }
+
+    public Card drawSpecificCard(Card.Type t)
+    {
+        for (int i = 0; i < deck.length; i++){
+          if (deck[i].getType() == t){
+            return deck[i];
+          }
+        }
+        nextCard++;
+        return deck[nextCard-1];
+    }
+
+    public Card Card()
+    {
+        if(isEmpty()){
+      shuffle();
+    }
         nextCard++;
         return deck[nextCard-1];
     }
@@ -92,7 +111,7 @@ public class Deck
       size++;
       deck = d;
     }
-	
+
     public void shuffle()
     {
         for(int x=size-1;x>0;x--)
@@ -113,5 +132,9 @@ public class Deck
     public boolean isEmpty()
     {
         return nextCard == size;
+    }
+
+    public Card[] getDeck(){
+        return deck;
     }
 }

@@ -2,6 +2,7 @@ package worldofsweets;
 
 public class Player {
     String name = null;
+    boolean dad = false;
     int index = -1;
 
     public Player() {
@@ -20,13 +21,13 @@ public class Player {
     public int getIndex() {
         return index;
     }
-    
+
     public void setName(String newName) {
         name = newName;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
 }
