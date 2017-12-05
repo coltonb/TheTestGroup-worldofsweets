@@ -192,3 +192,14 @@ Test 14b: Does the card drawn display an image that corresponds with the tile th
 
     - PASS: If the card drawn has the same image as the tile a player moves to when the card is drawn, this test passes.
     - FAIL: If the card drawn does not have the same image as the tile a player moves to when the card is drawn, this test fails.
+
+SPRINT 4:
+
+Test 15: Are you prompted to play in strategic or normal on load?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Select new game
+      - Step 3: Verify the menu is displayed. Try both options to verify the appropriate gamemode is initialized
+
+      - PASS: Prompt is displayed and appropriate gamemode begins
+      - FAIL: Prompt is not displayed or the gamemode selection doesn't work properly.
