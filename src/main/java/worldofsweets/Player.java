@@ -4,6 +4,7 @@ public class Player {
     String name = null;
     int index = -1;
     private int boomerangs = 3;
+    private String player_type = null;
 
     public Player() {
         this("Player");
@@ -21,11 +22,11 @@ public class Player {
     public int getIndex() {
         return index;
     }
-    
+
     public void setName(String newName) {
         name = newName;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -40,5 +41,11 @@ public class Player {
 
     public void setNumBoomerangs(int num) {
         boomerangs = num;
+    }
+    public void setType(String type){
+        player_type = type;
+    }
+    public String getType(){
+        return player_type;
     }
 }

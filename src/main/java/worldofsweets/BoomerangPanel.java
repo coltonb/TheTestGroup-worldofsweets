@@ -28,9 +28,11 @@ public class BoomerangPanel extends JPanel {
         this.panel = panel;
 
         throwButton = new JButton("Throw Boomerang");
-        
+
         throwButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+              if(game.getCurrentPlayer().getType().equals("Human"))
+              {
                 if (numBoomerangs > 0) {
                     Player target = promptPlayer();
                     if (target != null) {
@@ -39,6 +41,7 @@ public class BoomerangPanel extends JPanel {
                 } else {
                     promptNoBoomerangs();
                 }
+              }
             }
         });
 
@@ -66,7 +69,7 @@ public class BoomerangPanel extends JPanel {
         Player[] players = game.getPlayers();
 
         Object[] options = new Object[players.length - 1];
-        
+
 
         for (int i = 0, j = 0; i < players.length; i++) {
             if (!game.getCurrentPlayer().equals(players[i])) {
@@ -86,7 +89,7 @@ public class BoomerangPanel extends JPanel {
         if (result == null) {
             return null;
         }
-        
+
         for (int i = 0; i < players.length; i++) {
             if (players[i].getName().equals(result)) {
                 return players[i];
