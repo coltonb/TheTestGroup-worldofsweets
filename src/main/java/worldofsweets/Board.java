@@ -73,7 +73,7 @@ public class Board {
     }
 
     public int getPreviousTileIndex(int startIndex, WorldOfSweets.Color c) {
-        for (int i = startIndex - 1; (i - 1) > path.length; i--) {
+        for (int i = startIndex - 1; (i - 1) > 0; i--) {
             if (path[i].getColor() == c) {
                 return i;
             }

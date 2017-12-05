@@ -279,11 +279,12 @@ public class WorldOfSweets {
 
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
+        cardPanel.update();
     }
 
-    public void makeBoomerangMove(Card cardDrawn){
+    public void makeBoomerangMove(Card cardDrawn, Player target){
         // move player
-        board.movePlayerBackwards(players[currentPlayer], cardDrawn);
+        board.movePlayerBackwards(target, cardDrawn);
         // update board
         boardPanel.drawBoard(board);
 

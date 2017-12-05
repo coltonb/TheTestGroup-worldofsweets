@@ -158,7 +158,7 @@ public class CardPanel extends JPanel {
         cardButton = new JButton("Draw Card: " + cardsRemaining);
         cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
-                drawACard(false);
+                drawACard(null);
             }
         });
 
@@ -184,7 +184,7 @@ public class CardPanel extends JPanel {
 
     }
 
-    public void drawACard(boolean isThrow) {
+    public void drawACard(Player target) {
         if(cardsRemaining == 0){
             cardDeck = new Deck("full");
             cardDeck.shuffle();
@@ -266,10 +266,10 @@ public class CardPanel extends JPanel {
 
         //Send update to WorldOfSweets
         if (game != null) {
-            if (!isThrow){
+            if (target == null){
                 game.makeMove(newCard);
             } else {
-                game.makeBoomerangMove(newCard);
+                game.makeBoomerangMove(newCard, target);
             }
         }
     }

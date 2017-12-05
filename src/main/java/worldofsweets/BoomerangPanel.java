@@ -107,8 +107,7 @@ public class BoomerangPanel extends JPanel {
     public void throwBoomerang(Player target) {
         if (numBoomerangs > 0) {
             game.getCurrentPlayer().decrementBoomerangs();
-            panel.drawACard(true);
-            //game.throwBoomerang(target, Card card);
+            panel.drawACard(target);
         }
     }
 
