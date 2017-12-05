@@ -18,7 +18,7 @@ public class WorldOfSweets {
     public int currentPlayer = -1;
     public Player[] players = null;
 
-    private boolean strategicMode = true;
+    private boolean strategicMode = false;
 
     private GameFrame frame = null;
     private BoardPanel boardPanel = null;
@@ -141,6 +141,9 @@ public class WorldOfSweets {
             promptPlayerTurn(players[currentPlayer]);
         
         }else if(desiredChoice.equalsIgnoreCase("start a new game!") ){
+            //Ask if they'd like to play strategic mode
+
+            strategicMode = promptStrategic();
             //If Player Selected New Game
             numPlayers = promptNumPlayers();
 
@@ -246,6 +249,28 @@ public class WorldOfSweets {
             1);
         return result;
         
+    }
+
+    private boolean promptStrategic(){
+        Object[] options = {"Normal", "Strategic"};
+        String result = (String) JOptionPane.showInputDialog(
+            null,
+            "What gamemode would you like to play?",
+            "Gamemode Selection",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            options,
+            1);
+
+        if (result == null) {
+            return false;
+        }
+        
+        if (result.equals("Normal")) {
+            return false;
+        } else {
+            return true;
+        }
     }
     
     public void makeMove(Card cardDrawn){
