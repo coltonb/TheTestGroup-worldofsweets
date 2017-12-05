@@ -169,10 +169,11 @@ public class CardPanel extends JPanel {
         saveButton.setHorizontalAlignment(JButton.CENTER);
         gameTimer.setHorizontalAlignment(JLabel.CENTER);
         
-        discardContainer.add(discardPile, BorderLayout.PAGE_START);
+        //disabled for now
+        //discardContainer.add(discardPile, BorderLayout.PAGE_START);
         discardContainer.add(saveButton, BorderLayout.CENTER);
         //discard.add(loadButton, BorderLayout.CENTER);
-        discardContainer.add(gameTimer, BorderLayout.PAGE_END);
+        discardContainer.add(gameTimer, BorderLayout.PAGE_START);
 
         if (game.isStrategic()) {
             discardContainer.add(boomerangPanel, BorderLayout.PAGE_END);

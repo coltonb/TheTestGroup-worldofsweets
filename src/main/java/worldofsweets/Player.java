@@ -37,4 +37,8 @@ public class Player {
     public void decrementBoomerangs() {
         boomerangs--;
     }
+
+    public void setNumBoomerangs(int num) {
+        boomerangs = num;
+    }
 }
