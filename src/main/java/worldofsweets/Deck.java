@@ -84,11 +84,11 @@ public class Deck
     {
         for (int i = 0; i < deck.length; i++){
           if (deck[i].getType() == t){
+            nextCard++;
             return deck[i];
           }
         }
-        nextCard++;
-        return deck[nextCard-1];
+        return null;
     }
 
     public Card Card()
@@ -111,6 +111,19 @@ public class Deck
       size++;
       deck = d;
     }
+
+    // public void removeCard(Card.Type t)
+    // {
+    //   tempDeck = new Card[deck.length-1];
+    //   for (int i = 0; i < deck.length; i++){
+    //     if (deck[i].getType() == t){
+    //       removeCard(t);
+    //       nextCard++;
+    //       return deck[i];
+    //     }
+    //   }
+    //   return null;
+    // }
 
     public void shuffle()
     {
