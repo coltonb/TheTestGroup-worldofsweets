@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import java.io.*;
+import java.security.*;
 import javax.swing.*;
 
 
@@ -342,8 +343,13 @@ public class CardPanel extends JPanel {
             i = i + 1;
         }
 
-        //return final string
+        //compile unencrypted save string
         String saveString = timeString + " " + cardsDiscarded + " " + cardsRemaining + " " + remainingInDeck.toString() + cardsPlayed + " " + allPlayed.toString();
+		
+		
+		//encrypt save string [add a SHA-256 digested checksum to end of string]
+		saveString = game.encryptSave(saveString);
+			
         return saveString;
     }
 
@@ -354,6 +360,13 @@ public class CardPanel extends JPanel {
     public void load(String loadString){
         try{
             String[] split = loadString.split("\\ ");
+			
+			//before we do anything else, attempt to verify the hashed checksum
+			if(game.verifySave(split) == false){
+				System.exit(0);
+			}
+			
+			//initiate fields
             gameTimer = new GameTimer(game);
             gameTimer.load(split[0]);
             cardsDiscarded = Integer.parseInt(split[1]);

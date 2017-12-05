@@ -2,6 +2,7 @@ package worldofsweets;
 
 import java.awt.*;
 import java.io.*;
+import java.security.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
@@ -13,9 +14,9 @@ public class WorldOfSweets {
     public static final int TILE_WIDTH = 10;
     public static final int TILE_HEIGHT = 7;
 
-    private int numPlayers = -1;
-    private int currentPlayer = -1;
-    Player[] players = null;
+    public int numPlayers = -1;
+    public int currentPlayer = -1;
+    public Player[] players = null;
 
     private GameFrame frame = null;
     private BoardPanel boardPanel = null;
@@ -289,8 +290,11 @@ public class WorldOfSweets {
             saveString.append(playerToString(players[i]) + " ");
             i = i + 1;
         }
+		
+		//encrypt saveString
+		String result = encryptSave(saveString.toString());
         
-        return saveString.toString();
+        return result;
     }
     
     /*
@@ -299,6 +303,13 @@ public class WorldOfSweets {
     public void load(String loadString){
         try{
             String[] split = loadString.split("\\ ");
+			
+			//Before we do anything else, attempt to verify the checksum
+			if(verifySave(split) == false){
+				System.exit(0);
+			}
+			
+			//Initialize fields
             currentPlayer = Integer.parseInt(split[0]);
             numPlayers = Integer.parseInt(split[1]);
             players = new Player[numPlayers];
@@ -359,4 +370,62 @@ public class WorldOfSweets {
     public static void main(String[] args) {
         new WorldOfSweets();
     }
+	
+	//Encrypts the string about to be saved by adding a checksum to it
+	public static String encryptSave(String toSave){
+		byte[] checksum = null;
+		try{
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			checksum = md.digest(toSave.getBytes());	//maybe something other than getBytes()?
+			StringBuilder sb = new StringBuilder("");
+			for(int j = 0; j < checksum.length; j++){
+				sb.append(Integer.toString((checksum[j] & 0xff) + 0x100, 16).substring(1)); 
+			}
+			toSave = toSave + sb.toString();
+		}catch(NoSuchAlgorithmException nsae){
+			System.out.println("ERROR: Could not encrypt save file");
+			System.exit(0);
+		}
+		return toSave;
+	}
+	
+	//Verifies that the checksum in the loaded file holds true for the save file
+	public static boolean verifySave(String[] toCheckAgainst){
+		int h = 0;
+		byte[] checksum = null;
+		StringBuilder toVerify = new StringBuilder("");
+		
+		while(h < toCheckAgainst.length-1){
+			toVerify.append(toCheckAgainst[h] + " ");
+			h = h + 1;
+		}
+		
+		try{
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			checksum = md.digest(toVerify.toString().getBytes());
+		}catch(NoSuchAlgorithmException nsae){
+			System.out.println("OOPS!");
+			System.exit(0);
+		}
+		
+		StringBuilder sb = new StringBuilder("");
+		for(int g = 0; g < checksum.length; g++){
+			sb.append(Integer.toString((checksum[g] & 0xff) + 0x100, 16).substring(1));
+		}
+		
+		if(sb.toString().equals(toCheckAgainst[toCheckAgainst.length-1]) ){
+			System.out.println("Save File verified with checksum " + sb.toString());
+			return true;
+		}else{
+			System.out.println("ERROR: Save File has been tampered with " + sb.toString());
+			return false;
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
 }
