@@ -135,4 +135,34 @@ public class BoardTest {
       pos = plr.getIndex();
       }
 		}
+
+    // Should move the player to the previous instance of the DoubleBlue
+    @Test
+    public void testMoveBackwards(){
+        Card card = new Card(Card.Type.DOUBLEBLUE);
+
+        Player plr = new Player("Jake");
+
+        Board board = new Board();
+
+        board.addPlayer(plr, 12);
+
+        board.movePlayerBackwards(plr, card);
+        assertEquals(plr.getIndex(), 3);
+    }
+
+    // Should move the player to the move to location, not backwards
+    @Test
+    public void testMoveBackwards2(){
+        Card card = new Card(Card.Type.GOTOLABOONROOM);
+
+        Player plr = new Player("Jake");
+
+        Board board = new Board();
+
+        board.addPlayer(plr, 3);
+
+        board.movePlayerBackwards(plr, card);
+        assertEquals(plr.getIndex(), card.getValue());
+    }
 }
