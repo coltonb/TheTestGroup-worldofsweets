@@ -283,29 +283,9 @@ public class WorldOfSweets {
 
     public void makeBoomerangMove(Card cardDrawn){
         // move player
-        board.movePlayer(players[currentPlayer], cardDrawn);
+        board.movePlayerBackwards(players[currentPlayer], cardDrawn);
         // update board
         boardPanel.drawBoard(board);
-
-        // Check for winners here, do something about it
-        if (players[currentPlayer] == board.checkWinner()){
-          System.out.println("There is a winner!");
-          JOptionPane.showMessageDialog(
-              null,
-              players[currentPlayer].getName() + " wins!",
-              "Winner!",
-              JOptionPane.INFORMATION_MESSAGE);
-
-              if (JOptionPane.showConfirmDialog(null, "Play Again?", "",
-                  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                  frame.setVisible(false); //you can't see me!
-                  frame.dispose();
-                  new WorldOfSweets();
-              }else {
-                  System.exit(0);
-              }
-        }
-
 
         //update current player
         currentPlayer = (currentPlayer + 1) % players.length;
