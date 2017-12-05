@@ -24,7 +24,9 @@ public class Player {
     }
 
     public void setName(String newName) {
+        if(player_type.equals("Human"))
         name = newName;
+        else name = "AI "+newName;
     }
 
     public String getName() {

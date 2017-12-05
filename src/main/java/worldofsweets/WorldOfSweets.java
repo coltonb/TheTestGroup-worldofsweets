@@ -158,8 +158,8 @@ public class WorldOfSweets {
 
             for (int i = 0; i < players.length; i++) {
                 players[i] = new Player();
-                players[i].setName(names[i]);
                 players[i].setType(types[i]);
+                players[i].setName(names[i]);
             }
 
             board = new Board();
@@ -185,13 +185,21 @@ public class WorldOfSweets {
     //Alerts player that it is their turn
     private void promptPlayerTurn(Player player) {
         cardPanel.update();
+      if(player.getType().equals("Human"))
+      {
         JOptionPane.showMessageDialog(
             null,
             player.getName() + ", it's your turn!",
             "Player Confirmation",
             JOptionPane.INFORMATION_MESSAGE);
+      }
       if(player.getType().equals("AI"))
       {
+        JOptionPane.showMessageDialog(
+            null,
+            player.getName() + " is taking its turn!",
+            "Player Confirmation",
+            JOptionPane.INFORMATION_MESSAGE);
         makeAIMove();
       }
     }
@@ -316,8 +324,18 @@ public class WorldOfSweets {
     public void makeMove(Card cardDrawn){
         // move player
         board.movePlayer(players[currentPlayer], cardDrawn);
+
         // update board
         boardPanel.drawBoard(board);
+
+        if(players[currentPlayer].getType().equals("AI"))
+        {
+          JOptionPane.showMessageDialog(
+              null,
+              players[currentPlayer].getName() + " drew a card.",
+              "Player Confirmation",
+              JOptionPane.INFORMATION_MESSAGE);
+        }
 
         // Check for winners here, do something about it
         if (players[currentPlayer] == board.checkWinner()){
@@ -377,6 +395,14 @@ public class WorldOfSweets {
         // update board
         boardPanel.drawBoard(board);
 
+        if(players[currentPlayer].getType().equals("AI"))
+        {
+          JOptionPane.showMessageDialog(
+              null,
+              players[currentPlayer].getName() + " threw a boomerang at "+target.getName(),
+              "Player Confirmation",
+              JOptionPane.INFORMATION_MESSAGE);
+        }
         //update current player
         currentPlayer = (currentPlayer + 1) % players.length;
 
