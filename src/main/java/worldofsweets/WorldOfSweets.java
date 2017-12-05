@@ -18,6 +18,8 @@ public class WorldOfSweets {
     public int currentPlayer = -1;
     public Player[] players = null;
 
+    private boolean strategicMode = true;
+
     private GameFrame frame = null;
     private BoardPanel boardPanel = null;
     private CardPanel cardPanel = null;
@@ -219,6 +221,11 @@ public class WorldOfSweets {
                 JOptionPane.PLAIN_MESSAGE);
             // Default name to Player i+1 should they not provide one
             if (names[i].length() == 0) names[i] = "Player " + (i + 1);
+            for (int j = 0; j < i; j++) {
+                if (names[i].equals(names[j])) {
+                    names[i] = names[i] + "*";
+                }
+            }
         }
         return names;
     }
@@ -272,6 +279,40 @@ public class WorldOfSweets {
 
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
+    }
+
+    public void makeBoomerangMove(Card cardDrawn){
+        // move player
+        board.movePlayer(players[currentPlayer], cardDrawn);
+        // update board
+        boardPanel.drawBoard(board);
+
+        // Check for winners here, do something about it
+        if (players[currentPlayer] == board.checkWinner()){
+          System.out.println("There is a winner!");
+          JOptionPane.showMessageDialog(
+              null,
+              players[currentPlayer].getName() + " wins!",
+              "Winner!",
+              JOptionPane.INFORMATION_MESSAGE);
+
+              if (JOptionPane.showConfirmDialog(null, "Play Again?", "",
+                  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                  frame.setVisible(false); //you can't see me!
+                  frame.dispose();
+                  new WorldOfSweets();
+              }else {
+                  System.exit(0);
+              }
+        }
+
+
+        //update current player
+        currentPlayer = (currentPlayer + 1) % players.length;
+
+        //prompt player
+        promptPlayerTurn(players[currentPlayer]);
+        cardPanel.update();
     }
     
     /*
@@ -425,7 +466,16 @@ public class WorldOfSweets {
 	}
 	
 	
+	public boolean isStrategic() {
+        return strategicMode;
+    }
 	
-	
-	
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+	public Player getCurrentPlayer() {
+        return players[currentPlayer];
+    }
 }
