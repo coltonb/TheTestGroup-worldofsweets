@@ -72,6 +72,15 @@ public class Board {
         return path.length - 1;
     }
 
+    public int getPreviousTileIndex(int startIndex, WorldOfSweets.Color c) {
+        for (int i = startIndex - 1; (i - 1) > 0; i--) {
+            if (path[i].getColor() == c) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     public int getLength() {
         return path.length;
     }
@@ -119,6 +128,32 @@ public class Board {
         boolean playerRemoved = path[index].removePlayer(player);
         if (playerRemoved) player.setIndex(-1);
         return playerRemoved;
+    }
+
+    public boolean movePlayerBackwards(Player player, Card card) {
+        if (!card.isSpecial()) {
+            WorldOfSweets.Color color = card.getColor();
+
+            int numMoves = card.getValue();
+
+            for (; numMoves > 0; numMoves--) {
+                int playerIndex = player.getIndex();
+                int index = getPreviousTileIndex(playerIndex, color);
+                movePlayer(player, index);
+            }
+        } else {
+            // For each of these special cards, the player
+            // should be notified.
+            // Maybe have makeMove in WorldOfSweets check the card
+            // and determine if it has to alert
+            if(card.getType()==Card.Type.SKIP);
+            else if(card.getValue()!=-1)
+            {
+              movePlayer(player,card.getValue());
+            }
+        }
+
+        return true;
     }
 
     public boolean movePlayer(Player player, int index) {

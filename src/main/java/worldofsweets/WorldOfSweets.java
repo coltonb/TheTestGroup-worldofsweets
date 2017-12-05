@@ -18,6 +18,8 @@ public class WorldOfSweets {
     public int currentPlayer = -1;
     public Player[] players = null;
 
+    private boolean strategicMode = true;
+
     private GameFrame frame = null;
     private BoardPanel boardPanel = null;
     private CardPanel cardPanel = null;
@@ -219,6 +221,11 @@ public class WorldOfSweets {
                 JOptionPane.PLAIN_MESSAGE);
             // Default name to Player i+1 should they not provide one
             if (names[i].length() == 0) names[i] = "Player " + (i + 1);
+            for (int j = 0; j < i; j++) {
+                if (names[i].equals(names[j])) {
+                    names[i] = names[i] + "*";
+                }
+            }
         }
         return names;
     }
@@ -272,6 +279,21 @@ public class WorldOfSweets {
 
         //prompt player
         promptPlayerTurn(players[currentPlayer]);
+        cardPanel.update();
+    }
+
+    public void makeBoomerangMove(Card cardDrawn, Player target){
+        // move player
+        board.movePlayerBackwards(target, cardDrawn);
+        // update board
+        boardPanel.drawBoard(board);
+
+        //update current player
+        currentPlayer = (currentPlayer + 1) % players.length;
+
+        //prompt player
+        promptPlayerTurn(players[currentPlayer]);
+        cardPanel.update();
     }
     
     /*
@@ -282,6 +304,7 @@ public class WorldOfSweets {
     public String save(){
         StringBuilder saveString = new StringBuilder("");
         //currentPlayer, numPlayer, players[], 
+        saveString.append(strategicMode + " ");
         saveString.append(currentPlayer + " ");
         saveString.append(numPlayers + " ");
         
@@ -310,15 +333,16 @@ public class WorldOfSweets {
 			}
 			
 			//Initialize fields
-            currentPlayer = Integer.parseInt(split[0]);
-            numPlayers = Integer.parseInt(split[1]);
+            strategicMode = Boolean.parseBoolean(split[0]);
+            currentPlayer = Integer.parseInt(split[1]);
+            numPlayers = Integer.parseInt(split[2]);
             players = new Player[numPlayers];
             
             int i = 0;
-            int j = 2;	//index to start reading in player information
+            int j = 3;	//index to start reading in player information
             while(i < numPlayers){
-                players[i] = stringToPlayer(split[j], split[j+1] );	
-                j = j + 2;
+                players[i] = stringToPlayer(split[j], split[j+1], split[j+2] );	
+                j = j + 3;
                 i = i + 1;
             }
         }catch(Exception e){
@@ -338,7 +362,7 @@ public class WorldOfSweets {
         StringBuilder toReturn = new StringBuilder("");
         String playerName = player.getName();
         playerName = playerName.replace(" ", "_");
-        toReturn.append(playerName + " " + player.getIndex());
+        toReturn.append(playerName + " " + player.getIndex() + " " + player.getNumBoomerangs());
         
         return toReturn.toString();
     }
@@ -347,10 +371,11 @@ public class WorldOfSweets {
     * Converts a String object into a Player object. For use in reading in
     * previously saved volatile data from a save file.
     */
-    public Player stringToPlayer(String playerName, String playerIndex){
+    public Player stringToPlayer(String playerName, String playerIndex, String numBoomerangs){
         playerName = playerName.replace("_", " ");
         Player toReturn = new Player(playerName);
         toReturn.setIndex(Integer.parseInt(playerIndex));
+        toReturn.setNumBoomerangs(Integer.parseInt(numBoomerangs));
         
         return toReturn;
     }
@@ -425,7 +450,16 @@ public class WorldOfSweets {
 	}
 	
 	
+	public boolean isStrategic() {
+        return strategicMode;
+    }
 	
-	
-	
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+	public Player getCurrentPlayer() {
+        return players[currentPlayer];
+    }
 }

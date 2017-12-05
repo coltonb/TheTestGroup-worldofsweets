@@ -22,7 +22,11 @@ public class CardPanel extends JPanel {
     private BufferedImage image;
     private JPanel drew = null;
     public GameTimer gameTimer = null;  //A timer for how long the game has been played
+    private BoomerangPanel boomerangPanel = null;
     private WorldOfSweets game = null;
+    private JButton cardButton = null;
+    private JLabel card = null;
+    private JLabel discardPile = null;
 
     public CardPanel(){
         this(null,"");
@@ -56,6 +60,8 @@ public class CardPanel extends JPanel {
             cardDeck = new Deck("full");
             cardsRemaining = cardDeck.getSize();
             gameTimer = new GameTimer(game);
+            boomerangPanel = new BoomerangPanel(game, this);
+            boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
             cardDeck.shuffle();
         }else{
             load(save);
@@ -110,9 +116,9 @@ public class CardPanel extends JPanel {
         this.add(deckContainer);
 
         //Create Buttons
-        JLabel discardPile = new JLabel("Cards Discarded: " + cardsDiscarded);
+        discardPile = new JLabel("Cards Discarded: " + cardsDiscarded);
         JLabel cardDrawn = new JLabel("");
-        JLabel card = new JLabel("");
+        card = new JLabel("");
         card.setFont(new Font("Arial", Font.BOLD, 25));
 
         //Save Button
@@ -149,115 +155,124 @@ public class CardPanel extends JPanel {
         });
 
         //Draw Card Button
-        JButton drawCard = new JButton("Draw Card: " + cardsRemaining);
-        drawCard.addActionListener(new ActionListener(){
+        cardButton = new JButton("Draw Card: " + cardsRemaining);
+        cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
-                // drew.removeAll();
-                if(cardsRemaining == 0){
-                    cardDeck = new Deck("full");
-                    cardDeck.shuffle();
-                    cardsRemaining = cardDeck.getSize();
-                    cardsDiscarded = 0;
-                    drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
-                }
-
-                //Draw Card
-                Card newCard = drawCard(cardDeck);
-
-                //update drawnCards[]
-                drawnCards[cardsPlayed] = newCard;
-
-                //Update Information
-                cardsPlayed = cardsPlayed + 1;
-                cardsRemaining = cardsRemaining - 1;
-                cardsDiscarded = cardsDiscarded + 1;
-
-                String fname = "";
-                Color color = newCard.getColor().getAwt();
-                if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
-                    fname = "src/main/resources/images/snowcone.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
-                    fname = "src/main/resources/images/lolipop.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
-                    fname = "src/main/resources/images/icecream.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
-                    fname = "src/main/resources/images/cookie.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
-                    fname = "src/main/resources/images/chocolate.png";
-                }
-                else if (color == WorldOfSweets.Color.FINISH.getAwt()){
-                    fname = "src/main/resources/images/grandma.png";
-                }
-                else if (color == WorldOfSweets.Color.RED.getAwt()){
-                    fname = "src/main/resources/images/redtile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.BLUE.getAwt()){
-                    fname = "src/main/resources/images/bluetile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.GREEN.getAwt()){
-                    fname = "src/main/resources/images/greentile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.YELLOW.getAwt()){
-                    fname = "src/main/resources/images/yellowtile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.ORANGE.getAwt()){
-                    fname = "src/main/resources/images/orangetile.jpg";
-                }
-                if(newCard.getType() == Card.Type.SKIP){
-                    fname = "src/main/resources/images/skiptile.jpg";
-                }
-
-                try {
-                    image = ImageIO.read(new File(fname));
-                    drew.repaint();
-                    drew.revalidate();
-                } catch (IOException ex) {
-                    // drew.repaint();
-                    drew.revalidate();
-
-                    drew.setBackground(newCard.getColor().getAwt());
-
-
-                }
-                //Update sub-panels
-                drawCard.setText("Draw Card: " + cardsRemaining);
-                discardPile.setText("Cards Discarded: " + cardsDiscarded);
-                // drew.setBackground(newCard.getColor().getAwt());
-                if(!newCard.isSpecial())
-                card.setText("x" + newCard.getValue());
-                else
-                {
-                  card.setText(newCard.getName().toUpperCase());
-                }
-
-                //Send update to WorldOfSweets
-                if (game != null){
-                    game.makeMove(newCard);
-                }
-
+                drawACard(null);
             }
-
         });
 
         //add buttons to panel + draw
-        deck.add(drawCard);
+        deck.add(cardButton);
 
         discardPile.setHorizontalAlignment(JLabel.CENTER);
         saveButton.setHorizontalAlignment(JButton.CENTER);
         gameTimer.setHorizontalAlignment(JLabel.CENTER);
         
-        discardContainer.add(discardPile, BorderLayout.PAGE_START);
+        //disabled for now
+        //discardContainer.add(discardPile, BorderLayout.PAGE_START);
         discardContainer.add(saveButton, BorderLayout.CENTER);
         //discard.add(loadButton, BorderLayout.CENTER);
-        discardContainer.add(gameTimer, BorderLayout.PAGE_END);
+        discardContainer.add(gameTimer, BorderLayout.PAGE_START);
+
+        if (game.isStrategic()) {
+            discardContainer.add(boomerangPanel, BorderLayout.PAGE_END);
+        }
+
         drew.add(cardDrawn);
         drew.add(card);
         this.setVisible(true);
 
+    }
+
+    public void drawACard(Player target) {
+        if(cardsRemaining == 0){
+            cardDeck = new Deck("full");
+            cardDeck.shuffle();
+            cardsRemaining = cardDeck.getSize();
+            cardsDiscarded = 0;
+            drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
+        }
+
+        //Draw Card
+        Card newCard = drawCard(cardDeck);
+
+        //update drawnCards[]
+        drawnCards[cardsPlayed] = newCard;
+
+        //Update Information
+        cardsPlayed = cardsPlayed + 1;
+        cardsRemaining = cardsRemaining - 1;
+        cardsDiscarded = cardsDiscarded + 1;
+
+        String fname = "";
+        Color color = newCard.getColor().getAwt();
+        if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
+            fname = "src/main/resources/images/snowcone.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
+            fname = "src/main/resources/images/lolipop.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
+            fname = "src/main/resources/images/icecream.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
+            fname = "src/main/resources/images/cookie.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
+            fname = "src/main/resources/images/chocolate.png";
+        }
+        else if (color == WorldOfSweets.Color.FINISH.getAwt()){
+            fname = "src/main/resources/images/grandma.png";
+        }
+        else if (color == WorldOfSweets.Color.RED.getAwt()){
+            fname = "src/main/resources/images/redtile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.BLUE.getAwt()){
+            fname = "src/main/resources/images/bluetile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.GREEN.getAwt()){
+            fname = "src/main/resources/images/greentile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.YELLOW.getAwt()){
+            fname = "src/main/resources/images/yellowtile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.ORANGE.getAwt()){
+            fname = "src/main/resources/images/orangetile.jpg";
+        }
+        if(newCard.getType() == Card.Type.SKIP){
+            fname = "src/main/resources/images/skiptile.jpg";
+        }
+
+        try {
+            image = ImageIO.read(new File(fname));
+            drew.repaint();
+            drew.revalidate();
+        } catch (IOException ex) {
+            // drew.repaint();
+            drew.revalidate();
+
+            drew.setBackground(newCard.getColor().getAwt());
+        }
+        //Update sub-panels
+        cardButton.setText("Draw Card: " + cardsRemaining);
+        discardPile.setText("Cards Discarded: " + cardsDiscarded);
+        // drew.setBackground(newCard.getColor().getAwt());
+        if(!newCard.isSpecial())
+            card.setText("x" + newCard.getValue());
+        else
+        {
+            card.setText(newCard.getName().toUpperCase());
+        }
+
+        //Send update to WorldOfSweets
+        if (game != null) {
+            if (target == null){
+                game.makeMove(newCard);
+            } else {
+                game.makeBoomerangMove(newCard, target);
+            }
+        }
     }
 
     /*
@@ -369,6 +384,8 @@ public class CardPanel extends JPanel {
 			//initiate fields
             gameTimer = new GameTimer(game);
             gameTimer.load(split[0]);
+            boomerangPanel = new BoomerangPanel(game, this);
+            boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
             cardsDiscarded = Integer.parseInt(split[1]);
             cardsRemaining = Integer.parseInt(split[2]);
             cardDeck = new Deck("empty");
@@ -477,4 +494,9 @@ public class CardPanel extends JPanel {
         return toReturn;
     }
 
+    public void update() {
+        if (boomerangPanel != null) {
+            boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
+        }
+    }
 }

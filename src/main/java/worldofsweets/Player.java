@@ -3,6 +3,7 @@ package worldofsweets;
 public class Player {
     String name = null;
     int index = -1;
+    private int boomerangs = 3;
 
     public Player() {
         this("Player");
@@ -28,5 +29,16 @@ public class Player {
     public String getName() {
         return name;
     }
-    
+
+    public int getNumBoomerangs() {
+        return boomerangs;
+    }
+
+    public void decrementBoomerangs() {
+        boomerangs--;
+    }
+
+    public void setNumBoomerangs(int num) {
+        boomerangs = num;
+    }
 }
