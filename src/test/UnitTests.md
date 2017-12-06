@@ -194,7 +194,7 @@ Test 14b: Does the card drawn display an image that corresponds with the tile th
     - FAIL: If the card drawn does not have the same image as the tile a player moves to when the card is drawn, this test fails.
 SPRINT 4:
 
-Test 1b: Does the player "Dad" move to the worst possible space each turn?
+Test 1: Does the player "Dad" move to the worst possible space each turn?
     - Method:
       - Step 1: Compile & run
       - Step 2: Complete the player information prompts, with one player being named "Dad".
@@ -203,3 +203,32 @@ Test 1b: Does the player "Dad" move to the worst possible space each turn?
 
     - PASS: Given "Dad" has not drawn a Skip card, if "Dad" moves only once space forward each turn, this test passes.
     - FAIL: Given "Dad" has not drawn a Skip card, if "Dad" does not move one space forward, this test fails.
+
+Test 15: Are you prompted to play in strategic or normal on load?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Select new game
+      - Step 3: Verify the menu is displayed. Try both options to verify the appropriate gamemode is initialized
+
+      - PASS: Prompt is displayed and appropriate gamemode begins
+      - FAIL: Prompt is not displayed or the gamemode selection doesn't work properly.
+
+Test 16: Do AI players make a move without player input?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Select new game
+      - Step 3: Make at least one player be AI
+      - Step 4: Verify that on every turn for AI players, no input is needed.
+
+      - PASS: AI takes turn without input.
+      - FAIL: AI does not take turn without input
+
+Test 17: Does the game send out a prompt after every AI move that says whether they drew or sent a boomerang?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Select new game
+      - Step 3: Make at least one player be AI
+      - Step 4: Verify that on every turn for AI players, a summary prompt appears.
+
+      - PASS: After AI turn, prompt shows whether they drew a card or used a boomerang.
+      - FAIL: After AI turn, prompt does not appear or does not show whether they used a card or used a boomerang.

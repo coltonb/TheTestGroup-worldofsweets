@@ -165,8 +165,7 @@ public class CardPanelTest{
 	public void testSaveCorrect(){
 		CardPanel testPanel = new CardPanel("test");
 		String result = testPanel.save();
-		String baseline = "0 1 red 0 ";
-
+		String baseline = "0 1 red 0 87490f28e72eecbb7de0a2f817cla908008e42ecbdf2f124b932d749c3d23c4";
 		assertEquals(result, baseline);
 
 	}
@@ -177,9 +176,9 @@ public class CardPanelTest{
 	@Test
 	public void testLoadCorrect(){
 		WorldOfSweets game = null;
-		String testSave = "0 1 red 0 ";
+		String testSave = "0 1 red 0 87490f28e72eecbb7de0a2f817cla908008e42ecbdf2f124b932d749c3d23c4";
 		CardPanel testPanel = new CardPanel(game, testSave, null);
-
+		
 		assertEquals(testPanel.cardsRemaining, 1);
 	}
 

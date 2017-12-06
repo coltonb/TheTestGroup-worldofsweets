@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import java.io.*;
+import java.security.*;
 import javax.swing.*;
 
 
@@ -21,8 +22,13 @@ public class CardPanel extends JPanel {
     private BufferedImage image;
     private JPanel drew = null;
     public GameTimer gameTimer = null;  //A timer for how long the game has been played
+    private BoomerangPanel boomerangPanel = null;
     private WorldOfSweets game = null;
     private int skipCount = 5;
+    private JButton cardButton = null;
+    private JLabel card = null;
+    private JLabel discardPile = null;
+    private Board board = null;
 
     public CardPanel(){
         this(null,"",null);
@@ -49,6 +55,7 @@ public class CardPanel extends JPanel {
     */
     public CardPanel(WorldOfSweets game, String save, Board board) {
         this.game = game;
+        this.board = board;
         if(save.equals("")){
             cardsDiscarded = 0;
             cardsPlayed = 0;
@@ -56,6 +63,8 @@ public class CardPanel extends JPanel {
             cardDeck = new Deck("full");
             cardsRemaining = cardDeck.getSize();
             gameTimer = new GameTimer(game);
+            boomerangPanel = new BoomerangPanel(game, this);
+            boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
             cardDeck.shuffle();
         }else{
             load(save);
@@ -110,9 +119,9 @@ public class CardPanel extends JPanel {
         this.add(deckContainer);
 
         //Create Buttons
-        JLabel discardPile = new JLabel("Cards Discarded: " + cardsDiscarded);
+        discardPile = new JLabel("Cards Discarded: " + cardsDiscarded);
         JLabel cardDrawn = new JLabel("");
-        JLabel card = new JLabel("");
+        card = new JLabel("");
         card.setFont(new Font("Arial", Font.BOLD, 25));
 
         //Save Button
@@ -149,329 +158,339 @@ public class CardPanel extends JPanel {
         });
 
         //Draw Card Button
-        JButton drawCard = new JButton("Draw Card: " + cardsRemaining);
-        drawCard.addActionListener(new ActionListener(){
+        cardButton = new JButton("Draw Card: " + cardsRemaining);
+        cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
-                // drew.removeAll();
-                if(cardsRemaining == 0){
-                    cardDeck = new Deck("full");
-                    cardDeck.shuffle();
-                    cardsRemaining = cardDeck.getSize();
-                    cardsDiscarded = 0;
-                    drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
-                }
-
-                //Draw Card
-                Card newCard = drawCard(cardDeck);
-
-                if(game.getCurrentPlayer().dad){
-                  // System.out.println(game.getCurrentPlayer().getIndex());
-
-                  if (game.getCurrentPlayer().getIndex() == 0 && skipCount != 0) {
-                    newCard = drawSpecificCard(cardDeck, Card.Type.SKIP);
-
-                    if (newCard == null) {
-                      int worst = game.getCurrentPlayer().getIndex() + 1;
-                      System.out.print(board.getTileAt(worst).getColor());
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
-                        newCard = new Card(Card.Type.RED);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
-                        newCard = new Card(Card.Type.BLUE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
-                        newCard = new Card(Card.Type.GREEN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
-                        newCard = new Card(Card.Type.ORANGE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
-                        newCard = new Card(Card.Type.GOTOBUBBLEGUM);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
-                        newCard = new Card(Card.Type.GOTOCANDYCORN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
-                        newCard = new Card(Card.Type.GOTOLABOONROOM);
-                      }
-                    }
-
-                    else{
-                      skipCount--;
-                    }
-                  }
-                  else if (game.getCurrentPlayer().getIndex() > 7){
-                    int worst = game.getCurrentPlayer().getIndex() + 1;
-                    System.out.print(board.getTileAt(worst).getColor());
-                    if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM)  {
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
-                        newCard = new Card(Card.Type.RED);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
-                        newCard = new Card(Card.Type.BLUE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
-                        newCard = new Card(Card.Type.GREEN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
-                        newCard = new Card(Card.Type.ORANGE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
-                        newCard = new Card(Card.Type.GOTOBUBBLEGUM);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
-                        newCard = new Card(Card.Type.GOTOCANDYCORN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
-                        newCard = new Card(Card.Type.GOTOLABOONROOM);
-                      }
-                    }
-                  }
-                  else if (game.getCurrentPlayer().getIndex() > 27){
-                    int worst = game.getCurrentPlayer().getIndex() + 1;
-                    System.out.print(board.getTileAt(worst).getColor());
-                    if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM && newCard.getType() != Card.Type.GOTOICECREAM)  {
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
-                        newCard = new Card(Card.Type.RED);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
-                        newCard = new Card(Card.Type.BLUE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
-                        newCard = new Card(Card.Type.GREEN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
-                        newCard = new Card(Card.Type.ORANGE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
-                        newCard = new Card(Card.Type.GOTOBUBBLEGUM);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
-                        newCard = new Card(Card.Type.GOTOCANDYCORN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
-                        newCard = new Card(Card.Type.GOTOLABOONROOM);
-                      }
-                    }
-                  }
-                  else if (game.getCurrentPlayer().getIndex() > 35){
-                    int worst = game.getCurrentPlayer().getIndex() + 1;
-                    System.out.print(board.getTileAt(worst).getColor());
-                    if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM
-                     && newCard.getType() != Card.Type.GOTOICECREAM && newCard.getType() != Card.Type.GOTOBUBBLEGUM)  {
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
-                        newCard = new Card(Card.Type.RED);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
-                        newCard = new Card(Card.Type.BLUE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
-                        newCard = new Card(Card.Type.GREEN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
-                        newCard = new Card(Card.Type.ORANGE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
-                        newCard = new Card(Card.Type.GOTOBUBBLEGUM);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
-                        newCard = new Card(Card.Type.GOTOCANDYCORN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
-                        newCard = new Card(Card.Type.GOTOLABOONROOM);
-                      }
-                    }
-                  }
-                  else if (game.getCurrentPlayer().getIndex() > 60){
-                    int worst = game.getCurrentPlayer().getIndex() + 1;
-                    System.out.print(board.getTileAt(worst).getColor());
-                    if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM
-                     && newCard.getType() != Card.Type.GOTOICECREAM && newCard.getType() != Card.Type.GOTOBUBBLEGUM && newCard.getType() != Card.Type.GOTOCANDYCORN)  {
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
-                        newCard = new Card(Card.Type.RED);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
-                        newCard = new Card(Card.Type.BLUE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
-                        newCard = new Card(Card.Type.GREEN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
-                        newCard = new Card(Card.Type.ORANGE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
-                        newCard = new Card(Card.Type.GOTOBUBBLEGUM);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
-                        newCard = new Card(Card.Type.GOTOCANDYCORN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
-                        newCard = new Card(Card.Type.GOTOLABOONROOM);
-                      }
-                    }
-                  }
-                  else {
-                    int worst = game.getCurrentPlayer().getIndex() + 1;
-                    System.out.print(board.getTileAt(worst).getColor());
-                    if (newCard.getType() != Card.Type.GOTOCHOCOLATE)  {
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
-                        newCard = new Card(Card.Type.RED);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
-                        newCard = new Card(Card.Type.BLUE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
-                        newCard = new Card(Card.Type.GREEN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
-                        newCard = new Card(Card.Type.ORANGE);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
-                        newCard = new Card(Card.Type.YELLOW);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
-                        newCard = new Card(Card.Type.GOTOBUBBLEGUM);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
-                        newCard = new Card(Card.Type.GOTOCANDYCORN);
-                      }
-                      if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
-                        newCard = new Card(Card.Type.GOTOLABOONROOM);
-                      }
-                    }
-                  }
-
-
-
-                  // newCard = Card(board.getTileAt(worst).getColor())
-                }
-                //update drawnCards[]
-                drawnCards[cardsPlayed] = newCard;
-
-                //Update Information
-                cardsPlayed = cardsPlayed + 1;
-                cardsRemaining = cardsRemaining - 1;
-                cardsDiscarded = cardsDiscarded + 1;
-
-                String fname = "";
-                Color color = newCard.getColor().getAwt();
-                if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
-                    fname = "src/main/resources/images/snowcone.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
-                    fname = "src/main/resources/images/lolipop.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
-                    fname = "src/main/resources/images/icecream.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
-                    fname = "src/main/resources/images/cookie.png";
-                }
-                else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
-                    fname = "src/main/resources/images/chocolate.png";
-                }
-                else if (color == WorldOfSweets.Color.FINISH.getAwt()){
-                    fname = "src/main/resources/images/grandma.png";
-                }
-                else if (color == WorldOfSweets.Color.RED.getAwt()){
-                    fname = "src/main/resources/images/redtile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.BLUE.getAwt()){
-                    fname = "src/main/resources/images/bluetile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.GREEN.getAwt()){
-                    fname = "src/main/resources/images/greentile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.YELLOW.getAwt()){
-                    fname = "src/main/resources/images/yellowtile.jpg";
-                }
-                else if (color == WorldOfSweets.Color.ORANGE.getAwt()){
-                    fname = "src/main/resources/images/orangetile.jpg";
-                }
-                if(newCard.getType() == Card.Type.SKIP){
-                    fname = "src/main/resources/images/skiptile.jpg";
-                }
-
-                try {
-                    image = ImageIO.read(new File(fname));
-                    drew.repaint();
-                    drew.revalidate();
-                } catch (IOException ex) {
-                    // drew.repaint();
-                    drew.revalidate();
-
-                    drew.setBackground(newCard.getColor().getAwt());
-
-
-                }
-                //Update sub-panels
-                drawCard.setText("Draw Card: " + cardsRemaining);
-                discardPile.setText("Cards Discarded: " + cardsDiscarded);
-                // drew.setBackground(newCard.getColor().getAwt());
-                if(!newCard.isSpecial())
-                card.setText("x" + newCard.getValue());
-                else
-                {
-                  card.setText(newCard.getName().toUpperCase());
-                }
-
-                //Send update to WorldOfSweets
-                if (game != null){
-                    game.makeMove(newCard);
-                }
-
+                if(game.getCurrentPlayer().getType().equals("Human"))
+                drawACard(null);
             }
-
         });
 
         //add buttons to panel + draw
-        deck.add(drawCard);
+        deck.add(cardButton);
 
         discardPile.setHorizontalAlignment(JLabel.CENTER);
         saveButton.setHorizontalAlignment(JButton.CENTER);
         gameTimer.setHorizontalAlignment(JLabel.CENTER);
 
-        discardContainer.add(discardPile, BorderLayout.PAGE_START);
+        //disabled for now
+        //discardContainer.add(discardPile, BorderLayout.PAGE_START);
         discardContainer.add(saveButton, BorderLayout.CENTER);
         //discard.add(loadButton, BorderLayout.CENTER);
-        discardContainer.add(gameTimer, BorderLayout.PAGE_END);
+        discardContainer.add(gameTimer, BorderLayout.PAGE_START);
+
+        if (game.isStrategic()) {
+            discardContainer.add(boomerangPanel, BorderLayout.PAGE_END);
+        }
+
         drew.add(cardDrawn);
         drew.add(card);
         this.setVisible(true);
 
+    }
+
+    public void drawACard(Player target) {
+        if(cardsRemaining == 0){
+            cardDeck = new Deck("full");
+            cardDeck.shuffle();
+            cardsRemaining = cardDeck.getSize();
+            cardsDiscarded = 0;
+            drawnCards = resizeDrawnCards();	//allow drawnCards to hold more cards
+        }
+
+        //Draw Card
+        Card newCard = drawCard(cardDeck);
+
+        if(game.getCurrentPlayer().dad){
+            // System.out.println(game.getCurrentPlayer().getIndex());
+
+            if (game.getCurrentPlayer().getIndex() == 0 && skipCount != 0) {
+              newCard = drawSpecificCard(cardDeck, Card.Type.SKIP);
+
+              if (newCard == null) {
+                int worst = game.getCurrentPlayer().getIndex() + 1;
+                System.out.print(board.getTileAt(worst).getColor());
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                  newCard = new Card(Card.Type.RED);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                  newCard = new Card(Card.Type.BLUE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                  newCard = new Card(Card.Type.GREEN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                  newCard = new Card(Card.Type.ORANGE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                  newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                  newCard = new Card(Card.Type.GOTOCANDYCORN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                  newCard = new Card(Card.Type.GOTOLABOONROOM);
+                }
+              }
+
+              else{
+                skipCount--;
+              }
+            }
+            else if (game.getCurrentPlayer().getIndex() > 7){
+              int worst = game.getCurrentPlayer().getIndex() + 1;
+              System.out.print(board.getTileAt(worst).getColor());
+              if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM)  {
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                  newCard = new Card(Card.Type.RED);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                  newCard = new Card(Card.Type.BLUE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                  newCard = new Card(Card.Type.GREEN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                  newCard = new Card(Card.Type.ORANGE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                  newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                  newCard = new Card(Card.Type.GOTOCANDYCORN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                  newCard = new Card(Card.Type.GOTOLABOONROOM);
+                }
+              }
+            }
+            else if (game.getCurrentPlayer().getIndex() > 27){
+              int worst = game.getCurrentPlayer().getIndex() + 1;
+              System.out.print(board.getTileAt(worst).getColor());
+              if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM && newCard.getType() != Card.Type.GOTOICECREAM)  {
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                  newCard = new Card(Card.Type.RED);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                  newCard = new Card(Card.Type.BLUE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                  newCard = new Card(Card.Type.GREEN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                  newCard = new Card(Card.Type.ORANGE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                  newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                  newCard = new Card(Card.Type.GOTOCANDYCORN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                  newCard = new Card(Card.Type.GOTOLABOONROOM);
+                }
+              }
+            }
+            else if (game.getCurrentPlayer().getIndex() > 35){
+              int worst = game.getCurrentPlayer().getIndex() + 1;
+              System.out.print(board.getTileAt(worst).getColor());
+              if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM
+               && newCard.getType() != Card.Type.GOTOICECREAM && newCard.getType() != Card.Type.GOTOBUBBLEGUM)  {
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                  newCard = new Card(Card.Type.RED);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                  newCard = new Card(Card.Type.BLUE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                  newCard = new Card(Card.Type.GREEN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                  newCard = new Card(Card.Type.ORANGE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                  newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                  newCard = new Card(Card.Type.GOTOCANDYCORN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                  newCard = new Card(Card.Type.GOTOLABOONROOM);
+                }
+              }
+            }
+            else if (game.getCurrentPlayer().getIndex() > 60){
+              int worst = game.getCurrentPlayer().getIndex() + 1;
+              System.out.print(board.getTileAt(worst).getColor());
+              if (newCard.getType() != Card.Type.GOTOCHOCOLATE && newCard.getType() != Card.Type.GOTOLABOONROOM
+               && newCard.getType() != Card.Type.GOTOICECREAM && newCard.getType() != Card.Type.GOTOBUBBLEGUM && newCard.getType() != Card.Type.GOTOCANDYCORN)  {
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                  newCard = new Card(Card.Type.RED);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                  newCard = new Card(Card.Type.BLUE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                  newCard = new Card(Card.Type.GREEN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                  newCard = new Card(Card.Type.ORANGE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                  newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                  newCard = new Card(Card.Type.GOTOCANDYCORN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                  newCard = new Card(Card.Type.GOTOLABOONROOM);
+                }
+              }
+            }
+            else {
+              int worst = game.getCurrentPlayer().getIndex() + 1;
+              System.out.print(board.getTileAt(worst).getColor());
+              if (newCard.getType() != Card.Type.GOTOCHOCOLATE)  {
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.RED){
+                  newCard = new Card(Card.Type.RED);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.BLUE){
+                  newCard = new Card(Card.Type.BLUE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GREEN){
+                  newCard = new Card(Card.Type.GREEN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.ORANGE){
+                  newCard = new Card(Card.Type.ORANGE);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.YELLOW){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOICECREAM){
+                  newCard = new Card(Card.Type.YELLOW);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOBUBBLEGUM){
+                  newCard = new Card(Card.Type.GOTOBUBBLEGUM);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOCANDYCORN){
+                  newCard = new Card(Card.Type.GOTOCANDYCORN);
+                }
+                if (board.getTileAt(worst).getColor() == WorldOfSweets.Color.GOTOLABOONROOM){
+                  newCard = new Card(Card.Type.GOTOLABOONROOM);
+                }
+              }
+            }
+
+
+
+            // newCard = Card(board.getTileAt(worst).getColor())
+          }
+        //update drawnCards[]
+        drawnCards[cardsPlayed] = newCard;
+
+        //Update Information
+        cardsPlayed = cardsPlayed + 1;
+        cardsRemaining = cardsRemaining - 1;
+        cardsDiscarded = cardsDiscarded + 1;
+
+        String fname = "";
+        Color color = newCard.getColor().getAwt();
+        if (color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt()){
+            fname = "src/main/resources/images/snowcone.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOCANDYCORN.getAwt()){
+            fname = "src/main/resources/images/lolipop.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOICECREAM.getAwt()){
+            fname = "src/main/resources/images/icecream.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOLABOONROOM.getAwt()){
+            fname = "src/main/resources/images/cookie.png";
+        }
+        else if (color == WorldOfSweets.Color.GOTOCHOCOLATE.getAwt()){
+            fname = "src/main/resources/images/chocolate.png";
+        }
+        else if (color == WorldOfSweets.Color.FINISH.getAwt()){
+            fname = "src/main/resources/images/grandma.png";
+        }
+        else if (color == WorldOfSweets.Color.RED.getAwt()){
+            fname = "src/main/resources/images/redtile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.BLUE.getAwt()){
+            fname = "src/main/resources/images/bluetile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.GREEN.getAwt()){
+            fname = "src/main/resources/images/greentile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.YELLOW.getAwt()){
+            fname = "src/main/resources/images/yellowtile.jpg";
+        }
+        else if (color == WorldOfSweets.Color.ORANGE.getAwt()){
+            fname = "src/main/resources/images/orangetile.jpg";
+        }
+        if(newCard.getType() == Card.Type.SKIP){
+            fname = "src/main/resources/images/skiptile.jpg";
+        }
+
+        try {
+            image = ImageIO.read(new File(fname));
+            drew.repaint();
+            drew.revalidate();
+        } catch (IOException ex) {
+            // drew.repaint();
+            drew.revalidate();
+
+            drew.setBackground(newCard.getColor().getAwt());
+        }
+        //Update sub-panels
+        cardButton.setText("Draw Card: " + cardsRemaining);
+        discardPile.setText("Cards Discarded: " + cardsDiscarded);
+        // drew.setBackground(newCard.getColor().getAwt());
+        if(!newCard.isSpecial())
+            card.setText("x" + newCard.getValue());
+        else
+        {
+            card.setText(newCard.getName().toUpperCase());
+        }
+
+        //Send update to WorldOfSweets
+        if (game != null) {
+            if (target == null){
+                game.makeMove(newCard);
+            } else {
+                game.makeBoomerangMove(newCard, target);
+            }
+        }
     }
 
     /*
@@ -562,8 +581,13 @@ public class CardPanel extends JPanel {
             i = i + 1;
         }
 
-        //return final string
+        //compile unencrypted save string
         String saveString = timeString + " " + cardsDiscarded + " " + cardsRemaining + " " + remainingInDeck.toString() + cardsPlayed + " " + allPlayed.toString();
+
+
+		//encrypt save string [add a SHA-256 digested checksum to end of string]
+		saveString = game.encryptSave(saveString);
+
         return saveString;
     }
 
@@ -574,8 +598,17 @@ public class CardPanel extends JPanel {
     public void load(String loadString){
         try{
             String[] split = loadString.split("\\ ");
+
+			//before we do anything else, attempt to verify the hashed checksum
+			if(game.verifySave(split) == false){
+				System.exit(0);
+			}
+
+			//initiate fields
             gameTimer = new GameTimer(game);
             gameTimer.load(split[0]);
+            boomerangPanel = new BoomerangPanel(game, this);
+            boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
             cardsDiscarded = Integer.parseInt(split[1]);
             cardsRemaining = Integer.parseInt(split[2]);
             cardDeck = new Deck("empty");
@@ -684,4 +717,14 @@ public class CardPanel extends JPanel {
         return toReturn;
     }
 
+    public void update() {
+        if (boomerangPanel != null) {
+            boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
+        }
+    }
+
+    public BoomerangPanel getBoomerangPanel()
+    {
+      return boomerangPanel;
+    }
 }
