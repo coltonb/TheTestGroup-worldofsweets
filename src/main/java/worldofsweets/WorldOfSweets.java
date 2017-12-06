@@ -497,7 +497,7 @@ public class WorldOfSweets {
         toReturn.setType(playerType);
         toReturn.setIndex(Integer.parseInt(playerIndex));
         toReturn.setNumBoomerangs(Integer.parseInt(numBoomerangs));
-
+        toReturn.dad = playerName.substring(0, 3).equalsIgnoreCase("dad");
         return toReturn;
     }
 
