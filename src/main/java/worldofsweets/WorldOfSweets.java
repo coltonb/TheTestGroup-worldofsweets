@@ -456,8 +456,8 @@ public class WorldOfSweets {
             int i = 0;
             int j = 3;	//index to start reading in player information
             while(i < numPlayers){
-                players[i] = stringToPlayer(split[j], split[j+1], split[j+2] );
-                j = j + 3;
+                players[i] = stringToPlayer(split[j],split[j+1], split[j+2], split[j+3] );
+                j = j + 4;
                 i = i + 1;
             }
         }catch(Exception e){
@@ -477,7 +477,7 @@ public class WorldOfSweets {
         StringBuilder toReturn = new StringBuilder("");
         String playerName = player.getName();
         playerName = playerName.replace(" ", "_");
-        toReturn.append(playerName + " " + player.getIndex() + " " + player.getNumBoomerangs());
+        toReturn.append(playerName + " "+player.getType()+ " " + player.getIndex() + " " + player.getNumBoomerangs());
 
         return toReturn.toString();
     }
@@ -486,9 +486,10 @@ public class WorldOfSweets {
     * Converts a String object into a Player object. For use in reading in
     * previously saved volatile data from a save file.
     */
-    public Player stringToPlayer(String playerName, String playerIndex, String numBoomerangs){
+    public Player stringToPlayer(String playerName, String playerType, String playerIndex, String numBoomerangs){
         playerName = playerName.replace("_", " ");
         Player toReturn = new Player(playerName);
+        toReturn.setType(playerType);
         toReturn.setIndex(Integer.parseInt(playerIndex));
         toReturn.setNumBoomerangs(Integer.parseInt(numBoomerangs));
 
