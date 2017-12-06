@@ -158,6 +158,7 @@ public class CardPanel extends JPanel {
         cardButton = new JButton("Draw Card: " + cardsRemaining);
         cardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){	//handle all logic which follows the drawing of a card.
+                if(game.getCurrentPlayer().getType().equals("Human"))
                 drawACard(null);
             }
         });
@@ -168,7 +169,7 @@ public class CardPanel extends JPanel {
         discardPile.setHorizontalAlignment(JLabel.CENTER);
         saveButton.setHorizontalAlignment(JButton.CENTER);
         gameTimer.setHorizontalAlignment(JLabel.CENTER);
-        
+
         //disabled for now
         //discardContainer.add(discardPile, BorderLayout.PAGE_START);
         discardContainer.add(saveButton, BorderLayout.CENTER);
@@ -360,11 +361,11 @@ public class CardPanel extends JPanel {
 
         //compile unencrypted save string
         String saveString = timeString + " " + cardsDiscarded + " " + cardsRemaining + " " + remainingInDeck.toString() + cardsPlayed + " " + allPlayed.toString();
-		
-		
+
+
 		//encrypt save string [add a SHA-256 digested checksum to end of string]
 		saveString = game.encryptSave(saveString);
-			
+
         return saveString;
     }
 
@@ -375,12 +376,12 @@ public class CardPanel extends JPanel {
     public void load(String loadString){
         try{
             String[] split = loadString.split("\\ ");
-			
+
 			//before we do anything else, attempt to verify the hashed checksum
 			if(game.verifySave(split) == false){
 				System.exit(0);
 			}
-			
+
 			//initiate fields
             gameTimer = new GameTimer(game);
             gameTimer.load(split[0]);
@@ -498,5 +499,10 @@ public class CardPanel extends JPanel {
         if (boomerangPanel != null) {
             boomerangPanel.update(game.getCurrentPlayer().getNumBoomerangs());
         }
+    }
+
+    public BoomerangPanel getBoomerangPanel()
+    {
+      return boomerangPanel;
     }
 }

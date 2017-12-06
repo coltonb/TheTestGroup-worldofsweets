@@ -35,9 +35,9 @@ public class WorldOfSweetsTest {
       Deck testdeck = new Deck();
       assertEquals(testdeck.getSize(), 60);
     }
-	
+
 	//------------------- save() -------------------
-	
+
 	//Assert that save() returns a properly formatted save string
 	@Test
 	public void testSave(){
@@ -53,11 +53,11 @@ public class WorldOfSweetsTest {
 		String toCompare = "1 4 Randy 0 Colton 0 James 0 Raj 0 cf65b1e920157946cd8e883aebe31bfa70736879a56aec320ea1189fe3d326f8";
 		String result = testGame.save();
 		assertEquals(toCompare, result);
-		
+
 	}
-	
+
 	//------------------- load() -------------------
-	
+
 	//Assert that load() properly initializes fields and properly verifies the checksum
 	@Test
 	public void testLoadValid(){
@@ -66,7 +66,7 @@ public class WorldOfSweetsTest {
 		testGame.load(testString);
 		assertTrue(testGame.numPlayers == 4);
 	}
-	
+
 	//Assert that load() refuses to continue after failing to verify the checksum
 	@Test
 	public void testLoadInvalid(){
@@ -75,9 +75,9 @@ public class WorldOfSweetsTest {
 		testGame.load(testString);
 		assertTrue(true);
 	}
-	
+
 	//------------------- encryptSave() --------------
-	
+
 	//Assert that when presented with a valid save string encryptSave will return
 	//a save string with a valid checksum appended to it.
 	@Test
@@ -87,9 +87,9 @@ public class WorldOfSweetsTest {
 		testString = WorldOfSweets.encryptSave(testString);
 		assertEquals(testString, toCompare);
 	}
-	
+
 	//------------------- verifySave() --------------
-	
+
 	//Assert that when presented with a valid array of saveStrings, verifySave() will return
 	//'true' signifying that the saveString has not been tampered with.
 	@Test
@@ -101,9 +101,9 @@ public class WorldOfSweetsTest {
 		testArray[3] = "0 ";
 		testArray[4] = "87490f28e72eecbb7de0a2f817cla908008e42ecbdf2f124b932d749c3d23c4";
 		assertTrue(WorldOfSweets.verifySave(testArray) );
-		
+
 	}
-	
+
 	//Assert that when presented with an invalid array of saveStrings, verifySave() will return
 	//'false' signifying that the saveString has been tampered with.
 	@Test
@@ -116,6 +116,14 @@ public class WorldOfSweetsTest {
 		testArray[4] = "87490f28e72eecbb7de0a2f817cla908008e42ecbdf2f124b932d749c3d23c4";
 		assertTrue(WorldOfSweets.verifySave(testArray) );
 	}
-	
+
+  //Assert that AI player takes turn without input
+	@Test
+	public void testAIPlayers(){
+    WorldOfSweets testGame = new WorldOfSweets();
+    CardPanel cp = new CardPanel(testGame,null);
+		testGame.makeAIMove();
+		assertEquals(cards, remainingCards+1);
+	}
 
 }

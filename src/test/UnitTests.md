@@ -203,3 +203,23 @@ Test 15: Are you prompted to play in strategic or normal on load?
 
       - PASS: Prompt is displayed and appropriate gamemode begins
       - FAIL: Prompt is not displayed or the gamemode selection doesn't work properly.
+
+Test 16: Do AI players make a move without player input?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Select new game
+      - Step 3: Make at least one player be AI
+      - Step 4: Verify that on every turn for AI players, no input is needed.
+
+      - PASS: AI takes turn without input.
+      - FAIL: AI does not take turn without input
+
+Test 17: Does the game send out a prompt after every AI move that says whether they drew or sent a boomerang?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Select new game
+      - Step 3: Make at least one player be AI
+      - Step 4: Verify that on every turn for AI players, a summary prompt appears.
+
+      - PASS: After AI turn, prompt shows whether they drew a card or used a boomerang.
+      - FAIL: After AI turn, prompt does not appear or does not show whether they used a card or used a boomerang.
