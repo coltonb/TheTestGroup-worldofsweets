@@ -201,9 +201,7 @@ public class CardPanel extends JPanel {
 
         if(game.getCurrentPlayer().dad)
         {
-          System.out.println(cardDeck.getNextIndex());
           int worst_index = board.findWorstCard(game.getCurrentPlayer(),new Deck(cardDeck));
-          System.out.println(cardDeck.getNextIndex());
           cardDeck.swap(worst_index,cardDeck.getNextIndex());
         }
         //Draw Card

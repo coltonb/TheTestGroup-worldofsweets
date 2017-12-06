@@ -159,7 +159,6 @@ public class Deck
     {
       Card c1 = deck[index_1];
       Card c2 = deck[index_2];
-      System.out.println(c1+" "+c2);
       deck[index_1] = c2;
       deck[index_2] = c1;
     }
