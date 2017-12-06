@@ -10,7 +10,14 @@ public class Player {
     public Player() {
         this("Player");
     }
-
+    public Player(Player p)
+    {
+      name = p.getName();
+      dad = p.dad;
+      index = p.getIndex();
+      boomerangs = p.getNumBoomerangs();
+      player_type = p.getType();
+    }
     public Player(String newName) {
         name = newName;
         index = -1;

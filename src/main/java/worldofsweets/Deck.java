@@ -11,7 +11,12 @@ public class Deck
       nextCard = 0;
       basicDeck();
     }
-
+    public Deck(Deck d)
+    {
+      size = d.getSize();
+      deck = d.getDeck();
+      nextCard = d.getNextIndex();
+    }
     public Deck(String form){
   		if(form.equalsIgnoreCase("empty")){
   			size = 0;
@@ -146,7 +151,18 @@ public class Deck
     {
         return nextCard == size;
     }
-
+    public int getNextIndex()
+    {
+      return nextCard;
+    }
+    public void swap(int index_1, int index_2)
+    {
+      Card c1 = deck[index_1];
+      Card c2 = deck[index_2];
+      System.out.println(c1+" "+c2);
+      deck[index_1] = c2;
+      deck[index_2] = c1;
+    }
     public Card[] getDeck(){
         return deck;
     }

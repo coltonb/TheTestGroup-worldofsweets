@@ -88,7 +88,7 @@ public class Board {
     public Tile getTileAt(int index) {
         return path[index];
     }
-	
+
 	/*
 	* Strictly for use in WorldOfSweets load-in
 	*/
@@ -99,7 +99,7 @@ public class Board {
 			path[j].addPlayer(players[i]);
 			i = i + 1;
 		}
-		
+
 	}
 
     public boolean addPlayers(Player[] players) {
@@ -190,5 +190,45 @@ public class Board {
         }
 
         return true;
+    }
+    public int findWorstCard(Player player, Deck d)
+    {
+      int indexCard = 0;
+      int indexPlayer = 999;
+      Player tempPlayer = new Player(player);
+      for(int card_start = d.getNextIndex();card_start < d.getSize();card_start++)
+      {
+        Card card = d.drawCard();
+        if (!card.isSpecial())
+        {
+            WorldOfSweets.Color color = card.getColor();
+
+            for (int numMoves = card.getValue(); numMoves > 0; numMoves--)
+            {
+                int playerIndex = tempPlayer.getIndex();
+                int index = getNextTileIndex(playerIndex, color);
+                tempPlayer.index = index;
+            }
+        }
+        else
+        {
+            // For each of these special cards, the player
+            // should be notified.
+            // Maybe have makeMove in WorldOfSweets check the card
+            // and determine if it has to alert
+            if(card.getType()==Card.Type.SKIP);
+            else if(card.getValue()!=-1)
+            {
+              tempPlayer.setIndex(card.getValue());
+            }
+        }
+        if(tempPlayer.getIndex()<indexPlayer)
+          {
+            indexPlayer = tempPlayer.getIndex();
+            indexCard = card_start;
+          }
+        tempPlayer = new Player(player);
+      }
+      return indexCard;
     }
 }
