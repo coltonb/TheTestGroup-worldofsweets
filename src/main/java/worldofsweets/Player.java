@@ -2,6 +2,7 @@ package worldofsweets;
 
 public class Player {
     String name = null;
+    boolean dad = false;
     int index = -1;
     private int boomerangs = 3;
     private String player_type = null;

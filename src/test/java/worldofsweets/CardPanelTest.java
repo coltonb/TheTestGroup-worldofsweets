@@ -107,7 +107,7 @@ public class CardPanelTest{
 		assertEquals(140, resultCards.length);
 
 	}
-	
+
 	//Assert that a special deck only contains Skip cards
 	@Test
 	public void testSkipOnly(){
@@ -136,7 +136,7 @@ public class CardPanelTest{
 		}
 		assertEquals(skips,5);
 	}
-	
+
 	//-----------------stringToCard()------------
 	//Assert that cardToString(), when passed the String "laboon_room"
 	//creates a Card object with the Type GOTOLABOONROOM
@@ -147,7 +147,7 @@ public class CardPanelTest{
 		Card baseline = new Card(Card.Type.GOTOLABOONROOM);
 		assertEquals(result.getType(), baseline.getType());
 	}
-	
+
 	//------------------cardToString()-----------
 	//Assert that stringToCard(), when passed a Card object of
 	//Type DOUBLEYELLOW, properly returns the String "double_yellow".
@@ -158,7 +158,7 @@ public class CardPanelTest{
 		String baseline = "double_yellow";
 		assertEquals(result, baseline);
 	}
-	
+
 	//-----------------save()--------------------
 	//Assert that save() returns the properly formatted string
 	@Test
@@ -167,9 +167,9 @@ public class CardPanelTest{
 		String result = testPanel.save();
 		String baseline = "0 1 red 0 87490f28e72eecbb7de0a2f817cla908008e42ecbdf2f124b932d749c3d23c4";
 		assertEquals(result, baseline);
-		
+
 	}
-	
+
 	//-----------------load()--------------------
 	//Assert that load() properly sets the fields of CardPanel
 	//from a properly formatted string.
@@ -177,9 +177,20 @@ public class CardPanelTest{
 	public void testLoadCorrect(){
 		WorldOfSweets game = null;
 		String testSave = "0 1 red 0 87490f28e72eecbb7de0a2f817cla908008e42ecbdf2f124b932d749c3d23c4";
-		CardPanel testPanel = new CardPanel(game, testSave);
+		CardPanel testPanel = new CardPanel(game, testSave, null);
 		
 		assertEquals(testPanel.cardsRemaining, 1);
+	}
+
+	//Assert that a player named "Dad" sets a boolean that checks that the player is indeed Dad to true
+	//To be used for the rest of the game
+	@Test
+	public void testDadCheat(){
+		WorldOfSweets game = null;
+		Board board = new Board();
+		Player plr = new Player("Dad");
+
+		assertTrue(plr.dad);
 	}
 
 	//Assert that the timer loads and saves properly

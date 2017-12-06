@@ -121,9 +121,10 @@ public class WorldOfSweetsTest {
 	@Test
 	public void testAIPlayers(){
     WorldOfSweets testGame = new WorldOfSweets();
-    CardPanel cp = new CardPanel(testGame,null);
+	CardPanel cp = new CardPanel(testGame,null, null);
+		int cursize = cp.cardDeck.getSize();
 		testGame.makeAIMove();
-		assertEquals(cards, remainingCards+1);
+		assertEquals(cp.cardDeck.getSize(), cursize);
 	}
 
 }

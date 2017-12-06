@@ -127,7 +127,7 @@ public class WorldOfSweets {
 
             frame = new GameFrame(players);
             boardPanel = new BoardPanel(board);
-            cardPanel = new CardPanel(this, toCardPanel);
+            cardPanel = new CardPanel(this, toCardPanel, board);
 
             frame.add(boardPanel, BorderLayout.PAGE_START);
             frame.add(cardPanel, BorderLayout.CENTER);
@@ -160,6 +160,11 @@ public class WorldOfSweets {
                 players[i] = new Player();
                 players[i].setType(types[i]);
                 players[i].setName(names[i]);
+                if (names[i].length() == 3) {
+                    if (names[i].substring(0, 3).equalsIgnoreCase("dad")){
+                    players[i].dad = true;
+                    }
+            }
             }
 
             board = new Board();
@@ -167,7 +172,7 @@ public class WorldOfSweets {
 
             frame = new GameFrame(players);
             boardPanel = new BoardPanel(board);
-            cardPanel = new CardPanel(this, "");
+            cardPanel = new CardPanel(this, "", board);
 
             frame.add(boardPanel, BorderLayout.PAGE_START);
             frame.add(cardPanel, BorderLayout.CENTER);

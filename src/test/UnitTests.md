@@ -192,8 +192,17 @@ Test 14b: Does the card drawn display an image that corresponds with the tile th
 
     - PASS: If the card drawn has the same image as the tile a player moves to when the card is drawn, this test passes.
     - FAIL: If the card drawn does not have the same image as the tile a player moves to when the card is drawn, this test fails.
-
 SPRINT 4:
+
+Test 1: Does the player "Dad" move to the worst possible space each turn?
+    - Method:
+      - Step 1: Compile & run
+      - Step 2: Complete the player information prompts, with one player being named "Dad".
+      - Step 3: When the game board is displayed, draw a card as "Dad".
+      - Step 4: When the player moves, check to see if the tile "Dad" moved forward to the closest space to the start. For example, Dad should always move to the first red tile on the first turn.
+
+    - PASS: Given "Dad" has not drawn a Skip card, if "Dad" moves only once space forward each turn, this test passes.
+    - FAIL: Given "Dad" has not drawn a Skip card, if "Dad" does not move one space forward, this test fails.
 
 Test 15: Are you prompted to play in strategic or normal on load?
     - Method:
