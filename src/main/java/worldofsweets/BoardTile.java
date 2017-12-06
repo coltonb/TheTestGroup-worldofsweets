@@ -18,7 +18,7 @@ public class BoardTile extends JPanel {
     }
 
     public BoardTile(Color color) {
-        //System.out.println(color == WorldOfSweets.Color.GOTOBUBBLEGUM.getAwt());
+        
         String fname = "";
 
         try {
